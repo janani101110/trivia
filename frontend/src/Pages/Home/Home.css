@@ -1,0 +1,28 @@
+.home{
+    display: flex;
+    margin-bottom: 150px;
+}
+.home-right{
+    margin-left: 100px;
+    margin-top: 180px;
+    
+}
+.mainsearch{
+    width: 500px;
+    height: 60px;
+    border-radius: 25px; 
+    border-color: purple;
+    margin-top: 50px;
+    
+    margin-left: 150px;
+}
+.home-right h1{
+    margin-left: 250px;
+    
+}
+.home-left{
+    animation: home-leftAnimation 3s ease alternate infinite;
+    margin-left: 250px;
+    margin-top: 150px;
+}
+

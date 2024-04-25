@@ -1,0 +1,43 @@
+.footer{
+  display: flex;
+  flex-direction: column; /* Ensure vertical alignment for mobile devices */
+  justify-content: center;
+  align-items: center;
+  background-color: #494454;
+  padding: 20px;
+  }
+  .footerIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+  }
+  
+  .callIcon, .facebookIcon, .twitterIcon, .emailIcon, .locationIcon{
+    height: 30px;
+    width: 30px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .footerText , .footerNav{
+    color: #ffffff;
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 5px 0;
+  }
+  @media (min-width: 768px) {
+    .footer {
+        flex-direction: row; /* Change layout to horizontal for larger screens */
+    }
+    
+    .footerText,
+    .footerNav {
+        margin: 0 10px; /* Add horizontal margin for better spacing */
+    }
+}
+@media (min-width: 992px) {
+  .footer {
+      padding: 20px 50px; /* Increase padding for larger screens */
+  }
+}

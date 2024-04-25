@@ -1,0 +1,220 @@
+.blogTitle{
+    display: flex;
+    padding-left: 200px;
+    font-size: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: rgb(95, 20, 64);
+  }
+  
+  
+  .create{ 
+    height: 40px;
+    width: 150px;
+    margin-left: 1150px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    text-align: center;
+    justify-content: center;
+  
+    
+  }
+  .createLink{
+    color: rgb(83, 47, 68);
+    text-decoration: none;
+    font-size: 25px;
+
+    font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
+
+  
+   
+    
+    
+  
+  }
+  
+  .create:hover{
+    border: solid 3px #532f44;
+    border-radius: 40px;
+    
+  }
+  
+  
+  /*
+  <img src={addIcon} className="addIcon"/> 
+  .addIcon{
+    height: 70px;
+    width: 70px;
+  }
+  
+  */
+  
+  
+  
+  /*---------------Post ---------------------------*/
+  .bpost{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    font-size: 20px;
+
+    font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
+
+    height:fit-content;
+    width: 1225px;
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    column-gap: 150px;
+  }
+  
+  .postCard{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    color:#000;
+    padding: 20px;
+    font-size: 20px;
+    height:fit-content;
+    width: 350px;
+    
+  }
+
+
+  
+  .postCard:hover{
+   border-radius: 25px;
+   border: solid #532f44;
+   cursor: pointer;
+  }
+  
+  .postImage{
+    height: 100px;
+    width: auto;
+    
+  }
+  .postTitle{
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    justify-content: center;
+    text-align: center;
+   
+  }
+
+  .postDescription{
+    font-size: 15px;
+
+  }
+    
+
+  /**--------------create blog posts -------------------------**/
+  .createBlog{
+    height: 150vh;
+    width: 100vw;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+    font-size: 30px;
+
+}
+
+.createBlogDiv{
+    height: 700px;
+    width: 700px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blogImage{
+    height: auto;
+    width:400px;
+    margin-top: 20px;
+    justify-content: center;
+}
+.CreateBlogTextdiv{
+    margin-left: 10px;
+    
+}
+
+.createBlogSubmit{
+    height: 40px;
+    width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: solid 2px #532f44;
+    font-size: 20px;
+    font-family: cursive;
+    color: #000;
+    cursor: pointer;
+}
+
+.createBlogSubmit:hover{
+    background-color: #532f44;
+    color: #fff;
+}
+.WriteBlog{
+  border: 1px solid purple;
+  border-radius: 20px;
+  height: fit-content;
+  width: 900px;
+  margin-top: 25px;
+  margin-left: 235px;
+  margin-bottom: 25px;
+  padding-top: 20px;
+
+}
+
+.createBlogForm{
+  padding: 25px;  
+  margin-bottom: 10px; 
+  padding : 25px;
+
+}
+
+.createBlogTitle{
+  text-align: center;
+  font-size: 40px;
+  font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
+  color: rgb(95, 20, 64);
+  margin-top: 10px;
+}
+
+.createBlogTextbox{
+  padding: 5px;
+  height: auto;
+  width: 500px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 0.5px solid ;
+}
+.createBlogTextbox:hover{
+  border: #532f44 solid 2px;
+}
+
+.createBlogEnterImage{
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  
+}
+.createBlogTextArea{
+  height: auto;
+  width: 500px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.createBlogTextArea:hover{
+  border: #532f44 solid 2px;
+}
