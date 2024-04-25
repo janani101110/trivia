@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./Blog.css";
+import "./blogCard.css";
 import { Link } from "react-router-dom";
+import CIcon from "@coreui/icons-react";
+import * as icon from "@coreui/icons";
 
-const Blogspost = ({ blogPost }) => {
+const BlogCard = ({ blogPost, onDelete }) => {
   // Check if blogPost is available, if not return null
   const [author, setAuthor] = useState(null);
 
@@ -40,6 +42,11 @@ const Blogspost = ({ blogPost }) => {
   const createdAtDate = new Date(blogPost.createdAt);
   const createdDate = createdAtDate.toDateString();
 
+  const handleDelete = () => {
+    // Call onDelete prop to delete the blog post
+    onDelete(blogPost._id);
+  };
+
   // Rendering the component
   return (
     <div className="mainpostcard">
@@ -71,14 +78,29 @@ const Blogspost = ({ blogPost }) => {
               alt=""
               className="authorProfilePicture"
             />
-            
           </div>
         )}
         <div className="blogPostdate">{createdDate}</div>
+     
+      <button className="editButton">
+              <CIcon
+                icon={icon.cilPencil}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+              />
+      </button>
+
+      <button onClick={handleDelete} className="editButton">
+              <CIcon
+                icon={icon.cilTrash}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+              />
+      </button>
+
       </div>
-    
     </div>
   );
 };
 
-export default Blogspost;
+export default BlogCard;

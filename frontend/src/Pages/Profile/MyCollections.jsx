@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Blogspost from "../Blogs/Blogspost";
+import BlogCard from "./blogCard/blogCard";
 import "./MyCollection.css";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
@@ -22,6 +23,15 @@ const MyCollections = () => {
     fetchBlogPosts();
   }, [user]);
 
+  const handleDelete = async (postId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/blogPosts/${postId}`);
+      setPost(prevPosts => prevPosts.filter(post => post._id !== postId));
+    } catch (err) {
+      console.error("Error deleting blog post:", err);
+    }
+  };
+
   if (!user) {
     // Handle case where user data is not available
     return <div> User data not found! </div>;
@@ -39,10 +49,11 @@ const MyCollections = () => {
 
         <div className="myCollectionBlogs">
           {blogPost.map((blogPost) => (
-            <Blogspost
+            <BlogCard
               style={{ textDecoration: "none" }}
               key={blogPost._id}
               blogPost={blogPost}
+              onDelete={handleDelete}
             />
           ))}
         </div>
