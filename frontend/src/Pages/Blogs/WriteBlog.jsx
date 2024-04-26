@@ -52,16 +52,19 @@ export const WriteBlog = () => {
     };
 
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/blogPosts/create",
-        requestOptions
-      );
-      if (!res.ok) {
-        throw new Error("Failed to create blog post");
-      }
-      const data = await res.json();
+      const confirmation = window.confirm("Are you sure you want to Submit?");
+      if(confirmation){
+        const res = await fetch(
+          "http://localhost:5000/api/blogPosts/create",
+          requestOptions
+        );
+        const data = await res.json();
       console.log(data);
       navigate("/Blogs");
+      }
+      
+      
+      
     } catch (err) {
       console.error(err);
     }
@@ -75,7 +78,7 @@ export const WriteBlog = () => {
   return (
     <div className="createBlog">
       <div className="CreateBlogInnerdiv">
-        <h1 className="createBlogTitle">Create a Blog Post</h1>
+        <h1 className="createBlogTitle">Create Blog Post</h1>
 
         <form onSubmit={handleSubmit} className="createBlogFormBody">
           <label className="createBlogTextLabel"> Title: </label>

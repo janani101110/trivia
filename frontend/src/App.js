@@ -20,6 +20,7 @@ import SignUp from './Pages/LogIn/SignUp';
 import Login from './Pages/LogIn/LogIn';
 import {WriteBlog} from './Pages/Blogs/WriteBlog';
 import {InsidePost} from './Pages/Blogs/InsidePost';
+import {UpdateBlog} from './Pages/Blogs/UpdateBlog';
 import MySaves from './Pages/Profile/MySaves';
 import MyCollections from "./Pages/Profile/MyCollections";
 import MyQuestions from './Pages/Profile/MyQuestions'
@@ -54,6 +55,7 @@ function App() {
           <Route path='/shoppingpost' element={<Shoppingpost/>}/>
           <Route path='/WriteBlog' element={<WriteBlog/>}/>
           <Route path='/insidePost/:id' element={<InsidePost/>}/>
+          <Route path='/UpdateBlog/:id' element={<UpdateBlog/>}/>
           <Route path='/MySaves' element={<MySaves/>}/>
           <Route path='/MyCollections' element={<MyCollections/>}/>
           <Route path='/MyQuestions' element={<MyQuestions/>}/>
