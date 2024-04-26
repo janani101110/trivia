@@ -43,8 +43,10 @@ const BlogCard = ({ blogPost, onDelete }) => {
   const createdDate = createdAtDate.toDateString();
 
   const handleDelete = () => {
-    // Call onDelete prop to delete the blog post
-    onDelete(blogPost._id);
+    const confirmation = window.confirm("Are you sure you want to delete the post?");
+    if (confirmation) {
+      onDelete(blogPost._id);
+    }
   };
 
   // Rendering the component
@@ -84,7 +86,7 @@ const BlogCard = ({ blogPost, onDelete }) => {
      
       <button className="editButton">
               <CIcon
-                icon={icon.cilPencil}
+                icon={icon.cilPen}
                 size=""
                 style={{ "--ci-primary-color": "black" }}
               />
