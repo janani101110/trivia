@@ -39,7 +39,7 @@ const DropdownMenu = () => {
 
         <li className="dropdownMenuli">
           <Link style={{ textDecoration: "none" }} to="/MySaves">
-            My Saves
+            My Bookmarks
           </Link>
         </li>
 
