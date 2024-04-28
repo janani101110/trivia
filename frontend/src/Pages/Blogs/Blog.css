@@ -235,9 +235,19 @@
 
   .blogCardFooter{
     display: flex;
-    gap: 10px;
+    margin-right: 10px;
   }
 
+  .BlogFooterkButton{
+    border:none;
+    background-color: #fff;
+    width: 40px;
+  }
+
+  .BlogFooteMarkIcon{
+    width: 20px;
+    cursor: pointer;
+  }
 
   .blogPostostDetails {
     position: absolute;

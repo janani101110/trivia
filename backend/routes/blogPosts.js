@@ -1,9 +1,6 @@
 const express = require('express');
 const router=express.Router();
-const User = require('../models/User.js');
-const bcrypt = require('bcrypt');
 const Post=require('../models/blogPost.js');
-const verifyToken = require('../middleware/verifyToken.js');
 
 //Create 
 router.post("/create" ,async (req, res) => {

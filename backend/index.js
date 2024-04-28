@@ -13,6 +13,7 @@ const authRoute=require('./routes/auth');
 const userRoute=require('./routes/users');
 const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments')
+const bookMarkRoutes = require('./routes/BookMarks')
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
 
@@ -85,7 +86,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/blogPosts", blogPostRoutes);
 app.use("/api/blogComments", blogCommentRoutes);
-
+app.use("/api/bookMarks", bookMarkRoutes);
 
 
 
