@@ -4,7 +4,8 @@
     justify-content: center;
     align-items: center;
     margin-top: 50px;
-    background-color: rgba(66, 4, 63, 0.753);
+    background-color: rgba(183, 180, 183, 0.753);
+    transform: scale(1.05); 
     margin-left: 200px;
     margin-right: 100px;
     height: 60px;
@@ -29,5 +30,7 @@
     width: 25px;
     position: absolute;
     margin-left: 765px;
+    margin-right: 40px;
+    margin-bottom: 2px;
     
   }

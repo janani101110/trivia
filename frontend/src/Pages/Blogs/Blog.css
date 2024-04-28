@@ -196,7 +196,7 @@
     background-color: #ffffff;
     color:#000;
     font-size: 20px;
-    height:fit-content;
+    height:600px;
     width: 300px;
     cursor: pointer;    
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -209,7 +209,7 @@
   }
 
   .postCard:hover {
-    transform: scale(1.05); /* Enlarge the card on hover */
+    transform: scale(1.05); 
   }
   
   .blogPostImage{
@@ -218,9 +218,13 @@
     height: 200px;
     
   }
-  .blogPostdate{
-    margin-top: 20px;
-    font-size: 12px;
+  .blogPostDate{
+    font-size: 15px;
+  }
+
+  .likesCount{
+    margin-top: 10px;
+    font-size: 15px;
   }
 
   .authorProfilePicture{

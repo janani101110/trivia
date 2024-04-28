@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Blogspost from "../Blogs/Blogspost";
 import BlogCard from "./blogCard/blogCard";
-import "./MyCollection.css";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
+import "./MySaves.css";
+import CIcon from "@coreui/icons-react";
+import * as icon from "@coreui/icons";
 
 const MyCollections = () => {
   const [blogPost, setPost] = useState([]);
+  const [showGrid, setShowGrid] = useState(false);
   const { user } = useUsers();
 
   useEffect(() => {
@@ -37,28 +39,52 @@ const MyCollections = () => {
     return <div> User data not found! </div>;
   }
 
+  const handleToggleGrid = () => {
+    setShowGrid(!showGrid); // Toggle the state when dropdown button is clicked
+  };
+
   return (
-    <div className={`myCollection`}>
-      <div className="myCollectonUser">
-        <img src={user.profilePicture} alt="" className="myCollectionImg" />
-        <p className="myCollectionHeaderText">{user.username}</p>
-      </div>
-      <div className="myCollectioFilterSection">
-        <hr className="myCollectionLine" />
-        <p className="myCollectionText"> Blogs : {blogPost.length}</p>
-
-        <div className="myCollectionBlogs">
-          {blogPost.map((blogPost) => (
-            <BlogCard
-              style={{ textDecoration: "none" }}
-              key={blogPost._id}
-              blogPost={blogPost}
-              onDelete={handleDelete}
-            />
-          ))}
+    <div className={`mySavesBody`}>
+      <div className="mySaveMainBody">
+        <div className="mySaveUserDiv">
+          <div className="userDetails">
+            <img src={user.profilePicture} alt="" className="mySavesImg" />
+            {user.username}
+          </div>
         </div>
-
-        <hr className="myCollectionLine" />
+        <div className="mySaveBookMarksDiv">
+          <div className="mySaveTags">
+            Blogs : {blogPost.length} <hr />
+            <button onClick={handleToggleGrid} className="toggleButton">
+              {showGrid ? <CIcon
+                icon={icon.cilCaretTop}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                 className="dropdownIcon"
+              /> : <CIcon
+              icon={icon.cilCaretBottom}
+              size=""
+              style={{ "--ci-primary-color": "black" }}
+               className="dropdownIcon"
+            /> }
+            </button>
+          </div>
+          {blogPost.length === 0 ? (
+            <p>No saved blog posts found.</p>
+          ) : (
+            <ul>
+              {/* Render all blog posts */}
+              {blogPost.map((blogPost) => (
+                <BlogCard
+                  style={{ textDecoration: "none" }}
+                  key={blogPost._id}
+                  blogPost={blogPost}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

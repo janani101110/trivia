@@ -7,7 +7,6 @@ import * as icon from "@coreui/icons";
 import { useUsers } from "../../Context/UserContext";
 
 const Blogspost = ({ blogPost }) => {
-  // Check if blogPost is available, if not return null
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -123,7 +122,11 @@ const Blogspost = ({ blogPost }) => {
             />
           </div>
         )}
-        <div className="blogPostdate">{createdDate}</div>
+        <div className="blogPostDate">{createdDate}</div>
+        <div className="likesCount">
+        1K Likes
+        </div>
+       
         <button className="BlogFooterkButton" onClick={handleBookmark}>
           <CIcon
             icon={icon.cilBookmark}
