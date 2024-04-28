@@ -5,10 +5,14 @@ import React, { useContext } from "react";
 import {Navbar} from './Component/Navbar/Navbar';
 import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
 import {Home} from './Pages/Home/Home';
+
 import {Resources} from './Pages/Resources/Resources';
-import {Writepost} from './Pages/Resources/Writepost';
 import {Sensors} from './Pages/Resources/Sensors/Sensors';
 import {MotionSen} from './Pages/Resources/Sensors/MotionSen';
+import {Writepost} from './Pages/Resources/Writepost';
+import {ResoPostdetails} from './Pages/Resources/ResoPostdetails';
+import {ResoEditpost} from './Pages/Resources/ResoEditpost';
+
 import {Projects} from './Pages/Projects/Projects';
 import {Blogs} from './Pages/Blogs/Blogs';
 import {Shopping} from './Pages/Shopping/Shopping';
@@ -40,10 +44,14 @@ function App() {
       
       <Routes>
           <Route path='/home'element={<Home/>}/>
+
           <Route path='/resources'element={<Resources/>}/>
-          {/* <Route path='/writepost'element={<Writepost/>}/> */}
-          <Route path='/sensors'element={<Sensors/>}/>
-          <Route path='/MotionSen'element={<MotionSen/>}/>
+            <Route path='/sensors' element={<Sensors/>}/>
+              <Route path='/motionSen' element={<MotionSen/>}/>
+              <Route path='/writepost' element={<Writepost/>}/>
+              <Route path='/resopostdetails/:id' element={<ResoPostdetails/>}/>
+              <Route path='/resoeditpost/:id' element={<ResoEditpost/>}/>
+
           <Route path='/projects'element={<Projects/>}/>
           <Route path='/blogs'element={<Blogs/>}/>
           <Route path='/shopping'element={<Shopping/>}/>

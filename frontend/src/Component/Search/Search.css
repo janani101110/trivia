@@ -1,33 +1,32 @@
-.search{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    background-color: rgba(66, 4, 63, 0.753);
-    margin-left: 200px;
-    margin-right: 100px;
-    height: 60px;
-    width: 850px;
-    border-radius: 30px;
-    margin-bottom: 50px;
-  }
-  
-  .searchBar{
-    position: absolute;
-    font-family: cursive;
-    font-size: 15px;
-    height: 40px;
-    width: 800px;
-    border-radius: 25px;
-    padding-left: 20px;
-  }
-  
-  .searchIcon{
-    border-radius: 50%;
-    height: 25px;
-    width: 25px;
-    position: absolute;
-    margin-left: 765px;
-    
-  }
+.search {
+  position: relative; /* Positioning context for absolute positioning */
+  display: flex; /* Display as flex container */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  margin-top: 50px; /* Margin from the top */
+  margin-left: 100px; /* Margin from the left */
+  margin-right: 100px; /* Margin from the right */
+  height: 50px; /* Height of the search container */
+  width: 850px; /* Width of the search container */
+  border-radius: 10px; /* Border radius for rounded corners */
+  margin-bottom: 20px; /* Margin from the bottom */
+}
+
+.searchBar {
+  position: absolute; /* Positioning within the search container */
+  font-family: cursive; /* Font family for the search bar text */
+  font-size: 15px; /* Font size for the search bar text */
+  height: 35px; /* Height of the search bar */
+  width: 700px; /* Width of the search bar */
+  border-radius: 20px; /* Border radius for rounded corners */
+  padding-left: 20px; /* Left padding for text */
+}
+
+.searchIcon {
+  border-radius: 50%; /* Border radius for circular shape */
+  height: 25px; /* Height of the search icon */
+  width: 25px; /* Width of the search icon */
+  position: absolute; /* Positioning within the search container */
+  margin-left: 650px; /* Margin from the left within the search container */
+  cursor: pointer; /* Cursor style on hover */
+}

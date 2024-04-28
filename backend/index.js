@@ -15,6 +15,8 @@ const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments')
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
+const resopostRoutes = require("./routes/resoposts");
+const resocommentRoutes = require("./routes/resocomments");
 
 require('dotenv').config();
 require('./passport'); 
@@ -85,8 +87,33 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/blogPosts", blogPostRoutes);
 app.use("/api/blogComments", blogCommentRoutes);
+app.use("/api/resoposts", resopostRoutes); // Route for resource posts
+app.use("/api/resocomments", resocommentRoutes); // Route for resource post comments
 
-
+// Search endpoint
+app.get("/api/search", async (req, res) => {
+  try {
+    const query = req.query.q; // Get search query from request
+    const results = await ResoPost.aggregate([
+      // Search ResoPost collection in MongoDB
+      {
+        $search: {
+          index: "SearchReso", // Assuming 'SearchReso' is the name of the search index
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", // Search all fields
+            },
+          },
+        },
+      },
+    ]);
+    res.json(results); // Send search results as JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" }); // Send error response if something goes wrong
+  }
+});
 
 
 app.listen(5000, () => {

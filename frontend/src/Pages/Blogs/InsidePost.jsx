@@ -4,7 +4,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
-import * as icon from "@coreui/icons";
 
 // Define the function to fetch user data
 const fetchUserData = async (userId) => {
