@@ -3,12 +3,13 @@ import './Navbar.css'
 import logo from '../Assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import DropdownMenu from "./DropdownMenu";
+import { useUsers } from "../../Context/UserContext";
 
 
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("home");
-  const [user, setUser] = useState(null);
+  const { user, fetchUsers } = useUsers();
   const navigation = useNavigate();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -21,37 +22,7 @@ export const Navbar = () => {
   };
 
 
-  // function gotoProfile() {
-  //   navigation.navigate("/Profile", { user: user });
-  // }
-
-  useEffect(() => {
-    // Fetch authentication status
-    const fetchAuthenticationStatus = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/auth/login/success', {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          }
-        });
-
-        if (response.status === 200) {
-          const resObject = await response.json();
-          setUser(resObject.user);
-        } else {
-          throw new Error("Authentication has failed");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchAuthenticationStatus();
-  }, []); // Fetch authentication status on component mount
+ 
 
   console.log(user);
 

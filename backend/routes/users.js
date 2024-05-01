@@ -6,7 +6,7 @@ const verifyToken = require('../middleware/verifyToken');
 
 
 //Delete
-router.delete("/:userId",verifyToken, async (req, res) => {
+router.delete("/:userId", async (req, res) => {
     try{
         await User.findByIdAndDelete(req.params.id);
         //delete all posts and comments of the user
@@ -18,7 +18,7 @@ router.delete("/:userId",verifyToken, async (req, res) => {
     }
 })
 
-router.get("/auth/user", verifyToken, (req, res) => {
+router.get("/auth/user",  (req, res) => {
     res.json(req.user);
   });
 

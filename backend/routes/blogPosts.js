@@ -74,18 +74,6 @@ router.get("/", async (req, res) => {
     }
 })
 
-
-
-//Search Posts
-router.get("/search/:prompt", async (req, res) => {
-    try{
-        const posts=await Post.find({title:{$regex:req.params.prompt,$options:"i"}})
-        res.status(200).json(posts);
-    }catch(err){
-        res.status(500).json(err);
-    }
-})
-
 router.put("/like", (req,res) => {
     Post.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
