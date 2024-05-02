@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUsers } from "../../Context/UserContext";
 import axios from "axios";
-import "./MySaves.css";
+import "./EditProfile.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
@@ -9,6 +9,7 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
+import editProfileImage from './Assets/editProfileImage.png'
 
 const EditProfile = () => {
   const { user } = useUsers();
@@ -16,22 +17,24 @@ const EditProfile = () => {
   const [author, setAuthor] = useState(user);
   const [file, setFile] = useState("");
   const [downloadURL, setDownloadURL] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAuthor({
       ...author,
-      [name]: value,
+      [name]: value // Use the name of the input field as key
     });
   };
+  
 
   // Function to handle image upload
 const handleUpload = async (e) => {
     const file = e.target.files[0];
     setFile(file);
-    const imgsBlog = ref(imageDb, `blogImages/${v4()}`);
-    await uploadBytes(imgsBlog, file);
-    const url = await getDownloadURL(imgsBlog);
+    const imgsProfile = ref(imageDb, `profileImages/${v4()}`);
+    await uploadBytes(imgsProfile, file);
+    const url = await getDownloadURL(imgsProfile);
     setDownloadURL(url);
     // Update blogPost state with the image URL
     setAuthor(prevState => ({ ...prevState, image: url }));
@@ -42,6 +45,8 @@ const handleUpload = async (e) => {
     try {
       await axios.put(`http://localhost:5000/api/users/${id}`, author);
       alert("Profile updated successfully!");
+      navigate('/home');
+      window.location.reload();
     } catch (err) {
       console.error(err);
       alert("Failed to update profile. Please try again.");
@@ -49,8 +54,13 @@ const handleUpload = async (e) => {
   };
 
   return (
-    <div>
-      <h2>Edit Profile</h2>
+    <div className="editProfileMainDiv">
+      <div className="editProfileimg">
+      <img src={editProfileImage} alt=''/>
+
+      </div>
+      <div className="secondDivEditProfile">
+      <h2 className="editProfilemainText">Edit Profile</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
@@ -95,6 +105,7 @@ const handleUpload = async (e) => {
           Update Profile
         </button>
       </form>
+      </div>
     </div>
   );
 };

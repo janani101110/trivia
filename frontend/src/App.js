@@ -24,7 +24,8 @@ import {UpdateBlog} from './Pages/Blogs/UpdateBlog';
 import MySaves from './Pages/Profile/MySaves';
 import MyCollections from "./Pages/Profile/MyCollections";
 import MyQuestions from './Pages/Profile/MyQuestions';
-import EditProfile from './Pages/Profile/EditProfile'
+import EditProfile from './Pages/Profile/EditProfile';
+import ForgotPassword from './Pages/LogIn/ForgotPassword'
 
 
 import Productdescription from './Pages/Shopping/Productdescription';
@@ -61,6 +62,7 @@ function App() {
           <Route path='/MyCollections' element={<MyCollections/>}/>
           <Route path='/MyQuestions' element={<MyQuestions/>}/>
           <Route path='/EditProfile' element={<EditProfile/>}/>
+          <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
           <Route path='/productdescription' element={<Productdescription/>}/>
 
           <Route path='/' element={<Navigate to="/home" />}/>

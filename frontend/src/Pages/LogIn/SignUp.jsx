@@ -61,7 +61,7 @@ const Signup = () => {
         </div>
         <br/>
         <div className="loginTextdiv">
-          <button onClick={google} className="loginButton"> Signup with Google </button>
+          <button onClick={google} className="loginGoogleButton"> Signup with Google </button>
         </div>
         <div className="loginhr">
           <hr className="hrclass" />

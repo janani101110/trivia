@@ -24,7 +24,8 @@ passport.use(new GoogleStrategy({
     User.findOrCreate({ 
       userId: profile.id, 
       username: profile.displayName,
-      profilePicture: profile.photos[0].value
+      profilePicture: profile.photos[0].value,
+      email: "diaskmgsa.21@itfac.mrt.ac.lk"
     }, function (err, user) {
       if (err) { return cb(err); }
       // Generate JWT token

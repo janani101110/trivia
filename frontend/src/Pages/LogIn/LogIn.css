@@ -28,15 +28,22 @@
     width: 300px;
     margin-top: 10px;
     margin-bottom: 0px;
-    border-radius: 10px;
-    border: solid 2px #532f44;
+    border: none;
+    border-bottom: solid 2px #532f44;
     font-size: 13px;
     font-family: cursive;
     padding-left: 20px;
   }
   
   .LoginTextdiv {
-    margin-left: 250px;
+   
+    display: flex;
+    flex-direction: row;
+  }
+
+  .loginsubText{
+    margin-left: -180px;
+    margin-top: 5px;
     display: flex;
     flex-direction: row;
   }
@@ -71,12 +78,23 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
   }
+  .loginGoogleButton{
+    width: 300px;
+    background-color: #fff;
+    border: 2px solid #532f44;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
   
- /* .loginButton:hover {
+.loginGoogleButton:hover {
     background-color: #532f44;
     color: #fff;
   }
-*/
+
 .hrdiv{
     margin-left: 50px;
     margin-top: 20px;
