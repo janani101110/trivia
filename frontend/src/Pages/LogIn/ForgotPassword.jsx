@@ -2,12 +2,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import logo from "../../Component/Assets/logo.png"
+import logo from "../../Component/Assets/logo.png";
 import axios from "axios";
 import "./ForgotPassword.css";
 
 // Login component definition
 function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/forgotPassword", { email });
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response.data.error);
+    }
+  };
+
   return (
     <div className="ForgotPasswordMainDiv">
       <div className="ForgotPasswordSecondaryDiv">
@@ -20,8 +33,17 @@ function ForgotPassword() {
           to reset your password
         </div>
         <div className="ForgotPasswordInputField">
-          <input type="text" placeholder="Enter your Email" />
-          <button className="ForgotPasswordButton" type="submit">
+          <input
+            type="text"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button
+            className="ForgotPasswordButton"
+            type="submit"
+            onClick={handleForgotPassword}
+          >
             Continue
           </button>
         </div>
@@ -38,6 +60,7 @@ function ForgotPassword() {
             Signup{" "}
           </Link>
         </div>
+        {message && <p>{message}</p>}
       </div>
     </div>
   );
