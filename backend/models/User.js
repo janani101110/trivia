@@ -1,39 +1,49 @@
-const mongoose = require('mongoose');
-const passportLocalMongoose = require("passport-local-mongoose");
-const findOrCreate = require("mongoose-findorcreate");
-const UserSchema = new mongoose.Schema({
+const mongoose=require('mongoose')
+
+const UserSchema=new mongoose.Schema({
     username: {
         type:String,
-        required:true,
+        required:false,
         unique:true,
-    },
-    userId:{
-        type:String,
-        required:false
     },
     email:{
         type:String,
-        required: function () {
-            return !this.userId; // Require email if userId doesn't exist (Google authentication)
-        }
+        required:false,
+        unique:true,
     },
-    password: {
-        type: String,
-        required: function () {
-            return !this.userId; // Require password if userId doesn't exist (Google authentication)
-        }
-    },
-    profilePicture:{
+    password:{
         type:String,
         required:false,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    timespans:{
+        type:String,
+        required:false,
+    },
+    googleId:{
+        type:String,
+        required:false,
+    },
+})
+
+
+UserSchema.statics.findOrCreate = async function (profile, cb) {
+    try {
+      const user = await this.findOne({ googleId: profile.id });
+      if (user) {
+        return cb(null, user);
+      } else {
+        const newUser = new this({
+          googleId: profile.id,
+          // Add any other relevant fields from the Google profile
+        });
+        const savedUser = await newUser.save();
+        return cb(null, savedUser);
+      }
+    } catch (err) {
+      return cb(err, null);
     }
-    })
+  };
 
-UserSchema.plugin(passportLocalMongoose);
-UserSchema.plugin(findOrCreate);
 
-module.exports=mongoose.model('User',UserSchema)
+module.exports=mongoose.model("User",UserSchema)
+
