@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export const UpdateBlog = () => {
   const { id } = useParams(); // Extracting the id parameter from the URL
@@ -109,15 +111,13 @@ const handleUpload = async (e) => {
             <br />
             <label className="createBlogTextLabel"> Blog Body: </label>
             <br />
-            <textarea
-              className="createBlogTextArea"
-              placeholder={blogPost.description}
+            <ReactQuill
               value={blogPost.description}
-              cols={30}
-              rows={15}
-              onChange={(e) =>
-                setBlogPost({ ...blogPost, description: e.target.value })
+              onChange={(value) =>
+                setBlogPost({ ...blogPost, description: value })
               }
+              className="createBlogTextArea"
+              placeholder="Enter Post Description"
               required
             />
             <br />

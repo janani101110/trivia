@@ -23,7 +23,7 @@ const blogPostSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    likes: [{type: ObjectId, ref:"User"},],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     postedBy: {
         type: ObjectId,
         ref: "User",

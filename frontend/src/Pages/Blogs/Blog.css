@@ -340,7 +340,7 @@
     padding-left: 90px;
     padding-right: 90px;
     border-radius: 20px;
-    opacity: 0.9;
+    opacity: 0.8;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     
 }
@@ -415,9 +415,7 @@
   width: 800px;
   margin-bottom: 10px;
   border-radius: 5px;
-}
-.createBlogTextArea:hover{
-  border: #532f44 solid 2px;
+  color: #000;
 }
 
 /* --------------pagination ----------------------------- */

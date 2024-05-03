@@ -10,6 +10,7 @@ const Blogspost = ({ blogPost }) => {
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0); // State to hold the count of likes
   const navigate = useNavigate();
 
   const fetchUserData = async (userId) => {
@@ -37,6 +38,7 @@ const Blogspost = ({ blogPost }) => {
 
     fetchAuthor();
   }, [blogPost.postedBy]);
+
   useEffect(() => {
     // Check if the post is bookmarked by the user and update the state
     const checkBookmark = async () => {
@@ -58,6 +60,11 @@ const Blogspost = ({ blogPost }) => {
 
     checkBookmark();
   }, [blogPost._id, user]);
+
+  useEffect(() => {
+    // Set the likes count from the length of the likes array
+    setLikesCount(blogPost.likes.length);
+  }, [blogPost.likes]);
 
   if (!blogPost) {
     return null;
@@ -105,7 +112,8 @@ const Blogspost = ({ blogPost }) => {
             <br />
             <div className="blogPostostDetails">
               <div className="blogPostDescription">
-              {blogPost.desc && blogPost.desc.split(" ").slice(0, 60).join(" ") + "... See more"}
+                {blogPost.desc &&
+                  blogPost.desc.split(" ").slice(0, 60).join(" ") + "... See more"}
               </div>
               <br />
             </div>
@@ -123,10 +131,7 @@ const Blogspost = ({ blogPost }) => {
           </div>
         )}
         <div className="blogPostDate">{createdDate}</div>
-        <div className="likesCount">
-        1K Likes
-        </div>
-       
+        <div className="likesCount">{likesCount} Likes</div> {/* Display likes count */}
         <button className="BlogFooterkButton" onClick={handleBookmark}>
           <CIcon
             icon={icon.cilBookmark}

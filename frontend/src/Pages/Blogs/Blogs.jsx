@@ -51,6 +51,10 @@ export const Blogs = () => {
         sortedPosts.sort((a, b) => a.title.localeCompare(b.title));
       } else if (order === 'desc') {
         sortedPosts.sort((a, b) => b.title.localeCompare(a.title));
+      }else if (order === 'popular') {
+        sortedPosts.sort((a, b) => b.likes.length - a.likes.length);
+      }else if (order === 'latest') {
+        sortedPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       }
       setPost(sortedPosts);
       setSortOrder(order);
@@ -72,9 +76,14 @@ export const Blogs = () => {
 
   // Fetching blog posts on component mount
   useEffect(() => {
-    fetchBlogPosts('desc');
-    setActiveFilter('latest');
+    const fetchAndSortPosts = async () => {
+      await sortPosts('latest');
+      fetchBlogPosts('latest');
+    };
+  
+    fetchAndSortPosts();
   }, []);
+
 
   // Calculating indexes of first and last posts for current page
   const indexOfLastPost = currentPage * postsPerPage;
@@ -84,25 +93,7 @@ export const Blogs = () => {
   // Function to change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
   
-  // Function to fetch latest posts
-  const showLatestPosts = () => {
-    fetchBlogPosts('-createdAt');
-    setActiveFilter('latest');
-  };
 
-  // Function to get background class based on active filter
-  const getBackgroundClass = () => {
-    switch (activeFilter) {
-      case 'latest':
-        return 'latestBackground';
-      case 'asc':
-        return 'ascBackground';
-      case 'desc':
-        return 'descBackground';
-      default:
-        return 'defaultBackground';
-    }
-  };
 
   // Function to handle create button click
   const handleCreateClick = () => {
@@ -122,7 +113,7 @@ export const Blogs = () => {
   // Rendering the component
   return (
     
-    <div className={`blogHome ${getBackgroundClass()}`}>
+    <div className={`blogHome`}>
 
       {/* Banner section */}
       <div className='blogBanner'>
@@ -144,11 +135,11 @@ export const Blogs = () => {
       {/* Blog filters section */}
       <div className='blogFilters'> 
         {/* Filter buttons */}
-        <button className ="filterButton">
+        <button className={`filterButton ${activeFilter === 'popular' ? 'activeFilterButton' : ''}`} onClick={() => sortPosts('popular')}>
           Popular
         </button>
 
-        <button className={`filterButton ${activeFilter === 'latest' ? 'activeFilterButton' : ''}`} onClick={showLatestPosts}>
+        <button className={`filterButton ${activeFilter === 'latest' ? 'activeFilterButton' : ''}`} onClick={() => sortPosts('latest')}>
           Latest
         </button>
 
