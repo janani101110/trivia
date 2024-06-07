@@ -1,16 +1,30 @@
 
 const express =require('express')
+const router = express.Router();
+const session = require('express-session')
 const mongoose  = require('mongoose')
-const app=express()
-const cors = require('cors');
-const dotenv = require('dotenv')
-const cookieParser=require('cookie-parser')
+const jwt = require("jsonwebtoken");
 const bodyParser=require('body-parser');
-const multer=require("multer");
+const cors = require('cors');
+const path = require("path");
+const passport = require('passport')
+const passportSetup = require('./passport');
+const cookieParser = require('cookie-parser')
+const authRoute=require('./routes/auth');
+const userRoute=require('./routes/users');
+const blogPostRoutes=require('./routes/blogPosts');
+const blogCommentRoutes=require('./routes/blogComments')
 const projectpostRoute = require("./routes/projectposts");
+const verifyToken = require('./middleware/verifyToken');
+const cookieSession = require("cookie-session")
+const app=express()
+const dotenv = require('dotenv')
+const multer=require("multer");
+
 //require('dotenv').config();
 //const cookieParser = require('cookie-parser')
-
+require('dotenv').config();
+require('./passport'); 
 
 app.use(bodyParser.json());
 
@@ -20,17 +34,30 @@ app.use(bodyParser.json());
 const connectDB=async()=>{
   try{
       await mongoose.connect("mongodb+srv://jananilasindu:Trivia2024@cluster0.bic47ow.mongodb.net/")
+      //await mongoose.connect(process.env.db);
       console.log("database connected ")
   }
   catch(err){
-      console.log(err)
+    //console.log(err.message);
+     console.log(err)
   }
 }
+
+// session
+app.use(session({
+  secret: process.env.accessToken_secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false}
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //middlewares
 dotenv.config();
 app.use(express.json());
-//app.use(cookieParser());
+app.use(cookieParser());
 
 //allow rquests from 3000 
 app.use(cors({
@@ -50,14 +77,36 @@ app.use("/api/projectposts", projectpostRoute);
  //});
 
 
+ app.get("/auth/google",
+ passport.authenticate("google", { scope: ['profile'] })
+);
 
+
+app.get("/auth/google/callback",
+ passport.authenticate("google", { failureRedirect: "/loginError" }),
+ function(req, res) {
+   // Successful authentication, redirect secrets.
+   res.redirect("http://localhost:3000");
+ }
+);
+
+app.get('/loginError', function (req, res) {
+
+res.status(500).send('Login process encountered an error. Please try again.');
+});
  
+app.get('/checkAuth', verifyToken, (req, res) => {
+  res.sendStatus(200);
+})
 
-//app.use("/api/auth", authRoute);
-//app.use("/api/users", userRoute);
-//app.use("/api/posts", postRoutes);
+app.get('/', (req, res) => {
+  res.send('express app is running');
+});
 
-//app.use("/api/comments", commentRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/blogPosts", blogPostRoutes);
+app.use("/api/blogComments", blogCommentRoutes);
 
 // image storage engine
 const storage = multer.diskStorage({

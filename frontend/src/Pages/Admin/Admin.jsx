@@ -13,26 +13,33 @@ import ResourcesAdmin from "./ResourcesAdmin";
 import ShoppingAdmin from "./ShoppingAdmin";
 import UsersAdmin from "./UsersAdmin";
 import AdminNavi from "./AdminNavi";
+import PostCounts from "./PostCounts";
+
 
 
 export const Admin = () => {
-
+  const [counts, setCounts] = useState({ pending: 0, approved: 0, rejected: 0 });
+  
   return (
     <div>
-      <AdminNavi></AdminNavi>
+      <AdminNavi counts={counts || { pending: 0, approved: 0, rejected: 0 }} />
+      <PostCounts setCounts={setCounts} />
       <div className="admin_content">
         <div className="admin_griditem1">Projects</div>
         <div className="admin_griditem2">
-        <Link to={'/projectsadmin'}><div className="admin_box">Pending Approval</div></Link>
-        <Link to={'/projectsadmin'}><div className="admin_box">Approved project</div></Link>
-        <Link to={'/projectsadmin'}><div className="admin_box">Rejected project</div></Link>
+        <Link to={'/projectsadmin/pending'}><div className="admin_box">Pending Approval <br /> 
+        <p className="countstyle">{counts.pending} </p></div></Link>
+        <Link to={'/projectsadmin/approved'}><div className="admin_box">Approved project  <br />
+        <p className="countstyle">{counts.approved}</p></div></Link>
+        <Link to={'/projectsadmin/rejected'}><div className="admin_box">Rejected project  <br />
+        <p className="countstyle">{counts.rejected}</p></div></Link>
         </div>
         <hr></hr>
         <div className="admin_griditem3">Resources</div>
         <div className="admin_griditem4">
-        <Link to={'/projectsresources'}><div className="admin_box">Resources to be commented</div></Link>
-        <Link to={'/projectsresources'}><div  className="admin_box">Approved resources</div></Link>
-        <Link to={'/projectsresources'}> <div className="admin_box">Rejected resources</div></Link>
+        <Link to={'/projectsresources/pending'}><div className="admin_box">Resources to be commented</div></Link>
+        <Link to={'/projectsresources/approved'}><div  className="admin_box">Approved resources</div></Link>
+        <Link to={'/projectsresources/rejected'}> <div className="admin_box">Rejected resources</div></Link>
         </div>
         <hr></hr>
         <div className="admin_griditem6">

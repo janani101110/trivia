@@ -42,7 +42,7 @@ export const ProjectCard = ({ projectpost, page }) => {
 
           <div>
             <Link
-              to={`/posts/post/${projectpost._id}`}
+              to={`/projectseemore/${projectpost._id}`}
               target="_blank"
               rel="noopener noreferrer"
             >

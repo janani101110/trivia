@@ -2,9 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./DropdownMenue.css";
 import { useUsers } from "../../Context/UserContext";
-import MySaves from "../../Pages/Profile/MySaves";
-import MyCollections from "../../Pages/Profile/MyCollections";
-import MyQuestions from "../../Pages/Profile/MyQuestions";
+import ProfileNotifications from "../../Pages/Profile/ProfileNotifications";
 
 const DropdownMenu = () => {
   const { user, fetchUsers } = useUsers();
@@ -17,7 +15,9 @@ const DropdownMenu = () => {
   console.log(user);
 
   const logout = () => {
+    
     window.open("http://localhost:5000/api/auth/logout", "_self");
+    localStorage.removeItem('token');
   };
 
   return (
@@ -32,14 +32,18 @@ const DropdownMenu = () => {
         </div>
         <div className="ProfileHeaderText">
           {user.username}
-          <button className="editProfile"> Edit Profile </button>
+          <button className="editProfile">
+          <Link style={{ textDecoration: "none" }} to="/EditProfile">
+             Edit Profile
+             </Link>
+              </button>
         </div>
 
         <hr />
 
         <li className="dropdownMenuli">
           <Link style={{ textDecoration: "none" }} to="/MySaves">
-            My Saves
+            My Bookmarks
           </Link>
         </li>
 
@@ -59,6 +63,7 @@ const DropdownMenu = () => {
           <Link style={{ textDecoration: "none" }} to="#" onClick={logout}>
             Log Out
           </Link>
+
         </li>
         
       </ul>

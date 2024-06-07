@@ -56,3 +56,10 @@
     transform: translateY(4px);
     background-color: whitesmoke;
   }
+
+  .countstyle{
+    font-weight: bolder;
+    font-size:larger;
+    padding-top: 5%;
+    color:purple;
+  }

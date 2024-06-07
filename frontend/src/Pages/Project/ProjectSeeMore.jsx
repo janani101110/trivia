@@ -6,21 +6,21 @@ import { useEffect } from "react";
 import { URL } from "../../url";
 
 export const ProjectSeeMore = () => {
-  const projectpostId = useParams().id;
-  const [projectpost, setprojectPost] = useState({});
-  const fetchproPost = async () => {
+  const { id } = useParams();
+  const [projectpost, setProjectPost] = useState({});
+  const fetchProPost = async () => {
     try {
-      const res = await axios.get(`${URL}/api/projectposts/${projectpostId}`);
-      console.log(res.data);
-      setprojectPost(res.data);
+      const res = await axios.get(`${URL}/api/projectposts/${id}`);
+     
+      setProjectPost(res.data);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchproPost();
-  }, [projectpostId]);
+    fetchProPost();
+  }, [id]);
 
   return (
     <div className="project_seemore_container">
@@ -97,6 +97,7 @@ export const ProjectSeeMore = () => {
         <p className="project_head">Refer the code through this GitHub link:</p>
         <a
           className="project_github"
+          href= { projectpost.git_link}
          // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"

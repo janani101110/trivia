@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+/*import React from 'react';
 import './Profile.css';
 
 const Profile = () => {
@@ -48,3 +48,4 @@ const Profile = () => {
 
 export default Profile
 
+*/
