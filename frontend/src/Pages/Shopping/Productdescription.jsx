@@ -19,6 +19,17 @@ export const Productdescription = () => {
         console.error("Error fetching shoppost:", error);
       });
   }, [id]); // depend on 'id' so that the effect re-runs when 'id' changes
+  // useEffect(() => {
+  //   // Reinitialize Google Translate after data is fetched and rendered
+  //   if (window.googleTranslateElementInit) {
+  //     try {
+  //       window.googleTranslateElementInit();
+  //     } catch (error) {
+  //       console.error('Error reinitializing Google Translate:', error);
+  //     }
+  //   }
+  // }, []);
+
 
   return (
     <div className="pdescrip">

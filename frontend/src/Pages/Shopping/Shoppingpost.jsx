@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Shoppingpost.css";
 import axios from "axios";
 import "firebase/storage";
 import { imageDb } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-
+import { useNavigate } from "react-router-dom";
+import { useUsers } from "../../Context/UserContext";
 export const Shoppingpost = () => {
   //variables
   const [name, setName] = useState("");
@@ -15,14 +16,24 @@ export const Shoppingpost = () => {
   const [photoURL, setPhotoURL] = useState(null);
   const [, setPhoto] = useState(null);
   const [image, setImage] = useState("");
-  
+  const navigate = useNavigate();
+  const { user, fetchUsers } = useUsers();
+  const [postedBy, setPostedBy] = useState("");
+  const [ userEmail,setuserEmail]=useState("");
+
+  useEffect(() => {
+    if (user) {
+      setPostedBy(user._id); 
+    }
+  }, [user]);
 
   const [input, setInput] = useState({
     name: "",
     description: "",
     price: "",
-    contact: "",
+    contact: "", 
     imageUrl: "",
+    userEmail:"",
     
   });
 
@@ -46,11 +57,11 @@ export const Shoppingpost = () => {
   }
 
   //button click
-  function handleClick(event) {
+  async function handleClick(event) {
     event.preventDefault();
 
     const imgRef = ref(imageDb, `shoppingimages/${v4()}`);
-
+   
     // Upload the image to Firebase Storage
     uploadBytes(imgRef, image)
       .then(() => {
@@ -68,6 +79,7 @@ export const Shoppingpost = () => {
           price: input.price,
           contact: input.contact,
           imageUrl: downloadURL,
+          userEmail: input.userEmail,
            // Add the image URL to the shop post object(firebase)
         };
 
@@ -77,12 +89,54 @@ export const Shoppingpost = () => {
       .then((response) => {
         // Handle successful response from the backend if needed
         console.log("Shop post created:", response.data);
+        navigate("/shopping");
       })
       .catch((error) => {
         // Handle errors
         console.error("Error creating shop post:", error);
       });
-  }
+  
+ 
+
+ const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`, // Set the authorization token in headers
+      },
+      body: JSON.stringify(Shoppingpost), // Convert blog post object to JSON string
+    };
+
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/newShoppost/create",
+        requestOptions
+      );
+      if (!res.ok) {
+        throw new Error("Failed to create advertisment");
+      }
+      const data = await res.json();
+      console.log(data);
+      navigate("/shopping");
+    } catch (err) {
+      console.error(err);
+    }
+    // const res = await fetch("http://localhost:5000/api/newShoppost/create", requestOptions);
+    //   if (!res.ok) {
+    //     throw new Error("Failed to create advertisement");
+    //   }
+    //   const data = await res.json();
+    //   console.log(data);
+    //   navigate("/shopping");
+    // } catch (error) {
+    //   console.error("Error creating shop post:", error);
+    // }
+  };
+// Function to retrieve token from local storage
+const getToken = () => {
+  return localStorage.getItem("token");
+};
+
 
   return (
     <div className="adpost">
@@ -186,6 +240,21 @@ export const Shoppingpost = () => {
                       handleChange(e);
                     }} //recieving data
                     placeholder=" Enter a contact number containing 10 digits"
+                  />
+                </td>
+              </tr>
+              <tr className="shoprow">
+                <th>User Email</th>
+                <td>
+                  <input
+                    type="email"
+                    name="userEmail"
+                    value={input.userEmail}
+                    onChange={(e) => {
+                      setuserEmail(e.target.value);
+                      handleChange(e);
+                    }} //recieving data
+                    placeholder="This email will be used for communication purpose"
                   />
                 </td>
               </tr>

@@ -1,36 +1,63 @@
-/* eslint-disable react/prop-types */
+import React, { createContext, useEffect, useState,useContext } from "react";
 
 
-import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
-//import { URL } from "../url";
-//import{ useContext } from React;
+export const UserContext = createContext(null);
 
-export const UserContext=createContext({})
-
-
-export function UserContextProvider({children}){
-    const [user,setUser]=useState(null)
-
-    useEffect(()=>{
-      getUser()
-
-    },[])
-
-    const getUser=async()=>{
-      try{
-        const res=await axios.get("http://localhost:5000/api/auth/refetch",{withCredentials:true})
-        // console.log(res.data)
-        setUser(res.data)
-
-      }
-      catch(err){
-        console.log(err)
-      }
-    }
-    
-    return (<UserContext.Provider value={{user,setUser}}>
-      {children}
-    </UserContext.Provider>)
+export const useUsers = ()=>{
+  const context =useContext(UserContext);
+  if(!context){
+    throw new Error("useUsers must be used within a userProvider")
+  }
+  return context;
 }
+
+export function UserContextProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  
+    // Fetch authentication status
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/auth/login/success",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Credentials": true,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          const resObject = await response.json();
+          setUser(resObject.user);
+        } else {
+          throw new Error("Authentication has failed");
+        }
+      } catch (err) {
+        console.error("Error fetching authentication status:", err);
+      }
+    };
+    useEffect(() => {
+
+      fetchUsers();
+  }, []); // Fetch authentication status on component mount
+
+const value = {
+  user,
+  fetchUsers
+}
+
+
+  // Return the user context provider
+  return (
+    <UserContext.Provider value={value}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+
 export default UserContext;

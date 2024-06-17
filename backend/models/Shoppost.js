@@ -8,7 +8,7 @@ const ShoppostSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-    },
+    }, 
     price: {
       type: String,
       required: true,
@@ -21,6 +21,15 @@ const ShoppostSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
     },
+    createdAt:{
+      type: Date,
+      default: Date.now,
+      index: { expires: '7d' },
+    },
+    userEmail:{
+      type:String,
+      required:true,
+    } ,
     
     /*username: { 
         type:String,

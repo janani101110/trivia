@@ -1,26 +1,28 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+const User = require('../models/User')
 require('dotenv').config();
 
+// Middleware function to verify JWT token
+const verifyToken = async (req, res, next) => {
+  const {authorization} = req.headers
+  if(!authorization){
+    return res.status(401).json({error:'Authorization token required'})
+  }
 
-// authMiddleware.js
+  const token = authorization.split(' ')[1]
 
-const verifyToken = (req, res, next) => {
-    try {
-        // Check if the user is authenticated
-        if (req.isAuthenticated()) {
-            console.log(req.isAuthenticated);
-            // If authenticated, proceed to the next middleware or route handler
-            return next();
-        } else {
-            // If not authenticated, send a 401 Unauthorized status
-            return res.sendStatus(401);
-        }
-    } catch (error) {
-        // If an error occurs, handle it and send a 500 Internal Server Error status
-        console.error('Error in authentication middleware:', error);
-        return res.sendStatus(500);
-    }
+  try{
+    const {_id} = jwt.verify(token,process.env.accessToken_secret)
+
+    req.user = await User.findOne({_id}).select('_id')
+    next()
+
+  }catch(error){
+      console.log(error)
+      res.status(401).json({error: 'request is not authorized'})
+  }
+  
 };
-    
+
+
 module.exports = verifyToken;

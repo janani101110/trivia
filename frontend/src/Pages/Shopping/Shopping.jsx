@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from "react";
 import "./Shopping.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search } from "../../Component/Search/Search";
 import { Shopcard } from "./Shopcard";
+import { useUsers } from "../../Context/UserContext"; // Import user context
+import Alert from "../../Component/Alert/Alert";
 
 export const Shopping = () => {
   const [shopposts, setShopposts] = useState([]);
+  const { user } = useUsers(); // Access user data from context
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:5000/getpost", {
-      //get all the post in the database using GET method
       method: "GET",
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "shoppost");
-        setShopposts(data.data); // show the data
+        setShopposts(data.data); // Update shopposts state with fetched data
       });
-  }, []); //this is the fetch function to display all the shopcards
+  }, []); // Fetch shop posts only once on component mount
+
+  const handleCreateClick = () => {
+    if (!user) {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+        navigate("/login");
+      }, 2000);
+    } else {
+      navigate("/shoppingpost");
+    }
+  };
 
   return (
     <div className="shopmain">
@@ -25,27 +41,26 @@ export const Shopping = () => {
         <div className="shopsearch">
           <Search />
         </div>
-
         <div className="postbutton">
-          <Link to={"/Shoppingpost"}>
-            <button>Create Ad</button>
-          </Link>{" "}
-          {/*when click on this button this will route to page where user create posts */}
+          <button onClick={handleCreateClick}>Create Ad</button>
+          {showAlert && (
+            <Alert
+              message="Please login to create an advertisement."
+              onClose={() => setShowAlert(false)}
+            />
+          )}
         </div>
       </div>
       <div className="postsection">
-        {shopposts.map(
-          (
-            shoppost //using the ids shop cards are shown
-          ) => (
-            <Link
-              style={{ textDecoration: "none" }}
-              to={`/productdescription/${shoppost._id}`}
-            >
-              <Shopcard key={shoppost._id} shoppost={shoppost} />
-            </Link>
-          )
-        )}
+        {shopposts.map((shoppost) => (
+          <Link
+            key={shoppost._id} // Key should be placed on the outermost JSX element inside map
+            style={{ textDecoration: "none" }}
+            to={`/productdescription/${shoppost._id}`}
+          >
+            <Shopcard shoppost={shoppost} />
+          </Link>
+        ))}
       </div>
     </div>
   );
