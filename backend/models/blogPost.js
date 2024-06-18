@@ -1,4 +1,5 @@
 const { ObjectId } = require('mongodb');
+const Bookmark = require('./Bookmark.js')
 
 const mongoose = require('mongoose');
 const blogPostSchema = new mongoose.Schema({
@@ -28,6 +29,19 @@ const blogPostSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "User",
         required: true 
+    }
+});
+
+blogPostSchema.pre('findOneAndDelete', async function (next) {
+    try {
+        const doc = await this.model.findOne(this.getFilter());
+        if (doc) {
+            await Bookmark.deleteMany({ blogPost: doc._id });
+        }
+        next();
+    } catch (error) {
+        console.error('Error deleting bookmarks:', error);
+        next(error);
     }
 });
 

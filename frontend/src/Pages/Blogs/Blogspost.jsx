@@ -10,6 +10,8 @@ const Blogspost = ({ blogPost }) => {
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0); // State to hold the count of likes
   const navigate = useNavigate();
 
@@ -96,7 +98,31 @@ const Blogspost = ({ blogPost }) => {
     }
   };
 
-  // Rendering the component
+ 
+  const handleLike = async () => {
+    // Perform like action
+    console.log("like the post",user._id);
+    try {
+      await axios.post(`http://localhost:5000/api/blogPosts/${blogPost._id}/like`, { userId: user._id});
+      setLikes(likes + 1);
+      setLiked(true);
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
+  const handleUnlike = async () => {
+    // Perform unlike action
+    console.log("unlike the post",user._id);
+    try {
+      await axios.delete(`http://localhost:5000/api/blogPosts/${blogPost._id}/like/${user._id}`);
+      setLikes(likes - 1);
+      setLiked(false);
+    } catch (error) {
+      console.error("Error unliking post:", error);
+    }
+  };
+
   return (
     <div className="mainpostcard">
       <div className="postCard">
@@ -141,13 +167,15 @@ const Blogspost = ({ blogPost }) => {
           />
         </button>
         <button className="BlogFooterkButton">
-          <CIcon
-            icon={icon.cilShare}
-            size=""
-            style={{ "--ci-primary-color": "black" }}
-            className="BlogFooteMarkIcon"
-          />
+        <CIcon
+                icon={icon.cilThumbUp}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                onClick={handleLike}
+                className="insideBlogLike"
+              />
         </button>
+       
       </div>
     </div>
   );

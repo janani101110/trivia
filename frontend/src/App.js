@@ -25,7 +25,8 @@ import MySaves from './Pages/Profile/MySaves';
 import MyCollections from "./Pages/Profile/MyCollections";
 import MyQuestions from './Pages/Profile/MyQuestions';
 import EditProfile from './Pages/Profile/EditProfile';
-import ForgotPassword from './Pages/LogIn/ForgotPassword'
+import ForgotPassword from './Pages/LogIn/ForgotPassword';
+import AuthorPage from './Pages/Blogs/AuthorPage';
 
 
 import Productdescription from './Pages/Shopping/Productdescription';
@@ -57,6 +58,7 @@ function App() {
           <Route path='/shoppingpost' element={<Shoppingpost/>}/>
           <Route path='/WriteBlog' element={<WriteBlog/>}/>
           <Route path='/insidePost/:id' element={<InsidePost/>}/>
+          <Route path='/authorpage/:id' element={<AuthorPage/>}/>
           <Route path='/UpdateBlog/:id' element={<UpdateBlog/>}/>
           <Route path='/MySaves' element={<MySaves/>}/>
           <Route path='/MyCollections' element={<MyCollections/>}/>

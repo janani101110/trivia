@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
+import { Link, useNavigate } from 'react-router-dom';
 
 // Define the function to fetch user data
 const fetchUserData = async (userId) => {
@@ -28,6 +29,10 @@ export const InsidePost = () => {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
 
+  
+  const renderHtmlContent = () => {
+    return { __html: blogPost.desc };
+  };
   useEffect(() => {
     // Function to fetch the blog post details
     const fetchPost = async () => {
@@ -49,6 +54,8 @@ export const InsidePost = () => {
     fetchPost();
   }, [blogPostId]);
 
+
+ 
   const fetchAuthor = async (userId) => {
     try {
       const userData = await fetchUserData(userId);
@@ -84,29 +91,31 @@ export const InsidePost = () => {
   
 
   return (
-    <div className="InsidePost">
+    <div  className="InsidePost">
       <div className="Blog">
         <h1 className="blogTitle">{blogPost.title}</h1>
         <hr />
         <div className="insideBlogHeader">
-          <div className="autherDetails">
+        <div className="autherDetails">
             {author && (
-              <img
-                src={author.profilePicture}
-                alt=""
-                className="authorProfilePicture"
-              />
-            )}
-            {author && (
-              <p className="insideBlogAutherName"> {author.username} </p>
+              <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
+                <img src={author.profilePicture} alt="" className="authorProfilePicture" />
+                <p className="insideBlogAutherName"> {author.username} </p>
+              </Link>
             )}
           </div>
+
           <p className="blogDate">
             Created at: {new Date(blogPost.createdAt).toLocaleString()}
           </p>
         </div>
         <img src={blogPost.photo} alt="" className="postImage" />
-        <p className="blogbody"> {blogPost.desc} </p>
+        <div className="blogBody">
+        <div dangerouslySetInnerHTML={renderHtmlContent()} />
+       </div>
+      
+        
+        
         <div>
           was this article helpful to you?  {"  "} {" "}
           <CIcon

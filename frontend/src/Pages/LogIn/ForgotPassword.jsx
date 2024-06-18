@@ -24,10 +24,12 @@ function ForgotPassword() {
   return (
     <div className="ForgotPasswordMainDiv">
       <div className="ForgotPasswordSecondaryDiv">
-        <div className="ForgotPasswordTopicDiv">
-          <img src={logo} alt="" className="logo" />
-          Gavesha
-        </div>
+      <div className="forgot-password-topic-div">
+  <div className="logo-text-container">
+    <img src={logo} alt="Logo" className="logo" />
+    <span className="trivia-text">Trivia</span>
+  </div>
+</div>
         <div className="ForgotPasswordDescription">
           Enter the Email associated with your account and we'll send you a link
           to reset your password

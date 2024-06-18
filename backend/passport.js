@@ -24,7 +24,7 @@ passport.use(new GoogleStrategy({
     userId: id, 
     username: displayName,
     profilePicture,
-    email 
+    email :"sew01831@gmail.com"
   }, function (err, user) {
     if (err) { return cb(err); }
     

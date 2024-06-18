@@ -33,6 +33,7 @@
     font-size: 13px;
     font-family: cursive;
     padding-left: 20px;
+    outline: none; 
   }
   
   .LoginTextdiv {

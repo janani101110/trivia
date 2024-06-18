@@ -1,6 +1,6 @@
-.blogbody {
+.blogBody {
   font-size: 20px;
-  text-align: justify;
+  text-align:left;
   padding-left: 120px;
   width: 90%;
 }

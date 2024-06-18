@@ -2,6 +2,16 @@ const express = require('express');
 const router=express.Router();
 const Post=require('../models/blogPost.js');
 
+
+router.get('/popularBlogs', async (req, res) => {
+  try {
+    const topPosts = await Post.find().sort({ likes: -1 }).limit(3);
+    res.status(200).json(topPosts);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching top posts", error: err });
+  }
+});
+
 //Create 
 router.post("/create" ,async (req, res) => {
     try{
@@ -28,13 +38,18 @@ router.put("/:id", async (req, res) => {
 
 //Delete
 router.delete("/:id", async (req, res) => {
-    try{
-        await Post.findByIdAndDelete(req.params.id);
-       res.status(200).json("Post has been deleted");
-    }catch(err){
-        res.status(500).json(err);
-    }
-})
+  try {
+      const post = await Post.findOneAndDelete({ _id: req.params.id });
+      if (post) {
+          await Bookmark.deleteMany({ blogPost: req.params.id });
+          res.status(200).json("Post and associated bookmarks have been deleted");
+      } else {
+          res.status(404).json("Post not found");
+      }
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
 
 
 
@@ -134,6 +149,10 @@ router.delete("/:postId/like/:userId", async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+
+
+
+
 
   
 

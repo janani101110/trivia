@@ -80,3 +80,30 @@
 .footer-nav-menu li a:focus {
   outline: none !important;
 }
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .footerIcon {
+    flex-wrap: wrap;
+  }
+
+  .footer-nav-menu li {
+    margin: 10px 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerText {
+    font-size: 0.8em;
+  }
+
+  .footer-nav-menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-nav-menu li {
+    margin: 5px 0;
+  }
+}

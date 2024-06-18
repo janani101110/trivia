@@ -29,21 +29,16 @@ export const Navbar = () => {
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <img src={logo} alt="" className="logo" />
-
-        <h1>Gavesha</h1>
+      <Link style={{ textDecoration: "none" }} to="/home">
+        <img src={logo} alt="" className="logo"  onClick={() => {
+            setMenu("home");
+          }}/>
+ </Link>
+ <Link style={{ textDecoration: "none" }} to="/home">
+        <h1>Trivia</h1>
+        </Link>
       </div>
       <ul className="nav-menu">
-        <li
-          onClick={() => {
-            setMenu("home");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/home">
-            Home
-          </Link>
-          {menu === "home" ? <hr /> : <></>}
-        </li>
         <li
           onClick={() => {
             setMenu("resources");
@@ -94,16 +89,8 @@ export const Navbar = () => {
           </Link>
           {menu === "forum" ? <hr /> : <></>}
         </li>
-        <li
-          onClick={() => {
-            setMenu("about");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/aboutus">
-            About Us
-          </Link>
-          {menu === "about" ? <hr /> : <></>}
-        </li>
+        
+          
       </ul>
 
       {user ? (
