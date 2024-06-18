@@ -35,16 +35,12 @@ const MySaves = () => {
 
   return (
     <div className="mySavesBody">
-      <div className="mySaveMainBody">
-        <div className="mySaveUserDiv">
-          <div className="userDetails">
-            <img src={user.profilePicture} alt="" className="mySavesImg" />
-            {user.username}
-          </div>
-        </div>
+        
+
+
         <div className="mySaveBookMarksDiv">
           <div className="mySaveTags">
-            Blogs <hr />
+           Bookmarked Blogs <hr />
             <button onClick={handleToggleGrid} className="toggleButton">
               {showGrid ? <CIcon
                 icon={icon.cilCaretTop}
@@ -84,7 +80,7 @@ const MySaves = () => {
             </ul>
           )}
         </div>
-      </div>
+      
     </div>
   );
 };

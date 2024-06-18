@@ -28,7 +28,7 @@ const MyCollections = () => {
   const handleDelete = async (postId) => {
     try {
       await axios.delete(`http://localhost:5000/api/blogPosts/${postId}`);
-      setPost(prevPosts => prevPosts.filter(post => post._id !== postId));
+      setPost((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (err) {
       console.error("Error deleting blog post:", err);
     }
@@ -45,47 +45,89 @@ const MyCollections = () => {
 
   return (
     <div className={`mySavesBody`}>
-      <div className="mySaveMainBody">
-        <div className="mySaveUserDiv">
-          <div className="userDetails">
-            <img src={user.profilePicture} alt="" className="mySavesImg" />
-            {user.username}
-          </div>
-        </div>
-        <div className="mySaveBookMarksDiv">
-          <div className="mySaveTags">
-            Blogs : {blogPost.length} <hr />
-            <button onClick={handleToggleGrid} className="toggleButton">
-              {showGrid ? <CIcon
-                icon={icon.cilCaretTop}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-                 className="dropdownIcon"
-              /> : <CIcon
-              icon={icon.cilCaretBottom}
-              size=""
-              style={{ "--ci-primary-color": "black" }}
-               className="dropdownIcon"
-            /> }
-            </button>
-          </div>
-          {blogPost.length === 0 ? (
-            <p>No saved blog posts found.</p>
+      <div className="UserDetailsDiv">
+        <div className="UserInfo">
+          {user ? (
+            <>
+              <p className="UserName">{user.username}</p>
+              <p className="UserEmail">Email: {user.email}</p>
+            </>
           ) : (
-            <ul>
-              {/* Render all blog posts */}
-              {blogPost.map((blogPost) => (
-                <BlogCard
-                  style={{ textDecoration: "none" }}
-                  key={blogPost._id}
-                  blogPost={blogPost}
-                  onDelete={handleDelete}
-                />
-              ))}
-            </ul>
+            <p>Loading user details...</p>
+          )}
+        </div>
+        <div className="UserProfilePicture">
+          {user && (
+            <img
+              src={user.profilePicture}
+              alt={`${user.username}`}
+              className="UserImage"
+            />
           )}
         </div>
       </div>
+<hr/>
+      <div className="mySaveBookMarksDiv">
+       
+      <div className="mySaveBookMarksSubDiv">
+        <div className="mySaveTags">
+          Blogs
+          {"   "}
+          <button onClick={handleToggleGrid} className="toggleButton">
+            {showGrid ? (
+              <CIcon
+                icon={icon.cilCaretTop}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                className="dropdownIcon"
+              />
+            ) : (
+              <CIcon
+                icon={icon.cilCaretBottom}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                className="dropdownIcon"
+              />
+            )}
+          </button>
+        </div>
+        <p className="UserBlogsCount">
+          {" "}
+          No of Blogs: {"   "} {blogPost.length}{" "}
+        </p>
+      </div>
+
+        {blogPost.length === 0 ? (
+          <p>No saved blog posts found.</p>
+        ) : (
+          <ul>
+            {/* Render all blog posts */}
+            {showGrid
+              ? blogPost.map((blogPost) => (
+                  <BlogCard
+                    style={{ textDecoration: "none" }}
+                    key={blogPost._id}
+                    blogPost={blogPost}
+                  />
+                ))
+              : blogPost
+                  .slice(0, 3)
+                  .map((blogPost) => (
+                    <BlogCard
+                      style={{ textDecoration: "none" }}
+                      key={blogPost._id}
+                      blogPost={blogPost}
+                    />
+                  ))}
+          </ul>
+        )}
+      </div>
+
+
+
+     
+
+
     </div>
   );
 };

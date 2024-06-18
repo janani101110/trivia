@@ -21,7 +21,7 @@
     transition: transform 0.3s;
   }
 
-  .postCard:hover {
+  .mainpostcard:hover {
     transform: scale(1.05); /* Enlarge the card on hover */
   }
   

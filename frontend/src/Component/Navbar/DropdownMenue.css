@@ -2,7 +2,7 @@
     list-style: none;
     position: absolute;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: #f0e9f0;
     width:300px;
     margin-left: -100px;
     z-index: 1000;
@@ -29,19 +29,22 @@
     padding-left: 18px;
   }
 
-  .editProfile{
-    background-color: #fff;
+  .DropdownEditProfile{
+    background-color: #f0e9f0;
     border: 1px #000;
+    border-radius: 20px;
     color: #000;
     cursor: pointer;
+    
   }
 
-  hr{
-    margin-left: 20px;
-    margin-right: 20px;
+  .editprofiledropdown{
+    padding: 10px;
+    border-radius: 10px;
   }
 
-  .editProfile :hover{
+
+  .DropdownEditProfile :hover{
     color: #fff;
     border: #000;
     background-color: #000;
@@ -51,6 +54,7 @@
   .dropdownMenuli {
     padding: 14px;
     transition: all linear 0.3s;
+    background-color: #fff;
   }
   
   .dropdownMenuli:hover {
