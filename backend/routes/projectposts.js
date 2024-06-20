@@ -101,5 +101,34 @@ router.get('/:name', async (req, res) => {
   }
 });
 
+// Reject a project post
+router.put("/reject/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const projectpost = await Projectpost.findByIdAndUpdate(
+      id,
+      { approved: false, rejected: true }, // Set rejected to true
+      { new: true }
+    );
+    if (!projectpost) {
+      return res.status(404).json({ message: "Project post not found" });
+    }
+    res.status(200).json(projectpost);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all rejected project posts
+router.get("/rejected", async (req, res) => {
+  try {
+    const rejectedPosts = await Projectpost.find({ rejected: true });
+    res.status(200).json(rejectedPosts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 module.exports = router;
 

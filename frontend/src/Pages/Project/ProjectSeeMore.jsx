@@ -154,8 +154,8 @@ export const ProjectSeeMore = () => {
         <p className="project_head">Refer the code through this GitHub link:</p>
         <a
           className="project_github"
-          href={projectpost.git_link}
-          // href="https://github.com/flesler/jquery.scrollTo.git"
+          href= { projectpost.git_link}
+         // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"
         >

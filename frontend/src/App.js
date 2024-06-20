@@ -74,6 +74,7 @@ const AppWithLoader = () => {
       return () => clearTimeout(timer);
     }, [location]);
 
+
     return (
       <div>
         {loading && <Loader />}
@@ -97,6 +98,28 @@ const AppWithLoader = () => {
               {/*<Route path="/posts/post/:id" element={<ProjectSeeMore />} /> */}
               <Route path="/projectseemore/:id" element={<ProjectSeeMore />} />
               <Route path="/projectviewall" element={<ProjectViewAll />} />
+            <Route path="/projectseemore" element={<ProjectSeeMore />} />
+            <Route path="/projectcard" element={<ProjectCard />} />
+           { /*<Route path="/projectform" element={<ProjectForm />} />*/}
+           <Route path="/projectform" element={<ProjectForm onFormSubmit={handleFormSubmit} />} />
+            <Route path="/project" element={<Project />} />
+            <Route path="/projectpgnavi" element={<ProjectPgNavi />} />
+            {/*<Route path="/posts/post/:id" element={<ProjectSeeMore />} /> */}
+            <Route path="/projectseemore/:id" element={<ProjectSeeMore />} />
+            <Route path="/projectviewall" element={<ProjectViewAll />} />
+
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/blogadmin" element={<BlogsAdmin />} />
+            {/*<Route path="/projectsadmin" element={<ProjectsAdmin />} />*/}
+            <Route path="/projectsadmin/:status" element={<ProjectsAdmin />} />
+            <Route path="/projectsresources" element={<ResourcesAdmin />} />
+            <Route path="/blogsadmin" element={<BlogsAdmin />} />
+            <Route path="/shoppingsadmin" element={<ShoppingAdmin />} />
+            <Route path="/shoppingsadmin" element={<ShoppingAdmin />} />
+            <Route path="/usersadmin" element={<UsersAdmin />} />
+            <Route path="/performanceadmin" element={<PerformanceAdmin />} />
+            <Route path="/viewprojectadmin/:id" element={<ViewProjectAdmin />} />
+            <Route path="/postcounts" element={<PostCounts />} />
 
               <Route path="/admin" element={<Admin />} />
               <Route path="/blogadmin" element={<BlogsAdmin />} />

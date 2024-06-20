@@ -42,9 +42,10 @@ export const Projects = () => {
       fetchProjectposts(orderBy);
     }, [orderBy]);
 
- /*   
+  
+    
   // Fetch posts
-  useEffect(() => {
+ /*   useEffect(() => {
     axios
       .get("/api/posts")
       .then((response) => {

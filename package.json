@@ -1,10 +1,12 @@
 {
   "dependencies": {
+
     "chart.js": "^4.4.3",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.13",
     "react-animated-heart": "^0.0.8",
     "react-chartjs-2": "^5.2.0",
     "recharts": "^2.12.7"
+
   }
 }
