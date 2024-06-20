@@ -4,14 +4,68 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { URL } from "../../url";
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import AdminNavi from "./AdminNavi";
+import { useNavigate } from "react-router-dom";
 
 export const ViewProjectAdmin = () => {
     const { id } = useParams();
-  const { state } = useLocation();
-  const projectpost = state?.projectpost;
-  const [projectPost, setProjectPost] = useState({});
+ // const { state } = useLocation();
+ // const projectpost = state?.projectpost;
+ const [projectPost, setProjectPost] = useState({});
+ const navigate = useNavigate();
+
+
+  //const projectpostId = useParams().id;
+ // const [projectpost, setprojectPost] = useState({});
+  const fetchproPost = async () => {
+    try {
+      const res = await axios.get(`${URL}/api/projectposts/${id}`);
+      
+      setProjectPost(res.data);
+    } catch (err) {
+      console.log("Error fetching project post:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchproPost();
+  }, [id]);
+
+  const handleApproval = async (approvedStatus) => {
+    const confirmMessage = `Are you sure you want to ${approvedStatus ? "approve" : "reject"} this project?`;
+    const isConfirmed = window.confirm(confirmMessage);
+
+    if (!isConfirmed) {
+        return; // User clicked "Cancel", stop further execution
+    }
+
+    try {
+      const url = `${URL}/api/projectposts/${approvedStatus ? 'approve' : 'reject'}/${id}`;
+      await axios.put(url);
+        await sendNotification(approvedStatus); // Send notification after approval
+       // alert(`${approvedStatus ? "Approved" : "Rejected"} this project`);
+        navigate("/admin");
+    } catch (err) {
+        console.log(err);
+    }
+  };
+
+  const sendNotification = async (approvedStatus) => {
+    try {
+      const notification = {
+        userId: projectPost.userId, // Assuming projectPost has userId
+        message: `Your project has been ${approvedStatus ? "approved" : "rejected"}.`,
+        read: false,
+      };
+      await axios.post(`${URL}/api/notifications`, notification);
+      
+    } catch (err) {
+      console.log("Error sending notification:", err);
+    }
+  };
+
+ // const [posts, setPosts] = useState([]);
 
  /* useEffect(() => {
     if (projectpost) {
@@ -21,7 +75,7 @@ export const ViewProjectAdmin = () => {
     }
   }, [projectpost]);*/
 
-  useEffect(() => {
+ {/*useEffect(() => {
     fetchProjectPost(id);
   }, [id]);
 
@@ -33,13 +87,28 @@ export const ViewProjectAdmin = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  };  */}
 
- 
+  {/*      
+
+
+  } // Fetch posts
+   useEffect(() => {
+    axios
+      .get("/api/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts: ", error);
+      });
+  }, []);
+
+*/}
 
   return (
     <div>
-    <AdminNavi></AdminNavi>
+    <AdminNavi />
     <div className="admin_content">
     <div className="project_seemore_container">
         
@@ -116,6 +185,7 @@ export const ViewProjectAdmin = () => {
         <p className="project_head">Refer the code through this GitHub link:</p>
         <a
           className="project_github"
+          href={projectPost.git_link}
          // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"
@@ -123,6 +193,17 @@ export const ViewProjectAdmin = () => {
           {projectPost.git_link}
         </a>
       </div>
+      <br></br>
+<div className="button_flex">
+      <button type="submit" className="approved"
+       onClick={() => handleApproval(true)}>
+                Approve
+              </button>
+              <button type="submit" className="reject"
+              onClick={() => handleApproval(false)}>
+                Reject
+              </button>
+              </div>
       <br></br>
     </div>
     </div>

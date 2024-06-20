@@ -8,7 +8,7 @@ import { faBell, faHome, faMicrochip, faBook, faBlog, faCartShopping, faUser, fa
 import "./AdminNavi.css";
 
 
-export const AdminNavi = () => {
+export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } }) => {
 
   return (
     <div>
@@ -18,9 +18,10 @@ export const AdminNavi = () => {
             <h2>Gavesha</h2>
           </nav>
           <div className="admin_nav_grid">
-            <li>
+            <li className="notification-icon">
               <a href="#">
                 <FontAwesomeIcon icon={faBell} />
+                {counts.pending > 0 && <span className="notification-count">{counts.pending}</span>}
               </a>
             </li>
             <li>
@@ -39,13 +40,13 @@ export const AdminNavi = () => {
               </a> 
             </li>
 
-           <Link to={'/projectsadmin'}> <li>
+           <Link to={'/admin'}> <li>
               <a href="">
                 <FontAwesomeIcon icon={faMicrochip} /> Projects{" "}
               </a>
             </li></Link>
 
-           <Link to={'/projectsresources'}>  <li> 
+           <Link to={'/admin'}>  <li> 
               <a href="">
                 <FontAwesomeIcon icon={faBook} /> Resources{" "}
               </a>

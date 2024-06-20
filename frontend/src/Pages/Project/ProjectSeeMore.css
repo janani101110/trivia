@@ -82,3 +82,41 @@
   text-decoration: underline;
   color: blue;
 }
+
+/* Add a class for paused animation */
+.related_projects_wrapper.paused {
+  animation-play-state: paused;
+}
+
+/* Container for related projects */
+.related_projects_section {
+  overflow: hidden; /* Hide the overflow content */
+  white-space: nowrap; /* Prevent line breaks */
+  width: 100%; /* Full width container */
+  position: relative; /* Relative positioning for inner scrolling */
+}
+
+/* Wrapper for the scrolling content */
+.related_projects_wrapper {
+  display: inline-block; /* Allow inline scrolling */
+  white-space: nowrap; /* Prevent line breaks */
+  animation: scroll-left 20s linear infinite; /* Apply the scrolling animation */
+}
+
+/* Keyframes for the scrolling animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%); /* Start at the right */
+  }
+  100% {
+    transform: translateX(-100%); /* End at the left */
+  }
+}
+
+.related_project_item {
+  display: inline-block; /* Inline block items */
+  max-width: 350px; /* Fixed width for each project card */
+  margin-right: 20px; /* Space between items */
+}
+
+

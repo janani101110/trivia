@@ -100,4 +100,65 @@
     text-decoration: underline;
     color: blue;
   }
+
+  .button_flex {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 15px; /* Space between buttons */
+  }
+
+  .approved, .reject{
+ color: white;
+   font-size:large;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   
+  }
+
+  .approved{
+    background-color: rgb(8, 108, 8);
+   }
+
+.reject{
+  background-color: rgb(225, 18, 18);
+ }
+
+ .approved:hover {
+  background-color: rgb(4, 68, 4);
+}
+
+.reject:hover {
+  background-color: rgb(146, 10, 10);
+}
+
+ /* .project_form_submit {
+    left: 50%;
+    transform: translateX(50%);
+    position: relative;
+    padding: 5px;
+    background-color: blueviolet;
+    color: white;
+    align-items: left;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-size: large;
+    margin-top: 20px;
+  }
+  
+  .project_form_submit:hover {
+    background-color: rgb(104, 19, 183);
+  }
+  
+  .project_form_submit:active {
+    transform: translateY(4px);
+    background-color: rgb(104, 19, 183);
+  }*/

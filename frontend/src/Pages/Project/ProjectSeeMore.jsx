@@ -1,26 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./ProjectSeeMore.css";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { URL } from "../../url";
+import ProjectCard from "./ProjectCard";
 
 export const ProjectSeeMore = () => {
-  const projectpostId = useParams().id;
-  const [projectpost, setprojectPost] = useState({});
-  const fetchproPost = async () => {
+  const { id } = useParams();
+  const [projectpost, setProjectPost] = useState({});
+  const [relatedProjects, setRelatedProjects] = useState([]);
+  const [page, setPage] = useState(1); // State to keep track of the current page
+  const containerRef = useRef(null); // Reference to the container
+  const wrapperRef = useRef(null); // Reference to the wrapper
+
+  const fetchProPost = async () => {
     try {
-      const res = await axios.get(`${URL}/api/projectposts/${projectpostId}`);
-      console.log(res.data);
-      setprojectPost(res.data);
+      const res = await axios.get(`${URL}/api/projectposts/${id}`);
+      setProjectPost(res.data);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+    }
+  };
+
+  const fetchRelatedProjects = async (page) => {
+    try {
+      if (projectpost.name) {
+        const res = await axios.get(
+          `${URL}/api/projectposts?name=${projectpost.name}&status=approved&page=${page}`
+        );
+        setRelatedProjects((prevProjects) => [
+          ...prevProjects,
+          ...res.data.filter((project) => project._id !== id),
+        ]); // Append new projects to the existing list
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchproPost();
-  }, [projectpostId]);
+    fetchProPost();
+  }, [id]);
+
+  useEffect(() => {
+    if (projectpost.name) {
+      setRelatedProjects([]); // Reset related projects when a new project is loaded
+      setPage(1); // Reset page to 1
+      fetchRelatedProjects(1); // Fetch the first page of related projects
+    }
+  }, [projectpost.name]);
+
+  const handleScroll = () => {
+    if (
+      containerRef.current.scrollLeft + containerRef.current.clientWidth >=
+      containerRef.current.scrollWidth
+    ) {
+      setPage((prevPage) => prevPage + 1); // Load next page
+    }
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchRelatedProjects(page); // Fetch related projects for the next page
+    }
+  }, [page]);
+
+   // Event handlers to pause and resume the scrolling animation
+   const handleMouseEnter = () => {
+    if (wrapperRef.current) {
+      wrapperRef.current.classList.add("paused");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (wrapperRef.current) {
+      wrapperRef.current.classList.remove("paused");
+    }
+  };
 
   return (
     <div className="project_seemore_container">
@@ -66,9 +123,9 @@ export const ProjectSeeMore = () => {
        //   />
 // </video> */}
 
-<Link to={projectpost.project_video} >
-  click mee
-</Link>
+        <Link to={projectpost.project_video} >
+          click mee
+        </Link>
 
         <p className="project_figure">Video explanation of the project</p>
       </div>
@@ -97,7 +154,8 @@ export const ProjectSeeMore = () => {
         <p className="project_head">Refer the code through this GitHub link:</p>
         <a
           className="project_github"
-         // href="https://github.com/flesler/jquery.scrollTo.git"
+          href={projectpost.git_link}
+          // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -105,6 +163,30 @@ export const ProjectSeeMore = () => {
         </a>
       </div>
       <br></br>
+      <hr className="project_line"></hr>
+      {relatedProjects.length > 0 ? (
+        <div className="related_projects_section" ref={containerRef}
+        onScroll={handleScroll}>
+          <br></br>
+          <p className="project_head">Related Projects by {projectpost.name}</p>
+          <div className="related_projects_wrapper" ref={wrapperRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
+          <div className="related_projects_grid">
+            {relatedProjects
+            .filter((project) => project.name === projectpost.name && project.approved ) // Filter by user name and approval status
+            .map((project) => (
+              <div className="related_project_item" key={project._id}>
+                <ProjectCard projectpost={project} />
+              </div>
+            ))}
+            </div>
+          </div>
+        </div>
+      ):(
+        <p>No related projects to see.</p>
+      )}
+
     </div>
   );
 };

@@ -42,7 +42,7 @@ export const ProjectCard = ({ projectpost, page }) => {
 
           <div>
             <Link
-              to={`/posts/post/${projectpost._id}`}
+              to={`/projectseemore/${projectpost._id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -67,7 +67,7 @@ export const ProjectCard = ({ projectpost, page }) => {
             <p className="project_published_details">
               {new Date(projectpost.updatedAt).toString().slice(16, 24)}
             </p>
-            <p className="project_published_details">by Eric Perera</p>
+            <p className="project_published_details">by {projectpost.name}</p>
           </div>
         </div>
       </div>

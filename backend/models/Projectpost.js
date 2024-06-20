@@ -61,6 +61,10 @@ const projectpostSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    rejected: {
+      type: Boolean,
+      default: false,
+    },
 
   },
   { timestamps: true } // additional 2 fields fore createdAt and updatedAt

@@ -54,6 +54,7 @@ font-size: xx-large;
     border-top: 1px solid rgba(255, 255, 255, .1);
     border-bottom: 1px solid rgba(255, 255, 255, .1);
     transition: .4s;
+   
 }
 
 .admin_nav-option li:hover a{
@@ -72,3 +73,29 @@ font-size: xx-large;
     display: grid;
    gap: 1px;
 }
+
+.notification-icon {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .notification-icon a {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+  }
+  
+  .notification-count {
+    position: absolute;
+    top: -7px;
+    right: -12px;
+    background-color: rgb(246, 19, 19);
+    color: white;
+    border-radius: 50%;
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1;
+  }
+  
+  
