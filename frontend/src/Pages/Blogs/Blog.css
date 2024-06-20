@@ -1,14 +1,14 @@
 /** -----------------------------banner-------------------------------*/
-
 .blogBanner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-image: url('./images/blogBanner.png');
   background-size: cover;
-  padding: 40px;
+  padding-top: 20px;
+  padding-left: 40px;
   width: 100%;
-  height: 300px;
+  height: 200px;
   font-size: 20px;
   font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,17 +24,19 @@
 }
 
 .Bannercreate {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-left: 120px;
   
 }
 
 .Bannercreate .createLink {
   text-decoration: none;
-  color: #532f44; 
-  border: solid #532f44;
-  padding: 10px 20px;
-  border-radius: 25px;
+  color: #000000; 
+  border: solid #000000;
+  padding: 5px 80px;
+  border-radius: 10px;
+  box-shadow: inset;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .blogQuote{
@@ -45,6 +47,43 @@
   width: 50%; 
   margin-left: 30%;
   box-shadow: none;
+}
+
+.BlogSearchDiv {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding-right: 20px;
+  margin-bottom: 100px;
+}
+
+.BlogSearchBox {
+  height: 30px;
+  width: 270px;
+  border: none;
+  background-color: transparent;
+  border-bottom: solid 2px #000;
+  color: #ece7e7;
+  font-size: 13px;
+  font-family: cursive;
+  padding-left: 20px;
+  margin: 0;
+  outline: none;
+}
+
+.BlogSearchIcon {
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  border-bottom: solid 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.BlogSearchBox::placeholder {
+  color: #ece7e7;
 }
 
 .pagination-container {
@@ -64,12 +103,10 @@
   align-items: center;
   margin-top: 2px;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
-.active {
-  background-color: #1e50ff;
-  border-radius: 50%;
-}
+
 
 .page-item {
   list-style: none;
@@ -104,6 +141,11 @@
   color:#fff;
 }
 
+.filterButton:hover{
+  background-color: #532f44;
+  color:#fff;
+}
+
   .create{ 
     height: 40px;
     width: 150px;
@@ -116,25 +158,21 @@
     
   }
   .createLink{
-    color: rgb(83, 47, 68);
+    color: rgb(0, 0, 0);
     background-color: #dddddd;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 15px;
     cursor: pointer;
+    border-color: #000;
     font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
-
-  
-   
-    
-    
+    transition: background-color 0.3s, transform 0.3s;
   
   }
-  
-  .create:hover{
-    border: solid 3px #532f44;
-    border-radius: 40px;
+  .createLink:hover{
     
+    transform: scale(1.05);
   }
+ 
 
   .pagination {
     margin-bottom: 10px;
@@ -168,7 +206,14 @@
   }
   
 
-  
+  .PopularBlogsTopic{
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+
+ }
   
   
   /*---------------Post ---------------------------*/
@@ -185,28 +230,33 @@
     grid-template-columns: 250px 250px 250px;
     column-gap: 150px;
   }
-  
-  .postCard{
+
+  .mainpostcard{
     padding-top: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
-    margin-left: 60px;
+    margin-left: 40px;
     margin-right: 0px;
     margin-top: 20px;
     background-color: #ffffff;
     color:#000;
     font-size: 20px;
-    height:fit-content;
-    width: 300px;
-    cursor: pointer;
-    margin-bottom: 20px;
+    height:800px;
+    width: 350px;
+    cursor: pointer;    
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .postCard{
+    cursor: pointer;
     position: relative;
     transition: transform 0.3s;
+    height: 320px;
+    gap:20px;
   }
 
-  .postCard:hover {
-    transform: scale(1.05); /* Enlarge the card on hover */
+  .mainpostcard:hover {
+    transform: scale(1.05); 
   }
   
   .blogPostImage{
@@ -214,14 +264,19 @@
     padding: 0px;
     height: 200px;
     
+    
   }
-  .blogPostdate{
-    margin-top: 20px;
-    font-size: 12px;
+  .blogPostDate{
+    font-size: 15px;
+  }
+
+  .likesCount{
+    margin-top: 10px;
+    font-size: 15px;
   }
 
   .authorProfilePicture{
-    width:40px;
+    width:20px;
     height: auto;
     border: #000;
     border-radius: 50%;
@@ -229,12 +284,22 @@
     display: flex;
     flex-direction: row;
   }
-
-  .blogCardFooter{
+  .blogCardFooter {
     display: flex;
-    gap: 10px;
+    justify-content: left; /* Distributes items evenly with space in between */
+    gap: 10px; /* Adjust the gap value as per your design */
   }
 
+  .BlogFooterkButton{
+    border:none;
+    background-color: #fff;
+    width: 20px;
+  }
+
+  .BlogFooteMarkIcon{
+    width: 20px;
+    cursor: pointer;
+  }
 
   .blogPostostDetails {
     position: absolute;
@@ -293,7 +358,7 @@
 
   /**--------------create blog posts -------------------------**/
   .createBlog{
-    height: 110vh;
+    height: auto;
     width: 100vw;
     color: #000;
     padding:50px;
@@ -301,13 +366,13 @@
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpBbG7xVvoxhL7ZYNX36DHYw63z-aMAkKK_z4D09rC0SLK56Q3NJ5COTgeH09HILyaUw4&usqp=CAU);
-    background-size: cover;
+   /* background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpBbG7xVvoxhL7ZYNX36DHYw63z-aMAkKK_z4D09rC0SLK56Q3NJ5COTgeH09HILyaUw4&usqp=CAU);
+   */ background-size: cover;
 
 }
 
 .createBlogDiv{
-    height: 700px;
+    height: auto;
     width: 700px;
     display: flex;
     flex-direction: column;
@@ -315,11 +380,15 @@
     align-items: center;
 }
 .CreateBlogInnerdiv{
-    padding:10px;
+  width: 900px;
     margin-left: 10px;
-    background-color: #fff;
-    padding:20px;
+    background-color: #948f8f;
+    padding-top:20px;
+    padding-bottom: 20px;
+    padding-left: 90px;
+    padding-right: 90px;
     border-radius: 20px;
+    opacity: 0.8;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     
 }
@@ -394,9 +463,7 @@
   width: 800px;
   margin-bottom: 10px;
   border-radius: 5px;
-}
-.createBlogTextArea:hover{
-  border: #532f44 solid 2px;
+  color: #000;
 }
 
 /* --------------pagination ----------------------------- */
@@ -433,5 +500,3 @@
   background-color: #007bff;
   color: #fff;
 }
-
-

@@ -18,7 +18,7 @@ export const Search = () => {
       <img
         src={searchIcon} // Source of the search icon image
         className="searchIcon" // CSS class for the search icon
-        onClick={() => navigate(prompt ? "?search=" + prompt : navigate("/sensors"))} // Function to navigate based on the search query
+        onClick={() => navigate(prompt ? "?search=" + prompt : navigate("/resources"))} // Function to navigate based on the search query
         alt="Search Icon" // Alt text for the search icon image
       />
     </div>

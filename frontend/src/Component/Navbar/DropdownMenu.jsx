@@ -2,12 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./DropdownMenue.css";
 import { useUsers } from "../../Context/UserContext";
-import MySaves from "../../Pages/Profile/MySaves";
-import MyCollections from "../../Pages/Profile/MyCollections";
-import MyQuestions from "../../Pages/Profile/MyQuestions";
 
 const DropdownMenu = () => {
-  const { user, fetchUsers } = useUsers();
+  const { user } = useUsers(); // Removed fetchUsers since it's not used
 
   if (!user) {
     // Handle case where user data is not available
@@ -18,6 +15,7 @@ const DropdownMenu = () => {
 
   const logout = () => {
     window.open("http://localhost:5000/api/auth/logout", "_self");
+    localStorage.removeItem("token");
   };
 
   return (
@@ -32,35 +30,32 @@ const DropdownMenu = () => {
         </div>
         <div className="ProfileHeaderText">
           {user.username}
-          <button className="editProfile"> Edit Profile </button>
+          <button className="DropdownEditProfile">
+            <Link
+              style={{ textDecoration: "none" }}
+              to="/EditProfile"
+              className="editprofiledropdown"
+            >
+              Edit Profile
+            </Link>
+          </button>
         </div>
 
-        <hr />
+        <Link style={{ textDecoration: "none" }} to="/MySaves">
+          <li className="dropdownMenuli">My Bookmarks</li>
+        </Link>
 
-        <li className="dropdownMenuli">
-          <Link style={{ textDecoration: "none" }} to="/MySaves">
-            My Saves
-          </Link>
-        </li>
+        <Link style={{ textDecoration: "none" }} to="/MyCollections">
+          <li className="dropdownMenuli">My Collections</li>
+        </Link>
 
-        <li className="dropdownMenuli">
-          <Link style={{ textDecoration: "none" }} to="/MyCollections">
-            My Collections
-          </Link>
-        </li>
+        <Link style={{ textDecoration: "none" }} to="/MyQuestions">
+          <li className="dropdownMenuli">My Questions</li>
+        </Link>
 
-        <li className="dropdownMenuli">
-          <Link style={{ textDecoration: "none" }} to="/MyQuestions">
-            My Questions
-          </Link>
-        </li>
-
-        <li className="dropdownMenuli">
-          <Link style={{ textDecoration: "none" }} to="#" onClick={logout}>
-            Log Out
-          </Link>
-        </li>
-        
+        <Link style={{ textDecoration: "none" }} to="#" onClick={logout}>
+          <li className="dropdownMenuli">Log Out</li>
+        </Link>
       </ul>
     </div>
   );

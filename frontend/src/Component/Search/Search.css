@@ -9,7 +9,7 @@
   height: 50px; /* Height of the search container */
   width: 850px; /* Width of the search container */
   border-radius: 10px; /* Border radius for rounded corners */
-  margin-bottom: 20px; /* Margin from the bottom */
+  margin-bottom: 0;
 }
 
 .searchBar {
@@ -17,7 +17,7 @@
   font-family: cursive; /* Font family for the search bar text */
   font-size: 15px; /* Font size for the search bar text */
   height: 35px; /* Height of the search bar */
-  width: 700px; /* Width of the search bar */
+  width: 600px; /* Width of the search bar */
   border-radius: 20px; /* Border radius for rounded corners */
   padding-left: 20px; /* Left padding for text */
 }
@@ -27,6 +27,6 @@
   height: 25px; /* Height of the search icon */
   width: 25px; /* Width of the search icon */
   position: absolute; /* Positioning within the search container */
-  margin-left: 650px; /* Margin from the left within the search container */
+  margin-left: 550px; /* Margin from the left within the search container */
   cursor: pointer; /* Cursor style on hover */
 }

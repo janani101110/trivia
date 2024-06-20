@@ -1,17 +1,24 @@
 
 import './App.css';
 
-import React, { useContext } from "react";
+import React from "react";
 import {Navbar} from './Component/Navbar/Navbar';
 import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
 import {Home} from './Pages/Home/Home';
 
 import {Resources} from './Pages/Resources/Resources';
 import {Sensors} from './Pages/Resources/Sensors/Sensors';
-import {MotionSen} from './Pages/Resources/Sensors/MotionSen';
+import {Pcb} from './Pages/Resources/Sensors/pcb';
+import {Communi} from './Pages/Resources/Sensors/communi';
+import {DataSheet} from './Pages/Resources/Sensors/dataSheet';
+import {IotPlat} from './Pages/Resources/Sensors/IotPlat';
+import {IotProto} from './Pages/Resources/Sensors/IotProto';
+import {Micro} from './Pages/Resources/Sensors/micro';
+import {Others} from './Pages/Resources/Sensors/others';
 import {Writepost} from './Pages/Resources/Writepost';
 import {ResoPostdetails} from './Pages/Resources/ResoPostdetails';
 import {ResoEditpost} from './Pages/Resources/ResoEditpost';
+import {SearchResults} from './Pages/Resources/Sensors/SearchResults';
 
 import {Projects} from './Pages/Projects/Projects';
 import {Blogs} from './Pages/Blogs/Blogs';
@@ -47,10 +54,17 @@ function App() {
 
           <Route path='/resources'element={<Resources/>}/>
             <Route path='/sensors' element={<Sensors/>}/>
-              <Route path='/motionSen' element={<MotionSen/>}/>
+            <Route path='/pcb' element={<Pcb/>}/>
+            <Route path='/communi' element={<Communi/>}/>
+            <Route path='/dataSheet' element={<DataSheet/>}/>
+            <Route path='/IotPlat' element={<IotPlat/>}/>
+            <Route path='/IotProto' element={<IotProto/>}/>
+            <Route path='/micro' element={<Micro/>}/>
+            <Route path='/others' element={<Others/>}/>
               <Route path='/writepost' element={<Writepost/>}/>
               <Route path='/resopostdetails/:id' element={<ResoPostdetails/>}/>
               <Route path='/resoeditpost/:id' element={<ResoEditpost/>}/>
+              <Route path="/search-results" element={<SearchResults />} />
 
           <Route path='/projects'element={<Projects/>}/>
           <Route path='/blogs'element={<Blogs/>}/>

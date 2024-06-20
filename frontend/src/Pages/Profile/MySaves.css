@@ -1,0 +1,77 @@
+/* MySaves.css */
+
+.mySavesBody {
+    display: flex;
+    height: 100%; /* Adjust as needed */
+    margin-bottom: 50px;
+    
+  }
+  
+  .mySaveMainBody {
+    width: 80%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+   
+  }
+  
+  .mySaveUserDiv {
+    margin-bottom: 20px;
+    
+  }
+  
+  .userDetails {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(204, 208, 208);
+    padding: 60px;
+    margin: 20px;
+    border-radius: 10%;
+  }
+  
+  .mySavesImg {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .mySaveBookMarksDiv {
+    width: 100%;
+  }
+  
+  .mySaveBookMarksDiv ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    column-gap: 100px;
+  }
+  
+  .mySaveBookMarksDiv ul li {
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Example border */
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .mySaveBookMarksDiv ul li:hover {
+    background-color: #f0f0f0; /* Example hover background color */
+  }
+
+  .dropdownIcon{
+    width: 20px;
+  }
+  .toggleButton{
+    background-color: #fff;
+    border: none;
+  }
+  .mySaveTags{
+    margin-top: 30px;
+    margin-left: 80px;
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    
+  }

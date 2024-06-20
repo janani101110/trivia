@@ -11,7 +11,7 @@
     box-shadow: 0 8px 16px rgba(195, 50, 251, 0.5);
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.5s ease;
   }
   
   .rescollect.active {
@@ -65,10 +65,10 @@
   .resobanner-content {
     text-align: center;
     color: white;
-    margin-top: 100px; /* Adjust the margin to move the content down */
-    background-color: rgba(0, 0, 0, 0.699); /* Transparent black background */
-    padding: 20px; /* Add padding for better readability */
+    margin-top: 50px; /* Adjust the margin to move the content down */
+    background-color: rgba(15, 15, 15, 0.699); /* Transparent black background */
     border-radius: 10px; /* Optional: Add rounded corners */
+    padding-bottom: 5px;
   }
   
   .resobanner-content h1 {
@@ -81,19 +81,28 @@
     margin-bottom: 30px;
   }
   
+  .button-icon {
+    width: 20px; /* Icon width */
+    height: 20px; /* Icon height */
+    margin-right: 5px; /* Right margin */
+  
+  }
+
   .resobanner-content button {
-    padding: 10px 20px;
+    padding: 8px 15px;
     font-size: 1.2rem;
     border: none;
-    background-color: darkblue; /* Adjust color as needed */
-    color: white;
+    background-color: white; /* Adjust color as needed */
+    color: black;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin: 15px;
   }
   
   .resobanner-content button:hover {
-    border: 2px solid darkblue;
-    background-color: #0056b3; /* Adjust color as needed */
+    border: 2px solid rgb(182, 182, 182);
+    background-color: #bec5cc; /* Adjust color as needed */
   }
   
   /* Media queries for responsiveness */

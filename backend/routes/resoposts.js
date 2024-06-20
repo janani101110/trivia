@@ -95,5 +95,6 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 // Exporting the router to make it available for use in other files
 module.exports = router;

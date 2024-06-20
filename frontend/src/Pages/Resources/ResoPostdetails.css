@@ -175,21 +175,38 @@
     background-color: rgb(78, 1, 78);
   }
   
-  /* Styling for radio buttons (for star rating) */
-  input[type="radio"] {
-    display: none;
-    margin-top: 5px;
-  }
+/* Container for the star rating */
+.resoStarRating {
+  display: flex;
+  align-items: center;
+}
+
+/* Remove margin and padding from labels to reduce space between stars */
+.resoStarRating label {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Styling for the star icon */
+.resoStar {
+  cursor: pointer;
+  margin: 0 2px; /* Adjust margin to control space between stars */
+}
+
+/* Styling for the radio buttons (hide them) */
+input[type="radio"] {
+  display: none;
+}
+
+/* Styling for the star rating text */
+.resoStarRating p {
+  font-weight: bold;
+  margin-left: 10px; /* Add some space between stars and the rating text */
+  margin-top: 5px;
+  margin-bottom: 18px;
+}
+
   
-  /* Styling for the star icon */
-  .resoStar {
-    cursor: pointer;
-  }
-  
-  /* Styling for the star rating text */
-  .resoStarRating p {
-    font-weight: bold;
-    margin-top: 5px;
-    margin-bottom: 18px;
-  }
   

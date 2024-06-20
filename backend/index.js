@@ -6,17 +6,18 @@ const jwt = require("jsonwebtoken");
 const bodyParser=require('body-parser');
 const cors = require('cors');
 const path = require("path");
-const passport = require('passport')
+const passport = require('passport');
 const passportSetup = require('./passport');
 const cookieParser = require('cookie-parser')
 const authRoute=require('./routes/auth');
 const userRoute=require('./routes/users');
 const blogPostRoutes=require('./routes/blogPosts');
-const blogCommentRoutes=require('./routes/blogComments')
+const blogCommentRoutes=require('./routes/blogComments');
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
 const resopostRoutes = require("./routes/resoposts");
 const resocommentRoutes = require("./routes/resocomments");
+const bookMarkRoutes = require ('./routes/BookMarks')
 
 require('dotenv').config();
 require('./passport'); 
@@ -89,6 +90,7 @@ app.use("/api/blogPosts", blogPostRoutes);
 app.use("/api/blogComments", blogCommentRoutes);
 app.use("/api/resoposts", resopostRoutes); // Route for resource posts
 app.use("/api/resocomments", resocommentRoutes); // Route for resource post comments
+app.use("/api/bookMarks", bookMarkRoutes);
 
 // Search endpoint
 app.get("/api/search", async (req, res) => {
@@ -114,6 +116,7 @@ app.get("/api/search", async (req, res) => {
     res.status(500).json({ message: "Internal server error" }); // Send error response if something goes wrong
   }
 });
+
 
 
 app.listen(5000, () => {

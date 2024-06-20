@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import './Navbar.css'
-import logo from '../Assets/logo.png'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import './Navbar.css';
+import logo from '../Assets/logo.png';
+import { Link} from 'react-router-dom';
 import DropdownMenu from "./DropdownMenu";
-
-
+import { useUsers } from "../../Context/UserContext";
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("home");
-  const [user, setUser] = useState(null);
-  const navigation = useNavigate();
+  const { user } = useUsers();  // Removed fetchUsers since it's not used
+  // Removed the navigation constant since it's not used
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleMouseEnter = () => {
@@ -20,134 +19,47 @@ export const Navbar = () => {
     setDropdownVisible(false);
   };
 
-
-  // function gotoProfile() {
-  //   navigation.navigate("/Profile", { user: user });
-  // }
-
-  useEffect(() => {
-    // Fetch authentication status
-    const fetchAuthenticationStatus = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/auth/login/success', {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          }
-        });
-
-        if (response.status === 200) {
-          const resObject = await response.json();
-          setUser(resObject.user);
-        } else {
-          throw new Error("Authentication has failed");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchAuthenticationStatus();
-  }, []); // Fetch authentication status on component mount
-
   console.log(user);
 
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <img src={logo} alt="" className="logo" />
-
-        <h1>Gavesha</h1>
+        <Link style={{ textDecoration: "none" }} to="/home">
+          <img src={logo} alt="" className="logo" onClick={() => {
+            setMenu("home");
+          }} />
+        </Link>
+        <Link style={{ textDecoration: "none" }} to="/home">
+          <h1>Gavesha</h1>
+        </Link>
       </div>
       <ul className="nav-menu">
-        <li
-          onClick={() => {
-            setMenu("home");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/home">
-            Home
-          </Link>
-          {menu === "home" ? <hr /> : <></>}
+        <li onClick={() => setMenu("resources")}>
+          <Link style={{ textDecoration: "none" }} to="/resources">Resources</Link>
+          {menu === "resources" ? <hr /> : null}
         </li>
-        <li
-          onClick={() => {
-            setMenu("resources");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/resources">
-            Resources
-          </Link>
-          {menu === "resources" ? <hr /> : <></>}
+        <li onClick={() => setMenu("projects")}>
+          <Link style={{ textDecoration: "none" }} to="/projects">Projects</Link>
+          {menu === "projects" ? <hr /> : null}
         </li>
-        <li
-          onClick={() => {
-            setMenu("projects");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/projects">
-            Projects
-          </Link>
-          {menu === "projects" ? <hr /> : <></>}
+        <li onClick={() => setMenu("blogs")}>
+          <Link style={{ textDecoration: "none" }} to="/blogs">Blogs</Link>
+          {menu === "blogs" ? <hr /> : null}
         </li>
-        <li
-          onClick={() => {
-            setMenu("blogs");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/blogs">
-            Blogs
-          </Link>
-          {menu === "blogs" ? <hr /> : <></>}
+        <li onClick={() => setMenu("shopping")}>
+          <Link style={{ textDecoration: "none" }} to="/shopping">Shopping</Link>
+          {menu === "shopping" ? <hr /> : null}
         </li>
-        <li
-          onClick={() => {
-            setMenu("shopping");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/shopping">
-            Shopping
-          </Link>
-          {menu === "shopping" ? <hr /> : <></>}
-        </li>
-        <li
-          onClick={() => {
-            setMenu("forum");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/forum">
-            Forum
-          </Link>
-          {menu === "forum" ? <hr /> : <></>}
-        </li>
-        <li
-          onClick={() => {
-            setMenu("about");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/aboutus">
-            About Us
-          </Link>
-          {menu === "about" ? <hr /> : <></>}
+        <li onClick={() => setMenu("forum")}>
+          <Link style={{ textDecoration: "none" }} to="/forum">Forum</Link>
+          {menu === "forum" ? <hr /> : null}
         </li>
       </ul>
-
       {user ? (
-        <div className="menu"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}>
-            <img
-              src={user.profilePicture} 
-              className="profilenavImg"
-              alt=""
-            />
-          
+        <div className="menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <img src={user.profilePicture} className="profilenavImg" alt="" />
           {isDropdownVisible && <DropdownMenu />}
         </div>
-        
       ) : (
         <div className="nav-login">
           <Link to="/signup">
@@ -158,9 +70,8 @@ export const Navbar = () => {
           </Link>
         </div>
       )}
-      
     </div>
   );
 }
-export default Navbar;
 
+export default Navbar;
