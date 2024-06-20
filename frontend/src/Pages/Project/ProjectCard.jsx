@@ -6,26 +6,14 @@ import AnimatedHeart from "react-animated-heart";
 import ProjectSeeMore from "./ProjectSeeMore";
 
 export const ProjectCard = ({ projectpost, page }) => {
-  // State to manage the click state and count for each project card
-  const [projectLikes, setProjectLikes] = useState(() => {
-    // Initialize projectLikes with saved values from localStorage or an empty object
-    const savedLikes = localStorage.getItem("projectLikes");
-    return savedLikes ? JSON.parse(savedLikes) : {};
-  });
+  // State to manage the click state and count for each project card for the current session
+  const [isLiked, setIsLiked] = useState(false);
 
-  useEffect(() => {
-    // Save projectLikes to localStorage whenever it changes
-    localStorage.setItem("projectLikes", JSON.stringify(projectLikes));
-  }, [projectLikes]);
-
-  const handleClick = (projectId) => {
-    setProjectLikes((prevProjectLikes) => ({
-      ...prevProjectLikes,
-      [projectId]: !prevProjectLikes[projectId],
-    }));
+  const handleClick = () => {
+    setIsLiked((prevIsLiked) => !prevIsLiked);
   };
 
-  const getLikesCount = (projectId) => (projectLikes[projectId] ? 1 : 0);
+  const getLikesCount = () => (isLiked ? 1 : 0);
 
   return (
     <div className="project_inline_cards">
@@ -52,11 +40,11 @@ export const ProjectCard = ({ projectpost, page }) => {
 
           <div className="project_heart">
             <AnimatedHeart
-              isClick={projectLikes[projectpost._id]}
-              onClick={() => handleClick(projectpost._id)}
-            />
+             isClick={isLiked}
+              onClick={handleClick}
+                 />
             <p className="project_heart_line">
-              {getLikesCount(projectpost._id)} Likes
+            {getLikesCount()} Likes
             </p>
           </div>
 
