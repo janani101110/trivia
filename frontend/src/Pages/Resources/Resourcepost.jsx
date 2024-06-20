@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Resourcepost = ({ resoPost }) => {
-  // const [author, setAuthor] = useState(null);
+  const [author, setAuthor] = useState(null);
 
   const fetchUserData = async (userId) => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/auth/details/${userId}`
       );
-      return response;
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const userData = await response.json();
+      return userData;
     } catch (error) {
       console.error("Error fetching user data:", error);
       throw error;
@@ -19,10 +23,9 @@ const Resourcepost = ({ resoPost }) => {
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const response = await fetchUserData(resoPost.postedBy);
-        const userData = await response.json();
-        // setAuthor(userData); // Set author data
-        console.log (userData);
+        const userData = await fetchUserData(resoPost.postedBy);
+        setAuthor(userData); // Set author data
+        console.log(userData);
       } catch (error) {
         console.error("Error fetching author:", error);
       }
@@ -35,10 +38,19 @@ const Resourcepost = ({ resoPost }) => {
     <div className="res-post">
       <Link to={`/resopostdetails/${resoPost._id}`}>
         <div className="respostimg">
-          <img src={resoPost.photo} alt={resoPost.title} className="res-post img" />
+          <img src={resoPost.photo} alt={resoPost.title} className="res-post-img" />
         </div>
         <div className="resuserdetails">
-          <p>{resoPost.postedBy}</p>
+          {author && (
+            <div className="authorInfo">
+              <img
+                src={author.profilePicture}
+                alt={author.name}
+                className="authorProfilePicture"
+              />
+              <p>{author.name}</p> {/* Display author name */}
+            </div>
+          )}
           <p>{new Date(resoPost.createdAt).toLocaleDateString()}</p>
         </div>
         <div className="respostcontent">

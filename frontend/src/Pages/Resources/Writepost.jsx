@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { URL } from "../../url";
 import axios from "axios";
 import "./Writepost.css";
@@ -7,6 +7,7 @@ import { ImCross } from "react-icons/im";
 import { imageDb } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import { useUsers } from "../../Context/UserContext";
 
 const categoriesList = {
     "Sensors": [
@@ -85,12 +86,20 @@ const categoriesList = {
   };
 
 export const Writepost = () => {
+  const [postedBy, setPostedBy] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [maincats, setMainCats] = useState(Object.keys(categoriesList)[0]);
   const [cats, setCats] = useState([]);
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const { user } = useUsers(); // Removed fetchUsers
+
+  useEffect(() => {
+    if (user) {
+      setPostedBy(user._id);
+    }
+  }, [user]);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -141,6 +150,7 @@ export const Writepost = () => {
       maincategories: maincats,
       categories: cats,
       photo: downloadURL,
+      postedBy: postedBy
     };
 
     try {
