@@ -27,6 +27,8 @@ import MyQuestions from './Pages/Profile/MyQuestions'
 
 import Productdescription from './Pages/Shopping/Productdescription';
 import {UserContextProvider} from './Context/UserContext';
+import QuestionForm from './Pages/Forum/QuestionForm';
+import ViewQuestion from './Pages/Forum/ViewQuestion';
 
 
 
@@ -58,6 +60,8 @@ function App() {
           <Route path='/MyCollections' element={<MyCollections/>}/>
           <Route path='/MyQuestions' element={<MyQuestions/>}/>
           <Route path='/productdescription' element={<Productdescription/>}/>
+          <Route path='/questionform' element={<QuestionForm/>}/>
+          <Route path='/viewquestion/:id' element={<ViewQuestion/>}/>
 
           <Route path='/' element={<Navigate to="/home" />}/>
           

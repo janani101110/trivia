@@ -15,7 +15,7 @@ const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments')
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
-
+const questionRoute= require("./routes/questions");
 require('dotenv').config();
 require('./passport'); 
 
@@ -80,7 +80,7 @@ app.get('/checkAuth', verifyToken, (req, res) => {
     res.send('express app is running');
   });
  
-
+app.use("/api/questions",questionRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/blogPosts", blogPostRoutes);
