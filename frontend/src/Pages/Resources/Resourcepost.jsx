@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Resourcepost = ({ resoPost }) => {
-  const [author, setAuthor] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [author, setAuthor] = useState(null);
 
   const fetchUserData = async (userId) => {
     try {
-      console.log(`Fetching user data for userId: ${userId}`);
-      const response = await fetch(`http://localhost:5000/api/auth/details/${userId}`);
-      if (!response.ok) {
-        throw new Error(`Error fetching user data: ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log('Fetched user data:', data);
-      return data;
+      const response = await fetch(
+        `http://localhost:5000/api/auth/details/${userId}`
+      );
+      return response;
     } catch (error) {
       console.error("Error fetching user data:", error);
       throw error;
@@ -23,17 +18,13 @@ const Resourcepost = ({ resoPost }) => {
 
   useEffect(() => {
     const fetchAuthor = async () => {
-      if (resoPost.postedBy) {
-        try {
-          const userData = await fetchUserData(resoPost.postedBy);
-          setAuthor(userData);
-        } catch (error) {
-          console.error("Error fetching author:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
+      try {
+        const response = await fetchUserData(resoPost.postedBy);
+        const userData = await response.json();
+        // setAuthor(userData); // Set author data
+        console.log (userData);
+      } catch (error) {
+        console.error("Error fetching author:", error);
       }
     };
 
@@ -47,15 +38,7 @@ const Resourcepost = ({ resoPost }) => {
           <img src={resoPost.photo} alt={resoPost.title} className="res-post img" />
         </div>
         <div className="resuserdetails">
-        {author && (
-          <div className="authorInfo">
-            <img
-              src={author.profilePicture}
-              alt=""
-              className="authorProfilePicture"
-            />
-          </div>
-        )}
+          <p>{resoPost.postedBy}</p>
           <p>{new Date(resoPost.createdAt).toLocaleDateString()}</p>
         </div>
         <div className="respostcontent">
