@@ -12,6 +12,7 @@ import { FaStar } from "react-icons/fa";
 export const ResoPostdetails = () => {
   const [resorating, setResoRating] = useState(null);
   const [resohover, setResoHover] = useState(null);
+  const [author, setAuthor] = useState(null);
 
   const handleStarClick = (rating) => {
     if (resorating === rating) {
@@ -27,6 +28,37 @@ export const ResoPostdetails = () => {
   const [resoPost, setResoPost] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+
+  const fetchUserData = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/auth/details/${userId}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const userData = await response.json();
+      return userData;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const userData = await fetchUserData(resoPost.postedBy);
+        setAuthor(userData); // Set author data
+        console.log(userData);
+      } catch (error) {
+        console.error("Error fetching author:", error);
+      }
+    };
+
+    fetchAuthor();
+  }, [resoPost.postedBy]);
+
 
   const fetchResoPost = async () => {
     try {
@@ -71,7 +103,7 @@ export const ResoPostdetails = () => {
       await axios.delete(`${URL}/api/resoposts/${resoPostId}`, {
         withCredentials: true,
       });
-      navigate("/motionSen");
+      navigate("/resources");
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -93,7 +125,16 @@ export const ResoPostdetails = () => {
         </div>
       </div>
       <div className="reso-post-info">
-        <p>@chathuabeyrathne</p>
+      {author && (
+            <div className="authorInfo">
+              <img
+                src={author.profilePicture}
+                alt={author.name}
+                className="authorProfilePicture"
+              />
+              <p>{author.name}</p> {/* Display author name */}
+            </div>
+          )}
         <p>{new Date(resoPost.createdAt).toString().slice(0, 15)}</p>
       </div>
       <img src={resoPost.photo} alt="" className="reso-post-image" />

@@ -9,9 +9,17 @@ router.post("/create", async (req, res) => {
   try {
     const newComment = new ResoComment(req.body);
     const savedComment = await newComment.save();
-    res.status(201).json(savedComment); // Change status to 201 for resource created
+
+    // If the comment is a reply, update the parent comment's replies
+    if (req.body.parentId) {
+      await ResoComment.findByIdAndUpdate(req.body.parentId, {
+        $push: { replies: savedComment._id }
+      });
+    }
+
+    res.status(201).json(savedComment);
   } catch (err) {
-    res.status(500).json({ error: err.message }); // Better error handling
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -28,7 +36,11 @@ router.delete("/:id", async (req, res) => {
 // Route for retrieving comments by post ID
 router.get("/post/:postId", async (req, res) => {
   try {
-    const ResoComments = await ResoComment.find({ postId: req.params.postId });
+    const ResoComments = await ResoComment.find({ postId: req.params.postId, parentId: null })
+      .populate({
+        path: 'replies',
+        populate: { path: 'replies' } // Populate nested replies
+      });
     res.status(200).json(ResoComments);
   } catch (err) {
     res.status(500).json({ error: err.message });

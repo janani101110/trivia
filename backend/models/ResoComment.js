@@ -14,14 +14,20 @@ const ResoCommentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userId: {
-      type: String,
-      required: false,
-    },
+    
     createdAt: {
       type: Date,
       default: Date.now,
     },
+    parentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ResoComment',
+      default: null
+    },
+    replies: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ResoComment'
+    }]
   },
   { timestamps: true }
 );

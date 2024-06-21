@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./ResoPostdetails.css";
 
 const Resourcepost = ({ resoPost }) => {
   const [author, setAuthor] = useState(null);
@@ -45,10 +46,10 @@ const Resourcepost = ({ resoPost }) => {
             <div className="authorInfo">
               <img
                 src={author.profilePicture}
-                alt={author.name}
+                alt={author.username}
                 className="authorProfilePicture"
               />
-              <p>{author.name}</p> {/* Display author name */}
+              <p>{author.username}</p> {/* Display author name */}
             </div>
           )}
           <p>{new Date(resoPost.createdAt).toLocaleDateString()}</p>

@@ -124,3 +124,23 @@
 .pagination .page-link:hover {
   background-color: #e9ecef;
 }
+
+.resuserdetails .authorProfilePicture{
+  width:30px;
+  height: 30px;
+  border: #000;
+  border-radius: 50%;
+  
+}
+
+.resuserdetails .authorInfo {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.resuserdetails .authorInfo p{
+  margin-top: 12px;
+  margin-left: 5px;
+}
+

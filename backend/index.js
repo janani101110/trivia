@@ -92,15 +92,15 @@ app.use("/api/resoposts", resopostRoutes); // Route for resource posts
 app.use("/api/resocomments", resocommentRoutes); // Route for resource post comments
 app.use("/api/bookMarks", bookMarkRoutes);
 
-// Search endpoint
+
 app.get("/api/search", async (req, res) => {
   try {
     const query = req.query.q; // Get search query from request
     const results = await ResoPost.aggregate([
-      // Search ResoPost collection in MongoDB
+      // Search ResoPost part in MongoDB
       {
         $search: {
-          index: "SearchReso", // Assuming 'SearchReso' is the name of the search index
+          index: "SearchReso", // name of the search index
           text: {
             query: query,
             path: {
@@ -113,7 +113,7 @@ app.get("/api/search", async (req, res) => {
     res.json(results); // Send search results as JSON response
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" }); // Send error response if something goes wrong
+    res.status(500).json({ message: "Internal server error" }); 
   }
 });
 
