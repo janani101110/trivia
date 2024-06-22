@@ -8,15 +8,19 @@ const verifyToken = require("../verifyToken");
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
+
+
 const scheduleEmail = (shoppost) => {
   const emailTime = new Date(shoppost.createdAt);
-  emailTime.setMinutes(emailTime.getDate() + 7);  // Corrected the addition of minutes
+  emailTime.setDate(emailTime.getDate() + 5);  // Add 5 days to the createdAt date
 
   // Ensure the minutes and hours are two digits for cron format
   const cronMinutes = emailTime.getMinutes().toString().padStart(2, '0');
   const cronHours = emailTime.getHours().toString().padStart(2, '0');
+  const cronDay = emailTime.getDate().toString().padStart(2, '0');
+  const cronMonth = (emailTime.getMonth() + 1).toString().padStart(2, '0');
 
-  const cronTime = `${cronMinutes} ${cronHours} ${emailTime.getDate()} ${emailTime.getMonth() + 1} *`;
+  const cronTime = `${cronMinutes} ${cronHours} ${cronDay} ${cronMonth} *`;
   console.log(`Cron time: ${cronTime}`);  // Log the cron time for debugging
 
   cron.schedule(cronTime, () => {
@@ -32,15 +36,15 @@ const sendEmail = (to) => {
     service: 'gmail',
     auth: {
       user: 'triviatechnology2024@gmail.com',
-      pass: 'unpg lgmc akgd xmms'
-    }
+      pass: 'unpg lgmc akgd xmms',
+    },
   });
 
   let mailOptions = {
     from: 'triviatechnology2024@gmail.com',
     to: to,
     subject: 'Your post reminder',
-    text: 'This is a reminder about your post. Your post will be deleted soon. You can repost if you want. Thank you!'
+    text: 'This is a reminder about your post. Your post will be deleted soon. You can repost if you want. Thank you!',
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -52,8 +56,17 @@ const sendEmail = (to) => {
   });
 };
 
+// Example usage:
+// const exampleShoppost = {
+//   createdAt: new Date(),  // For testing purposes, use the current date
+//   userEmail: 'example@example.com',
+// };
+
+// scheduleEmail(exampleShoppost);
+
+
 router.route("/create").post((req, res) => {
-  const { name, description, price, contact, imageUrl, userEmail } = req.body;
+  const { name, description, price, contact, imageUrl, userEmail,postedBy } = req.body;
 
   const newShoppost = new Shoppost({
     name,
@@ -62,6 +75,7 @@ router.route("/create").post((req, res) => {
     contact,
     imageUrl,
     userEmail,
+    postedBy,
   });
 
   newShoppost
@@ -80,7 +94,7 @@ router.route("/create").post((req, res) => {
     });
 });
 router.get("/getpost", async (req, res) => {
-  try {
+  try { 
     const shoppost = await Shoppost.find();
     res.send({ status: "ok", data: shoppost });
   } catch (err) {
@@ -106,5 +120,21 @@ router.delete("/:id",async (req,res)=>{
     res.status(500).json(err);
   }
 });
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
+    const shopPosts = await ShopPost.find({ postedBy: userId });
+    if (!shopPosts || shopPosts.length === 0) {
+      console.error(`No shop posts found for user ID: ${userId}`);
+      return res.status(404).json({ error: 'No shop posts found' });
+    }
+    res.status(200).json(shopPosts);
+  } catch (err) {
+    console.error('Error fetching shop posts:', err); // Log the error
+    res.status(500).json({ error: 'Error fetching shop posts' });
+  }
+});
+
 
 module.exports = router;

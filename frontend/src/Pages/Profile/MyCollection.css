@@ -43,3 +43,15 @@
     border-top: 1px solid #ccc;
     margin: 20px 0;
   }
+
+.blog-post-list {
+    list-style-type: none; /* Remove default list styles */
+    padding: 0;
+   
+  }
+  
+  .blog-post-list p {
+    text-align: center; /* Center align message when no blog posts found */
+    margin-top: 20px; /* Add margin at the top */
+  }
+  

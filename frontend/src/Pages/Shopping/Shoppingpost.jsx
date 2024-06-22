@@ -6,20 +6,21 @@ import { imageDb } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
-import { useUsers } from "../../Context/UserContext";
+import { useUsers } from "../../Context/UserContext"; 
 export const Shoppingpost = () => {
   //variables
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(""); 
   const [contact, setContact] = useState("");
   const [photoURL, setPhotoURL] = useState(null);
   const [, setPhoto] = useState(null);
   const [image, setImage] = useState("");
   const navigate = useNavigate();
-  const { user, fetchUsers } = useUsers();
+  const { user } = useUsers();
   const [postedBy, setPostedBy] = useState("");
   const [ userEmail,setuserEmail]=useState("");
+  
 
   useEffect(() => {
     if (user) {
@@ -34,6 +35,7 @@ export const Shoppingpost = () => {
     contact: "", 
     imageUrl: "",
     userEmail:"",
+    
     
   });
 
@@ -80,6 +82,7 @@ export const Shoppingpost = () => {
           contact: input.contact,
           imageUrl: downloadURL,
           userEmail: input.userEmail,
+          postedBy:postedBy,
            // Add the image URL to the shop post object(firebase)
         };
 

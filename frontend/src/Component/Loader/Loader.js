@@ -1,6 +1,6 @@
 import React from 'react';
 import './Loader.css'; // Make sure you have this file for styling
-import octopusImage from '../Assets/octopus.png';
+import octopusImage from '../Assets/polvo-pepe-bando-do-mar.gif';
 
 export const Loader = () => {
   return (

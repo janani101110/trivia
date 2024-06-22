@@ -19,13 +19,17 @@ const fetchUserData = async (userId) => {
   }
 };
 
+
+
 // InsidePost component to display details of a single blog post
 export const InsidePost = () => {
   const blogPostId = useParams().id;
   const [blogPost, setBlogPost] = useState({});
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
-
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  
   useEffect(() => {
     // Function to fetch the blog post details
     const fetchPost = async () => {
@@ -53,6 +57,31 @@ export const InsidePost = () => {
       console.error("Error fetching author:", error);
     }
   };
+
+  const handleLike = async () => {
+    // Perform like action
+    console.log("like the post",user._id);
+    try {
+      await axios.post(`http://localhost:5000/api/blogPosts/${blogPost._id}/like`, { userId: user._id});
+      setLikes(likes + 1);
+      setLiked(true);
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
+  const handleUnlike = async () => {
+    // Perform unlike action
+    console.log("unlike the post",user._id);
+    try {
+      await axios.delete(`http://localhost:5000/api/blogPosts/${blogPost._id}/like/${user._id}`);
+      setLikes(likes - 1);
+      setLiked(false);
+    } catch (error) {
+      console.error("Error unliking post:", error);
+    }
+  };
+
   // useEffect(() => {
   //   // Reinitialize Google Translate after data is fetched and rendered
   //   if (window.googleTranslateElementInit) {
@@ -88,8 +117,27 @@ export const InsidePost = () => {
           </p>
         </div>
         <img src={blogPost.photo} alt="" className="postImage" />
-        <p className="blogbody"> {blogPost.desc} </p>
+        <p className="blogbody" dangerouslySetInnerHTML={{ __html: blogPost.desc }} />
       </div>
+
+      <div>
+          was this article helpful to you?  {"  "} {" "}
+          <CIcon
+                icon={icon.cilThumbUp}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                onClick={handleLike}
+                className="insideBlogLike"
+              />{"     "}
+              <CIcon
+                icon={icon.cilThumbDown}
+                size=""
+                style={{ "--ci-primary-color": "black" }}
+                onClick={handleUnlike}
+                className="insideBlogLike"
+              />
+        </div>  
+
       {/* Blog comments section */}
       <div className="BlogComments">
         <div className="blogCommentTitle"> Comments</div>

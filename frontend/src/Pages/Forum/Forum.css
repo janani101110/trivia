@@ -1,0 +1,71 @@
+.forumButton{
+    text-align: right;
+    margin-right: 6em;
+}
+.forumButton button{
+    width: 200px;
+  height: 50px;
+  font-size: large;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 2px solid rgb(29, 2, 66);
+  cursor: pointer;
+  margin-top: 200px;
+  background-color: rgb(32, 21, 62);
+  margin-left: 150px;
+
+  color: white;
+  box-shadow: 0 0 10px wheat;
+}
+.upperbody{
+  background-image: url("./Assets/f3.jpg");
+  height: 470px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  
+}
+.forumtext{
+    width: 800px;
+    height: 180px;
+    background-color:rgba(6, 6, 53, 0.778);
+    border-radius: 10px;
+    margin-left: 200px;
+    margin-top: 125px;
+    color: rgb(255, 255, 255);
+    font-size: 42px;
+    text-align: center;
+    font-weight:600 ;
+    padding-top: 60px;
+    box-shadow: 0 0 10px wheat;
+}
+
+/*---------------ViewQuestion.jsx-------------------*/
+
+.question-container{
+    border: 1px solid ;
+    box-shadow: 0 0 10px rgba(66, 9, 113, 0.915);
+    margin-left: 270px;
+    width: 980px;
+    margin-top: 45px;
+    padding: 35px;
+    margin-bottom: 45px;
+}
+.question-image{
+    width: 550px;
+    margin-left: 200px;
+    height: fit-content;
+}
+.question-details{
+    box-shadow: 0 0 5px gray;
+    padding:25px ;
+}
+.question-description{
+    text-align: justify;
+    margin-bottom: 30px;
+}
+.question-title{
+    margin-bottom: 25px;
+    text-align: justify;
+}

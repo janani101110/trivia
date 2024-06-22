@@ -5,6 +5,8 @@ const User = require ('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
+const verifyToken = require("../middleware/verifyToken");
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const CLIENT_URL = "http://localhost:3000/home";
@@ -22,6 +24,7 @@ router.get(
   })
 );
 
+
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
     error:true,
@@ -30,6 +33,21 @@ router.get("/login/failed", (req, res) => {
 })
 
 router.get("/login/success", (req, res) =>{
+  if(req.user){
+
+    console.log("login success ", req.user);
+    res.status(200).json({
+      error: false,
+      message: "Successfully logged in",
+      user: req.user
+    });
+    console.log(res.message)
+  } else {
+    res.status(403).json({ error: true, message: "Not Authorized" });
+  }
+});
+
+router.get("/login/profile",verifyToken, (req, res) =>{
   if(req.user){
 
     console.log("login success ", req.user);
@@ -58,10 +76,10 @@ router.post('/login',async function(req, res){
     if(!match){
         return res.status(401).json("Wrong credentials!")
     }
-    const token=jwt.sign({_id:user._id,email:user.email},process.env.accessToken_secret,{expiresIn:"1h"})
+    const token=jwt.sign({_id:user._id},process.env.accessToken_secret,{expiresIn:"1h"})
     const {password,...info}=user._doc
     //console.log(token);
-    res.cookie("token",token).status(200).json(info)
+    res.cookie("token", token, { httpOnly: true }).status(200).json({ user, token });
 
 }
 catch(err){
@@ -92,7 +110,9 @@ router.get('/logout', function(req, res) {
       console.error("Error during logout:", err);
       return res.status(500).send("Error during logout");
     }
+
     res.clearCookie('connect.sid'); // Clear session cookie
+    res.clearCookie('token'); // Clear session cookie
     res.redirect('http://localhost:3000/'); // Redirect to homepage
   });
 });
@@ -107,5 +127,47 @@ router.get("/details/:id", async (req, res) => {
   }
 })
 
+router.post('/forgotPassword', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Generate and save reset token
+    const resetToken = Math.random().toString(36).slice(2);
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    // Send reset password email
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'triviatechnology2024@gmail.com', 
+        pass: 'unpg lgmc akgd xmms'
+      }
+    });
+
+    const mailOptions = {
+      from: 'triviatechnology2024@gmail.com',
+      to: email,
+      subject: 'Password Reset',
+      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+        Please click on the following link, or paste this into your browser to complete the process:\n\n
+        http://localhost:3000/reset/${resetToken}\n\n
+        If you did not request this, please ignore this email and your password will remain unchanged.\n`
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ message: 'Password reset email sent successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error sending password reset email' });
+  }
+});
 
 module.exports=router;

@@ -11,7 +11,7 @@
   }
   
   .loader-image {
-    width: 400px; /* Adjust size as needed */
+    width: 300px; /* Adjust size as needed */
     height: auto;
     animation: shrinkAndEnlarge 1.5s infinite alternate; /* Animation properties */
 }

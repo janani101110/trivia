@@ -18,6 +18,15 @@ const cookieSession = require("cookie-session")
 const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments');
 const Shoppost = require('./models/Shoppost');
+const questionRoute= require("./routes/questions");
+const shoppostRoute= require("./routes/shoppost");
+const resopostRoutes = require("./routes/resoposts");
+const resocommentRoutes = require("./routes/resocomments");
+const projectpostRoute = require("./routes/projectposts");
+
+
+
+
 //database 
  const connectDB=async()=>{
     try{
@@ -83,18 +92,68 @@ app.use(session({
   })
   
    
-   
-  
+  app.use("/api/shoppost",shoppostRoute); 
+  app.use("/api/questions",questionRoute);
   app.use("/api/auth", authRoute);
   app.use("/api/users", userRoute);
   app.use("/api/blogPosts", blogPostRoutes);
 app.use("/api/blogComments", blogCommentRoutes);
+app.use("/api/resoposts", resopostRoutes); // Route for resource posts
+app.use("/api/resocomments", resocommentRoutes);
+app.use("/api/projectposts", projectpostRoute);
+
 
 Shoppost.init().then(() => {
   console.log('Indexes are ensured to be created.');
 }).catch((err) => {
   console.error('Error ensuring indexes:', err);
 });
+// const dropAndCreateIndex = async () => {
+//   try {
+//     await Shoppost.collection.dropIndex('createdAt_1'); // Assuming 'createdAt_1' is the name of the index
+//     console.log('Old index dropped successfully');
+    
+//     // Ensure new index is created with correct TTL
+//     await Shoppost.init();
+//     console.log('New index created successfully');
+//   } catch (err) {
+//     console.error('Error handling index:', err);
+//   }
+// };
+
+// dropAndCreateIndex(); 
+
+app.get("/api/search", async (req, res) => {
+  try {
+    const query = req.query.q; // Get search query from request
+    const results = await ResoPost.aggregate([
+      // Search ResoPost part in MongoDB
+      {
+        $search: {
+          index: "SearchReso", // name of the search index
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", // Search all fields
+            },
+          },
+        },
+      },
+    ]);
+    res.json(results); // Send search results as JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" }); 
+  }
+});
+
+
+
+
+
+
+
+
 
 app.listen(5000,()=>{
     connectDB()

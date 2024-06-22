@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+
+import React, {useState } from 'react'
 import './Navbar.css'
 import logo from '../Assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import DropdownMenu from "./DropdownMenu";
-import GoogleTranslate from '../GoogleTranslate';
-
+import { useUsers } from "../../Context/UserContext";
+import GoogleTranslate from "../GoogleTranslate";
 
 
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("home");
-  const [user, setUser] = useState(null);
+  const { user, fetchUsers } = useUsers();
   const navigation = useNavigate();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -22,59 +23,27 @@ export const Navbar = () => {
     setDropdownVisible(false);
   };
 
-
-  // function gotoProfile() {
-  //   navigation.navigate("/Profile", { user: user });
-  // }
-
-  useEffect(() => {
-    // Fetch authentication status
-    const fetchAuthenticationStatus = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/auth/login/success', {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          }
-        });
-
-        if (response.status === 200) {
-          const resObject = await response.json();
-          setUser(resObject.user);
-        } else {
-          throw new Error("Authentication has failed");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchAuthenticationStatus();
-  }, []); // Fetch authentication status on component mount
+// Ensure to fetch users on component mount or as needed
+// useEffect(() => {
+//   fetchUsers();
+// }, [fetchUsers]);
+ 
 
   console.log(user);
 
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <img src={logo} alt="" className="logo" />
-
+      <Link style={{ textDecoration: "none" }} to="/home">
+        <img src={logo} alt="" className="logo"  onClick={() => {
+            setMenu("home");
+          }}/>
+ </Link>
+ <Link style={{ textDecoration: "none" }} to="/home">
         <h1>Gavesha</h1>
+        </Link>
       </div>
       <ul className="nav-menu">
-        <li
-          onClick={() => {
-            setMenu("home");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/home">
-            Home
-          </Link>
-          {menu === "home" ? <hr /> : <></>}
-        </li>
         <li
           onClick={() => {
             setMenu("resources");
@@ -87,13 +56,13 @@ export const Navbar = () => {
         </li>
         <li
           onClick={() => {
-            setMenu("projects");
+            setMenu("project");
           }}
         >
-          <Link style={{ textDecoration: "none" }} to="/projects">
+          <Link style={{ textDecoration: "none" }} to="/project">
             Projects
           </Link>
-          {menu === "projects" ? <hr /> : <></>}
+          {menu === "project" ? <hr /> : <></>}
         </li>
         <li
           onClick={() => {
@@ -125,17 +94,20 @@ export const Navbar = () => {
           </Link>
           {menu === "forum" ? <hr /> : <></>}
         </li>
-        {/* <li id='google_translate_element'></li>
-          <script src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
-          <script>
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement(
-                {pageLanguage:'en'},
-                'google_translate_element'
-              );
-            }
-          </script> */}
+
+    <li
+          onClick={() => {
+            setMenu("admin");
+          }}
+        >
+          <Link style={{ textDecoration: "none" }} to="/admin">
+            Admin
+          </Link>
+          {menu === "admin" ? <hr /> : <></>}
+        </li> 
+
         <li><GoogleTranslate/></li>
+          
       </ul>
 
       {user ? (

@@ -1,3 +1,4 @@
+
 // Importing necessary dependencies and styles
 import "./LogIn.css";
 import React, { useState } from "react";
@@ -5,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginImage from "../LogIn/images/loginImage.jpg";
+import CIcon from "@coreui/icons-react";
+import * as icon from "@coreui/icons";
 
 // Login component definition
 function Login() {
@@ -36,7 +39,9 @@ function Login() {
         user
       );
       console.log(res.data);
+      localStorage.setItem("token", res.data.token);
       navigate("/home"); 
+      window.location.reload();
     } catch (err) {
       if (err.response) {
         alert(err.response.data); 
@@ -86,11 +91,23 @@ function Login() {
             </div>
           </form>
         </div>
+        <div className="loginsubText">
+        <Link
+            to="/ForgotPassword"
+            style={{ textDecoration: "none" }}
+            className="loginLink"
+          > Forgot Password?
+          </Link> </div>
         <br />
         <div className="loginTextdiv">
-          <button onClick={google} className="loginButton">
+          <button onClick={google} className="loginGoogleButton">
             {" "}
-            Signin with Google{" "}
+            <CIcon
+              icon={icon.cibGoogle}
+              size=""
+              style={{ "--ci-primary-color": "#fff" }}
+               className="dropdownIcon"
+            />  Signin with Google{"   "}
           </button>
         </div>
         <div className="loginhr">
