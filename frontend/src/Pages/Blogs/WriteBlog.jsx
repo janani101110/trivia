@@ -13,7 +13,7 @@ export const WriteBlog = () => {
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
   const [downloadURL, setDownloadURL] = useState("");
-  const [postedBy, setPostedBy] = useState("");
+  const [postedBy, setPostedBy] = useState(""); 
   const navigate = useNavigate();
   const { user, fetchUsers } = useUsers();
 

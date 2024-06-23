@@ -5,8 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-import { Link, useNavigate } from 'react-router-dom';
-
+// import GoogleTranslate from "../../Component/GoogleTranslate";
 // Define the function to fetch user data
 const fetchUserData = async (userId) => {
   try {
@@ -20,6 +19,8 @@ const fetchUserData = async (userId) => {
   }
 };
 
+
+
 // InsidePost component to display details of a single blog post
 export const InsidePost = () => {
   const blogPostId = useParams().id;
@@ -28,11 +29,7 @@ export const InsidePost = () => {
   const { user } = useUsers();
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
-
   
-  const renderHtmlContent = () => {
-    return { __html: blogPost.desc };
-  };
   useEffect(() => {
     // Function to fetch the blog post details
     const fetchPost = async () => {
@@ -43,8 +40,6 @@ export const InsidePost = () => {
         );
         setBlogPost(res.data);
         fetchAuthor(res.data.postedBy);
-        setLikes(res.data.likes); // Set initial likes count
-        setLiked(res.data.likes.includes(user.userId)); // Check if user has already liked
       } catch (err) {
         console.error(err);
       }
@@ -54,8 +49,6 @@ export const InsidePost = () => {
     fetchPost();
   }, [blogPostId]);
 
-
- 
   const fetchAuthor = async (userId) => {
     try {
       const userData = await fetchUserData(userId);
@@ -88,35 +81,46 @@ export const InsidePost = () => {
       console.error("Error unliking post:", error);
     }
   };
-  
+
+  // useEffect(() => {
+  //   // Reinitialize Google Translate after data is fetched and rendered
+  //   if (window.googleTranslateElementInit) {
+  //     try {
+  //       window.googleTranslateElementInit();
+  //     } catch (error) {
+  //       console.error('Error reinitializing Google Translate:', error);
+  //     }
+  //   }
+  // }, []);
 
   return (
-    <div  className="InsidePost">
+    <div className="InsidePost">
+      
       <div className="Blog">
         <h1 className="blogTitle">{blogPost.title}</h1>
         <hr />
         <div className="insideBlogHeader">
-        <div className="autherDetails">
+          <div className="autherDetails">
             {author && (
-              <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
-                <img src={author.profilePicture} alt="" className="authorProfilePicture" />
-                <p className="insideBlogAutherName"> {author.username} </p>
-              </Link>
+              <img
+                src={author.profilePicture}
+                alt=""
+                className="authorProfilePicture"
+              />
+            )}
+            {author && (
+              <p className="insideBlogAutherName"> {author.username} </p>
             )}
           </div>
-
           <p className="blogDate">
             Created at: {new Date(blogPost.createdAt).toLocaleString()}
           </p>
         </div>
         <img src={blogPost.photo} alt="" className="postImage" />
-        <div className="blogBody">
-        <div dangerouslySetInnerHTML={renderHtmlContent()} />
-       </div>
-      
-        
-        
-        <div>
+        <p className="blogbody" dangerouslySetInnerHTML={{ __html: blogPost.desc }} />
+      </div>
+
+      <div>
           was this article helpful to you?  {"  "} {" "}
           <CIcon
                 icon={icon.cilThumbUp}
@@ -132,8 +136,8 @@ export const InsidePost = () => {
                 onClick={handleUnlike}
                 className="insideBlogLike"
               />
-        </div>
-      </div>
+        </div>  
+
       {/* Blog comments section */}
       <div className="BlogComments">
         <div className="blogCommentTitle"> Comments</div>
