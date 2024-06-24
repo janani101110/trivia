@@ -218,16 +218,15 @@
   /*---------------Post ---------------------------*/
   .bpost{
     margin-left: 100px;
-    margin-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 20px;
     font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
     height:fit-content;
-    width: 1225px;
+    width: 100%;
     display: grid;
     grid-template-columns: 380px 380px 380px;
-    column-gap: 75px;
+    column-gap: 25px;
   }
 
   

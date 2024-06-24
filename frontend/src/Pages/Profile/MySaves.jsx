@@ -6,7 +6,8 @@ import Blogspost from "../Blogs/Blogspost";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import "./MySaves.css";
-import bookMarkBanner from "./Assets/bookMarkBanner.png"
+import "../Blogs/Blog.css";
+import bookMarkBanner from "./Assets/bookMarkBanner.png";
 
 const MySaves = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -47,8 +48,9 @@ const MySaves = () => {
 
 
         <div className="mySaveBookMarksDiv">
+        <div className="mySaveBookMarksSubDiv">
           <div className="mySaveTags">
-           Bookmarked Blogs <hr />
+            Blogs <hr />
             <button onClick={handleToggleGrid} className="toggleButton">
               {showGrid ? <CIcon
                 icon={icon.cilCaretTop}
@@ -63,6 +65,12 @@ const MySaves = () => {
             /> }
             </button>
           </div>
+          <p className="UserBlogsCount">
+            {" "}
+            No of Blogs: {"   "} {blogPosts.length}{" "}
+          </p>
+        </div>
+        <div className="blogCardMyBookMarks">
           {blogPosts.length === 0 ? (
             <p>No saved blog posts found.</p>
           ) : (
@@ -87,6 +95,7 @@ const MySaves = () => {
                     ))}
             </ul>
           )}
+          </div>
         </div>
       
     </div>
