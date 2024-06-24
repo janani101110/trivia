@@ -62,7 +62,7 @@
 .blogCommentTitle {
   font-size: 30px;
   margin-top: 5px;
-  margin-left: 60px;
+  margin-left: 10px;
   color: #532f44;
 }
 .autherDetails {
@@ -89,31 +89,40 @@
   padding: 10px;
   padding-bottom: 10px;
   height: inherit;
-  width: 95%;
-  background-color: #d9d9d9;
-  border: none;
+  width: 100%;
 }
 .blogCommentTextArea:focus {
   outline: none;
 }
 
 .insideBlogComment {
-  background-color: #d9d9d9;
+  margin-bottom: 2px;
+  padding: 10px;
+  padding-bottom: 10px;
+  height: inherit;
+
 }
 
-.blogCommentButton {
+/* .blogCommentButton {
   width: 30px;
-  background-color: #d9d9d9;
   border: 1px;
   border-radius: 10%;
   cursor: pointer;
   padding-top: 20px;
 }
 
+.blogCommentButtonIcon{
+  padding-top: 5px;
+} */
+
 .insideBlogLikeContainer {
   display: flex;
-  align-items: center;
-  
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin: 20px 0; /* Add vertical margin */
+  padding: 10px; /* Add padding for better spacing */
+  background-color: #f0f0f0; /* Optional: background color for emphasis */
+  text-align: center; /* Center text */ 
 }
 
 .insideBlogLike {
@@ -130,6 +139,12 @@
 
 .insideBlogText {
   margin-right: 10px;
-  font-size: 16px;
+  font-size: 24px;
   color: #333;
+}
+
+.blog-comments-section {
+  margin-top: 5px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
 }

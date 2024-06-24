@@ -23,7 +23,7 @@ function ForgotPassword() {
       toast.success("Check your email to reset your password");
       setTimeout(() => {
         window.location.reload();
-      }, 3000); // Wait 3 seconds before refreshing
+      }, 4000); // Wait 3 seconds before refreshing
     } catch (error) {
       setMessage(error.response.data.error);
       toast.error("Failed to send reset email. Please try again.");

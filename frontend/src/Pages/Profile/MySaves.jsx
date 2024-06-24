@@ -6,6 +6,7 @@ import Blogspost from "../Blogs/Blogspost";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import "./MySaves.css";
+import bookMarkBanner from "./Assets/bookMarkBanner.png"
 
 const MySaves = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -36,7 +37,13 @@ const MySaves = () => {
 
   return (
     <div className="mySavesBody">
-        
+        <div className="BookMarkBanner">
+        <img
+              src={bookMarkBanner}
+              alt=""
+              className="BookMarkBannerImage"
+            />
+        </div>
 
 
         <div className="mySaveBookMarksDiv">

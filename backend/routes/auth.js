@@ -139,7 +139,7 @@ router.post('/forgotPassword', async (req, res) => {
     }
 
     // Generate and save reset token
-    const resetToken = Math.random().toString(36).slice(2);
+    const resetToken = jwt.sign({ id: user._id }, process.env.accessToken_secret, { expiresIn: '1h' });
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
@@ -149,7 +149,7 @@ router.post('/forgotPassword', async (req, res) => {
       service: 'Gmail',
       auth: {
         user: 'triviatechnology2024@gmail.com', 
-        pass: 'unpg lgmc akgd xmms'
+        pass: 'unpg lgmc akgd xmms' // Replace with your actual Gmail app password
       }
     });
 
@@ -159,7 +159,7 @@ router.post('/forgotPassword', async (req, res) => {
       subject: 'Password Reset',
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
         Please click on the following link, or paste this into your browser to complete the process:\n\n
-        http://localhost:3000/ForgotPassword/${resetToken}\n\n
+        http://localhost:3000/ResetPassword/${resetToken}\n\n
         If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
 
@@ -170,25 +170,45 @@ router.post('/forgotPassword', async (req, res) => {
     res.status(500).json({ error: 'Error sending password reset email' });
   }
 });
-
-router.post('/forgotPassword/:token', async (req, res) => {
+router.post('/resetPassword/:token', async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 
   try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.accessToken_secret);
+    console.log('Decoded token:', decoded);
+
     // Find user by reset token and ensure the token has not expired
     const user = await User.findOne({
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },
     });
+
+    if (!user) {
+      console.log('Invalid or expired token');
+      return res.status(400).json({ error: 'Invalid or expired token' });
+    }
+
+    // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Update user's password and clear reset token fields
     user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
-  }
-  catch (error) {
-    console.error(error);
+
+    res.status(200).json({ message: 'Password successfully reset' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    if (error.name === 'TokenExpiredError') {
+      return res.status(400).json({ error: 'Token expired' });
+    }
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(400).json({ error: 'Invalid token' });
+    }
     res.status(500).json({ error: 'Error resetting password' });
   }
 });

@@ -1,26 +1,35 @@
-const mongoose = require('mongoose');
-
-const commentSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb');
+const BlogCommentSchema = new mongoose.Schema(
+  {
+    comment: {
+      type: String,
+      required: true,
+    },
+    postedBy: {
+      type: ObjectId,
+        ref: "User",
+        required: true , // Adjust as per your application logic
+    },
+    postId: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    parentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'BlogComment', // Reference to itself for nested comments
+      default: null,
+    },
+    replies: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'BlogComment', // Reference to itself for nested comments
+    }]
   },
-  blogPost: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'blogPost',
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  { timestamps: true }
+);
 
-const Comment = mongoose.model('Comment', commentSchema);
-
-module.exports = Comment;
+module.exports = mongoose.model("BlogComment", BlogCommentSchema);
