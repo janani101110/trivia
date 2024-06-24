@@ -136,6 +136,7 @@ const BlogPostCard = ({ blogPost }) => {
                 }}
               ></div>
               {author && (
+                 <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
                 <div className="BlogCardAuthorInfo">
                   <img
                     src={author.profilePicture}
@@ -144,6 +145,7 @@ const BlogPostCard = ({ blogPost }) => {
                   />
                   <p className="authorUsername"> {author.username} </p>
                 </div>
+                </Link>
               )}
             </div>{" "}
           </div>

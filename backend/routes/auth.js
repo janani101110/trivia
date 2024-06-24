@@ -1,8 +1,10 @@
+
 const express = require('express');
 const router=express.Router();
 const User = require ('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const passport = require("passport");
 const verifyToken = require("../middleware/verifyToken");
 const nodemailer = require('nodemailer');
@@ -146,18 +148,18 @@ router.post('/forgotPassword', async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'sew01831@gmail.com', 
-        pass: 'Sewmini/01831'
+        user: 'triviatechnology2024@gmail.com', 
+        pass: 'unpg lgmc akgd xmms'
       }
     });
 
     const mailOptions = {
-      from: 'sew01831@gmail.com',
+      from: 'triviatechnology2024@gmail.com',
       to: email,
       subject: 'Password Reset',
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
         Please click on the following link, or paste this into your browser to complete the process:\n\n
-        http://localhost:3000/reset/${resetToken}\n\n
+        http://localhost:3000/ForgotPassword/${resetToken}\n\n
         If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
 
@@ -166,6 +168,28 @@ router.post('/forgotPassword', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error sending password reset email' });
+  }
+});
+
+router.post('/forgotPassword/:token', async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Find user by reset token and ensure the token has not expired
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user.password = hashedPassword;
+    await user.save();
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error resetting password' });
   }
 });
 

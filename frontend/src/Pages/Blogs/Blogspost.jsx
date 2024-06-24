@@ -168,8 +168,11 @@ const Blogspost = ({ blogPost }) => {
         </Link>
       </div>
       <div className="blogCardFooterMainDIv">
+
         <div className="blogCardFooterRow">
+       
           {author && (
+             <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
             <div className="BlogCardAuthorInfo">
               <img
                 src={author.profilePicture}
@@ -178,7 +181,9 @@ const Blogspost = ({ blogPost }) => {
               />
               <p className="authorUsername"> {author.username} </p>
             </div>
+            </Link>
           )}
+          
         </div>
         <div className="blogCardFooterRow">
           <button className="BlogFooterkButton">

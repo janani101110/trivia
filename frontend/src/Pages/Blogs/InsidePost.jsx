@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./InsidePost.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
@@ -100,18 +101,15 @@ export const InsidePost = () => {
         <h1 className="blogTitle">{blogPost.title}</h1>
         <hr />
         <div className="insideBlogHeader">
-          <div className="autherDetails">
+        <div className="autherDetails">
             {author && (
-              <img
-                src={author.profilePicture}
-                alt=""
-                className="authorProfilePicture"
-              />
-            )}
-            {author && (
-              <p className="insideBlogAutherName"> {author.username} </p>
+              <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
+                <img src={author.profilePicture} alt="" className="authorProfilePicture" />
+                <p className="insideBlogAutherName"> {author.username} </p>
+              </Link>
             )}
           </div>
+
           <p className="blogDate">
             Created at: {new Date(blogPost.createdAt).toLocaleString()}
           </p>
@@ -120,23 +118,24 @@ export const InsidePost = () => {
         <p className="blogbody" dangerouslySetInnerHTML={{ __html: blogPost.desc }} />
       </div>
 
-      <div>
-          was this article helpful to you?  {"  "} {" "}
-          <CIcon
-                icon={icon.cilThumbUp}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-                onClick={handleLike}
-                className="insideBlogLike"
-              />{"     "}
-              <CIcon
-                icon={icon.cilThumbDown}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-                onClick={handleUnlike}
-                className="insideBlogLike"
-              />
-        </div>  
+    <div className="insideBlogLikeContainer">
+  <span className="insideBlogText">Was this article helpful to you?</span>
+  <CIcon
+    icon={icon.cilThumbUp}
+    size=""
+    style={{ "--ci-primary-color": "black" }}
+    onClick={handleLike}
+    className="insideBlogLike"
+  />
+  <CIcon
+    icon={icon.cilThumbDown}
+    size=""
+    style={{ "--ci-primary-color": "black" }}
+    onClick={handleUnlike}
+    className="insideBlogLike"
+  />
+</div>
+
 
       {/* Blog comments section */}
       <div className="BlogComments">
