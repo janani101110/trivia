@@ -50,8 +50,8 @@ export const Communi = () => {
   return (
     <div className="sensorsCollect">
       
-      <div className="sidebar">
-      <table>
+      <div className="sidebar"> 
+      <table className="resotable">
         <thead>
           <tr>
             <Link to="/communi" className={getLinkClassName(null)}>

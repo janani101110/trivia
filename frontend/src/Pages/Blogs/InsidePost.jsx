@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
+import { Link } from 'react-router-dom';
 // import GoogleTranslate from "../../Component/GoogleTranslate";
 // Define the function to fetch user data
 const fetchUserData = async (userId) => {
@@ -100,16 +101,13 @@ export const InsidePost = () => {
         <h1 className="blogTitle">{blogPost.title}</h1>
         <hr />
         <div className="insideBlogHeader">
-          <div className="autherDetails">
+          
+        <div className="autherDetails">
             {author && (
-              <img
-                src={author.profilePicture}
-                alt=""
-                className="authorProfilePicture"
-              />
-            )}
-            {author && (
-              <p className="insideBlogAutherName"> {author.username} </p>
+              <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
+                <img src={author.profilePicture} alt="" className="authorProfilePicture" />
+                <p className="insideBlogAutherName"> {author.username} </p>
+              </Link>
             )}
           </div>
           <p className="blogDate">

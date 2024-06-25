@@ -62,7 +62,7 @@ const AuthorPage = () => {
                     )}
                 </div>
             </div>
-            <div className="authorPageBlogsCards">
+            <div className="bpost">
                 {blogPosts.map((blogPost) => (
                     <Blogspost
                         key={blogPost._id}

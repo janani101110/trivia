@@ -23,7 +23,7 @@ const shoppostRoute= require("./routes/shoppost");
 const resopostRoutes = require("./routes/resoposts");
 const resocommentRoutes = require("./routes/resocomments");
 const projectpostRoute = require("./routes/projectposts");
-
+const answerRoutes = require("./routes/answer");
 
 
 
@@ -101,6 +101,7 @@ app.use("/api/blogComments", blogCommentRoutes);
 app.use("/api/resoposts", resopostRoutes); // Route for resource posts
 app.use("/api/resocomments", resocommentRoutes);
 app.use("/api/projectposts", projectpostRoute);
+app.use("/api/answer", answerRoutes);
 
 
 Shoppost.init().then(() => {

@@ -51,7 +51,7 @@ export const Pcb = () => {
     <div className="sensorsCollect">
       
       <div className="sidebar">
-      <table>
+      <table className="resotable">
         <thead>
           <tr>
             <Link to="/pcb" className={getLinkClassName(null)}>

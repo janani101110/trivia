@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import axios from 'axios';
 
 const QuestionCard = ({ question }) => {
+  const hasIncrementedView = useRef(false);
+
   const formatDate = (date) => {
     const currentDate = new Date();
     const postDate = new Date(date);
@@ -31,21 +33,23 @@ const QuestionCard = ({ question }) => {
 
   const incrementView = async (postId) => {
     try {
+      console.log(`Sending request to increment view count for post ID: ${postId}`);
       await axios.put(`http://localhost:5000/api/questions/views/${postId}`);
+      console.log(`Successfully incremented view count for post ID: ${postId}`);
     } catch (error) {
       console.error("Error incrementing view count:", error);
     }
   };
 
-  useEffect(() => {
-    // Ensure question and question._id exist before incrementing view count
-    if (question && question._id) {
+  const handleCardClick = () => {
+    if (!hasIncrementedView.current) {
       incrementView(question._id);
+      hasIncrementedView.current = true;
     }
-  }, [question]); // Ensure this effect runs when question prop changes
+  };
 
   return (
-    <div className='cardBox' style={{ border: '1px solid', marginBottom: '15px', padding: '20px', borderRadius: '25px', boxShadow: '2px 2px 2px' }}>
+    <div onClick={handleCardClick} className='cardBox' style={{ border: '1px solid', marginBottom: '15px', padding: '20px', borderRadius: '25px', boxShadow: '2px 2px 2px' }}>
       <div className='proPicFrame'>
         {/* Placeholder for profile picture */}
         {/* <img src={question.imageUrl} alt='Profile' /> */}
@@ -60,7 +64,7 @@ const QuestionCard = ({ question }) => {
         <div style={{ fontSize: 16, fontWeight: '400', color: '#5C677D', height: '50px', overflow: 'hidden' }}>{question.description}</div>
       </div>
       <div style={{ display: 'flex', flex: 1, gap: '10px' }}>
-        <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597' }}>Views {question.viewCount}</div>
+        <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597' }}>Views {Math.floor(question.viewCount)}</div>
         {/* <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597' }}>Replies</div> */}
       </div>
     </div>

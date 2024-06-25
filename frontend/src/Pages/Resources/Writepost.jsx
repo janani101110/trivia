@@ -165,9 +165,9 @@ export const Writepost = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className="title">Share Your Knowledge...!</h1>
-      <form onSubmit={handleSubmit} className="form">
+    <div className="resocontainer">
+      <h1 className="resotitle">Share Your Knowledge...!</h1>
+      <form onSubmit={handleSubmit} className="resoform">
         <input
           onChange={(e) => setTitle(e.target.value)}
           type="text"
@@ -208,18 +208,18 @@ export const Writepost = () => {
           </div>
         </div>
 
-        <input onChange={handlePhotoChange} type="file" className="file-input" />
+        <input onChange={handlePhotoChange} type="file" className="resofile-input" />
 
         <textarea
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
-          className="description"
+          className="resodescription"
           placeholder="Enter Post Description"
           cols={30}
           rows={15}
         ></textarea>
 
-        <button type="submit" className="publish-btn">
+        <button type="submit" className="resopublish-btn">
           Publish
         </button>
       </form>

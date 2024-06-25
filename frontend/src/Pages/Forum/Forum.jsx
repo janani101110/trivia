@@ -7,7 +7,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 
-export const Forum = ({ question }) => {
+export const Forum = ({ question }) => { 
   const navigate = useNavigate(); 
 
   const [questions, setQuestions] = useState([]);

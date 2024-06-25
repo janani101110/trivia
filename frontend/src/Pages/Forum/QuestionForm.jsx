@@ -11,7 +11,7 @@ const QuestionForm = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
-  const [viewCount, setViewCount] = useState(0);
+  const [viewCount] = useState(0);
 
   // Function to upload photo for preview post
   const handlePhotoChange = (e) => {
@@ -20,7 +20,7 @@ const QuestionForm = () => {
   };
 
   // Function to format date to time ago format
-  
+   
 
   // Button click
   const handleSubmit = async (e) => {
@@ -44,7 +44,7 @@ const QuestionForm = () => {
         date: new Date().toISOString(), // Store the date in ISO format
       };
 
-      // Add imageUrl to the question object if an image is uploaded
+      // Add imageUrl to the question object if an image is uploaded 
       if (downloadURL) {
         newQuestion.imageUrl = downloadURL;
       }

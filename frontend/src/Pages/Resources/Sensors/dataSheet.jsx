@@ -51,7 +51,7 @@ export const DataSheet = () => {
     <div className="sensorsCollect">
       
       <div className="sidebar">
-      <table>
+      <table className="resotable">
         <thead>
           <tr>
             <Link to="/dataSheet" className={getLinkClassName(null)}>

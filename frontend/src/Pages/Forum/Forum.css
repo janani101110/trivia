@@ -44,8 +44,8 @@
 /*---------------ViewQuestion.jsx-------------------*/
 
 .question-container{
-    border: 1px solid ;
-    box-shadow: 0 0 10px rgba(66, 9, 113, 0.915);
+    
+    box-shadow: 0 0 5px rgb(122, 128, 131);
     margin-left: 270px;
     width: 980px;
     margin-top: 45px;
@@ -53,19 +53,150 @@
     margin-bottom: 45px;
 }
 .question-image{
-    width: 550px;
-    margin-left: 200px;
+    width: 200px;
+    margin-left: 300px;
     height: fit-content;
 }
 .question-details{
-    box-shadow: 0 0 5px gray;
-    padding:25px ;
+    padding-top: 10px;
+    
+    
 }
 .question-description{
     text-align: justify;
     margin-bottom: 30px;
+    font-size: 18px;
 }
 .question-title{
     margin-bottom: 25px;
     text-align: justify;
 }
+/*-----------comment-------------*/
+
+  
+  /* Styling for the comments section */
+  
+  
+  /* Styling for each comment */
+  .forum-comment {
+    border-top:  rgb(221, 217, 217);
+    border-top-style:ridge ;
+    border-left: rgb(221, 217, 217);
+    border-left-style:ridge  ;
+    border-top-left-radius: 3px ;
+    padding-top: 5px;
+    padding-left: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  /* Styling for the comment header */
+  .forum-comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    color: #741cef;
+  }
+  
+  /* Styling for the comment user information */
+  .forum-com {
+    display: flex;
+  }
+  
+  /* Styling for the comment user */
+  .forumcomuser {
+    margin-right: 13px;
+    font-size: 11px;
+  }
+  
+  /* Styling for the comment date */
+  .forumcomdate {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+  
+  /* Styling for the comment actions */
+  .forum-comment-actions {
+    display: flex;
+    cursor: pointer;
+    color: #120661;
+  }
+  .forum-comment-actions button{
+    margin-left: 20px;  /* Indent replies */
+  background-color: rgb(44, 135, 183);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 55px;
+  height: 25px;
+  }
+  .forum-comment-actions button:hover{
+    background-color: rgb(126, 165, 187);
+  }
+  
+  /* Styling for the write comment section */
+  .forum-write-comment {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Styling for the comment input field */
+  .forumcomsection {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 55px;
+  }
+  
+  /* Styling for the comment button */
+  .forum-write-comment button {
+    padding: 10px 20px;
+    background-color: rgb(44, 135, 183);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  /* Hover styling for the comment button */
+  .forum-write-comment button:hover {
+    background-color: rgb(126, 165, 187)
+  }
+ .forum-write-comment textarea{
+  margin-right: 2px;
+ } 
+
+
+/* Add nested comments styles */
+.forum-comment-replies  button{
+  margin-left: 20px;  /* Indent replies */
+  background-color: rgb(44, 135, 183);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 55px;
+  height: 25px;
+}
+.forum-comment-replies  button:hover{
+  background-color: rgb(126, 165, 187)
+}
+
+.authorProfilePicture{
+  width:20px;
+  height: 10px;
+  border: #000;
+  border-radius: 50%;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+  

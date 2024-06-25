@@ -10,7 +10,7 @@
 
 
 
-table {
+.sidebar table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -19,22 +19,22 @@ table {
   border-spacing: 0 5px;
 }
 
-th,
-td {
+.sidebar  th,
+.sidebar td {
   border: 1px solid #555;
   padding: 15px;
   width: 20%;
 }
 
-th {
+.sidebar th {
   background-color: #3d3d3d;
   color: #fff;
 }
-tr:hover {
+.sidebar tr:hover {
   background-color: #555;
   cursor: pointer;
 }
-
+ 
 .nav {
   text-decoration: none;
   color: inherit;

@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 const Questions = require("../models/questions");
 
-
+ 
 // create new post
 router.post("/create", async (req, res) => {
     try {
@@ -18,7 +18,7 @@ router.post("/create", async (req, res) => {
       // Handling errors if any occur during the process
       res.status(500).json(err);
     }
-  }); 
+  });  
 //get all post on the forum.jsx
   router.get("/", async (req, res) => {
     try {
@@ -44,32 +44,23 @@ router.post("/create", async (req, res) => {
     }
 });
 
-const incrementViewCount = async (req, res) => {
+router.put("/views/:postId", async (req, res) => {
   try {
-    const { postId } = req.params;
-
-    // Fetch the current question from the database
+    const postId = req.params.postId;
     const question = await Questions.findById(postId);
-    if (!question) {
+    if (!question) {   
       return res.status(404).json({ status: "error", message: "Question not found" });
     }
 
-    // Increment the view count
-    question.viewCount = (question.viewCount || 0) + 1;
-
-    // Save the updated question back to the database
+    // Increment the view count by 1
+    question.viewCount += 1;
     await question.save();
 
-    res.status(200).json({ status: "success", message: "View count incremented", updatedQuestion: question });
+    res.status(200).json({ status: "success", message: "View count incremented", data: question });
   } catch (error) {
     console.error("Error incrementing view count:", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
-};
-
-// Route to increment view count for a specific question
-router.put('/views/:postId', incrementViewCount);
-
-
+});
 
 module.exports = router;
