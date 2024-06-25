@@ -341,6 +341,36 @@
   color: #000;
 }
 
+.confirmDialog{
+  border: 2px #000;
+  padding: 10px 20px;
+}
+
+.confirmDialogText{
+  color: #000;
+  font-size: 18px;
+}
+
+.confirmButton{
+  border: 2px #220ed8;
+  background-color:#220ed8 ;
+  color:#fff ;
+  padding:5px 15px;
+  font-size: 15px;
+  margin-right: 25px;
+  border-radius: 5px;
+}
+
+.cancelButton{
+  margin-top: 10px;
+  border: 2px #d80e0e;
+  background-color:#d80e0e ;
+  color:#fff;
+  padding:5px 15px;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
 /* --------------pagination ----------------------------- */
 .pagination {
   display: flex;

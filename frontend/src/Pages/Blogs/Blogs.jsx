@@ -48,6 +48,8 @@ export const Blogs = () => {
   const { user } = useUsers(); // Access user data from context
   const navigate = useNavigate(); // Use useNavigate hook
 
+ 
+
   // Function to sort posts based on order
   const sortPosts = async (order) => {
     try {

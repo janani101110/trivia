@@ -103,6 +103,15 @@ export const InsidePost = () => {
     }
   };
 
+  // Extract YouTube video ID from URL
+  const getYoutubeVideoId = (url) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const videoId = blogPost.videoURL ? getYoutubeVideoId(blogPost.videoURL) : null;
+
   return (
     <div className="InsidePost">
       <div className="Blog">
@@ -134,6 +143,19 @@ export const InsidePost = () => {
           className="blogbody"
           dangerouslySetInnerHTML={{ __html: blogPost.desc }}
         />
+        {videoId && (
+          <div className="video-container">
+            <iframe
+              width="560"
+              height="315"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="YouTube video"
+            ></iframe>
+          </div>
+        )}
       </div>
 
       <div className="insideBlogLikeContainer">
@@ -170,18 +192,9 @@ export const InsidePost = () => {
               onKeyDown={handleKeyDown}
               required
             />
-            {/* <button className="blogCommentButton" onClick={postComment}>
-              <CIcon
-                icon={icon.cilCursor}
-                size="mm"
-                style={{ "--ci-primary-color": "black" }}
-                className="blogCommentButtonIcon"
-              />
-            </button> */}
           </div>
         </div>
         <div className="blog-comments-section">
-          
           {comments.map((c) => (
             <BlogComment key={c._id} c={c} fetchBlogComments={fetchBlogComments} />
           ))}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Blog.css";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
-import { v4 as uuidv4 } from "uuid"; // Correct import syntax for UUID v4
+import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUsers } from "../../Context/UserContext";
 import ReactQuill from "react-quill";
@@ -14,8 +14,10 @@ export const WriteBlog = () => {
   const [file, setFile] = useState("");
   const [downloadURL, setDownloadURL] = useState("");
   const [postedBy, setPostedBy] = useState(""); 
+  const [videoURL, setVideoURL] = useState(""); // New state for video URL
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false); // State for confirmation dialog
   const navigate = useNavigate();
-  const { user, fetchUsers } = useUsers();
+  const { user } = useUsers();
 
   useEffect(() => {
     if (user) {
@@ -31,6 +33,11 @@ export const WriteBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Open confirmation dialog
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmPublish = async () => {
     try {
       // Upload image to Firebase storage
       const storageRef = ref(imageDb, `blogImages/${uuidv4()}`);
@@ -45,7 +52,9 @@ export const WriteBlog = () => {
         title,
         desc,
         photo: url,
-        postedBy: postedBy
+        postedBy: postedBy,
+        videoURL: videoURL,
+        email: user.email // Include email in the blog post data
       };
 
       const requestOptions = {
@@ -69,7 +78,16 @@ export const WriteBlog = () => {
       navigate("/Blogs");
     } catch (error) {
       console.error("Error uploading image or submitting blog post:", error);
+    } finally {
+      // Close confirmation dialog
+      setIsConfirmOpen(false);
     }
+  };
+
+  const handleCancelPublish = () => {
+    // Close confirmation dialog without publishing
+    setIsConfirmOpen(false);
+    window.location.reload();
   };
 
   const getToken = () => {
@@ -116,10 +134,33 @@ export const WriteBlog = () => {
             required
           />
           <br />
+          <label className="createBlogTextLabel"> YouTube Video URL: </label>
+          <br />
+          <input
+            onChange={(e) => setVideoURL(e.target.value)}
+            type="url"
+            placeholder="Enter YouTube video URL"
+            className="createBlogTextbox"
+            value={videoURL}
+          />
+          <br />
           <button type="submit" className="createBlogSubmit">
             Publish
           </button>
         </form>
+
+        {/* Confirmation dialog */}
+        {isConfirmOpen && (
+          <div className="confirmDialog">
+            <p className="confirmDialogText">Are you sure you want to publish?</p>
+            <button onClick={handleConfirmPublish} className="confirmButton">
+              Yes, Publish
+            </button>
+            <button onClick={handleCancelPublish} className="cancelButton">
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

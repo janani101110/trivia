@@ -1,6 +1,7 @@
 const express = require('express');
 const router=express.Router();
 const Post=require('../models/blogPost.js');
+const { sendEmail } = require('./nodemailer.js');
 
 
 router.get('/popularBlogs', async (req, res) => {
@@ -13,15 +14,27 @@ router.get('/popularBlogs', async (req, res) => {
 });
 
 //Create 
-router.post("/create" ,async (req, res) => {
-    try{
-        const newPost = new Post(req.body);
-        const savedPost=await newPost.save();
-        res.status(200).json(savedPost);
-    }catch(err){
-        res.status(500).json(err);
-    }
-})
+router.post("/create", async (req, res) => {
+  try {
+    const newPost = new Post(req.body);
+    const savedPost = await newPost.save();
+
+    // Send email to the user
+    const userEmail = req.body.email; // Assume the user's email is sent in the request body
+    const postUrl = `http://localhost:3000/InsidePost/${savedPost._id}`; // Adjust the URL to your frontend blog post URL
+
+    const emailSubject = 'Your blog post has been created!';
+    const emailText = `Your blog post "${savedPost.title}" has been successfully created. You can view it at: ${postUrl}`;
+
+    await sendEmail(userEmail, emailSubject, emailText);
+
+    res.status(200).json(savedPost);
+  } catch (err) {
+    console.error('Error creating blog post or sending email:', err);
+    res.status(500).json(err);
+  }
+});
+
 
 
 //Update
