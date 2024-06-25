@@ -1,3 +1,6 @@
+const { ObjectId } = require('mongodb');
+
+
 const mongoose = require ("mongoose");
 const Questions = new mongoose.Schema(
     {
@@ -21,7 +24,12 @@ const Questions = new mongoose.Schema(
         date:{
             type:String,
             required:true,
-        }
+        },
+        postedBy: {
+            type: ObjectId,
+            ref: "User",
+            required: false  
+        },
     },
     {
         timestamps:true

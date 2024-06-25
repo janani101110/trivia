@@ -45,5 +45,15 @@ router.get("/answer/:postId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+//likes dislikes
+router.route('/update/:id').post((req, res) => {
+  Answer.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { likes: req.body.likes, dislikes: req.body.dislikes } },
+    { new: true }
+  )
+    .then(answer => res.json(answer))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;

@@ -24,6 +24,14 @@ const AnswerSchema = new mongoose.Schema(
       ref: 'Answer',
       default: null
     },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    dislikes: {
+      type: Number,
+      default: 0,
+    },
     replies: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Answer'

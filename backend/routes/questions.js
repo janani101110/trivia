@@ -62,5 +62,20 @@ router.put("/views/:postId", async (req, res) => {
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 });
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
+    const questions = await Question.find({ postedBy: userId });
+    if (!Question || questions.length === 0) {
+      console.error(`No shop posts found for user ID: ${userId}`);
+      return res.status(404).json({ error: 'No shop posts found' });
+    }
+    res.status(200).json(Question);
+  } catch (err) {
+    console.error('Error fetching shop posts:', err); // Log the error
+    res.status(500).json({ error: 'Error fetching shop posts' });
+  }
+});
 
 module.exports = router;

@@ -1,8 +1,38 @@
-import React, { useRef } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import axios from 'axios';
 
 const QuestionCard = ({ question }) => {
   const hasIncrementedView = useRef(false);
+  const [author, setAuthor] = useState(null);
+
+  const fetchUserData = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/auth/details/${userId}`
+      );
+      if (!response.ok) {
+        throw new Error("network response was not ok");
+      }
+      const userData = await response.json();
+      return userData;
+    } catch (error) {
+      console.error("error fetching user data", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const userData = await fetchUserData(question.postedBy);
+        setAuthor(userData);
+        console.log(userData);
+      } catch (error) {
+        console.error("error fetching author", error);
+      }
+    };
+    fetchAuthor();
+  }, [question.postedBy]);
 
   const formatDate = (date) => {
     const currentDate = new Date();
@@ -50,15 +80,22 @@ const QuestionCard = ({ question }) => {
 
   return (
     <div onClick={handleCardClick} className='cardBox' style={{ border: '1px solid', marginBottom: '15px', padding: '20px', borderRadius: '25px', boxShadow: '2px 2px 2px' }}>
-      <div className='proPicFrame'>
-        {/* Placeholder for profile picture */}
-        {/* <img src={question.imageUrl} alt='Profile' /> */}
-      </div>
+
       <div>
-        <div style={{ fontSize: 20, fontWeight: 'bold', color: '#101318', marginBottom: '8px' }}>
+        <div style={{ fontSize: 20, fontWeight: 'bold', color: '#101318', marginBottom: '5px' }}>
           {question.title}
         </div>
-        <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597', marginLeft: '15px' }}>{formatDate(question.date)}</div>
+        <div className="profile">
+          {author&&(
+            <div className="profilepic">
+              <img src={author.profilePicture} alt={author.username} className="authorProfilePicture"/>
+              <p className="authorUsername"> {author.username} </p>
+            </div>
+
+          )}
+          <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597', marginLeft: '15px' }} className="postedtime">{formatDate(question.date)}</div>
+        </div>
+        
       </div>
       <div style={{ marginBottom: '15px' }}>
         <div style={{ fontSize: 16, fontWeight: '400', color: '#5C677D', height: '50px', overflow: 'hidden' }}>{question.description}</div>

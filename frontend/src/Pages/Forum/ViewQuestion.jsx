@@ -9,75 +9,110 @@ const ViewQuestion = () => {
   const { id } = useParams();
   const [answers, setAnswers] = useState([]);
   const [answer, setAnswer] = useState("");
+  const [author, setAuthor] = useState(null);
 
-  useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await fetch(`${URL}/api/questions/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch question");
-        }
-        const data = await response.json();
-        setQuestion(data);
-      } catch (error) {
-        console.error(error);
-        setQuestion(null);
+  const fetchUserData = async (userId) => {
+    try {
+      const response = await axios.get(`${URL}/api/auth/details/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user data", error);
+      throw error;
+    }
+  };
+
+  const fetchQuestion = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/questions/${id}`);
+      const data = response.data;
+      setQuestion(data);
+      if (data.postedBy) {
+        const userData = await fetchUserData(data.postedBy);
+        setAuthor(userData);
       }
-    };
-
-    fetchQuestion();
-  }, [id]);
+    } catch (error) {
+      console.error("Failed to fetch question", error);
+      setQuestion(null);
+    }
+  };
 
   const fetchPostComments = async () => {
     try {
-      const res = await fetch(`${URL}/api/answer/answer/${id}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch post comments");
-      }
-      const data = await res.json();
-      setAnswers(data);
-    } catch (err) {
-      console.log(err);
-      setAnswers([]); // Set answers to empty array on error
+      const response = await axios.get(`${URL}/api/answer/answer/${id}`);
+      setAnswers(response.data);
+    } catch (error) {
+      console.error("Failed to fetch post comments", error);
+      setAnswers([]);
     }
   };
 
   useEffect(() => {
+    fetchQuestion();
     fetchPostComments();
   }, [id]);
 
   const postComment = async (e) => {
     e.preventDefault();
-    if (!answer.trim()) return; // Ensure answer is not empty
+    if (!answer.trim()) return;
 
     try {
       await axios.post(
         `${URL}/api/answer/create`,
         { answer, postId: id },
-        { withCredentials: true } 
-      ); 
-      // After successful post, you can refresh comments by fetching again
-      fetchPostComments(); // This function fetches comments and updates state
+        { withCredentials: true }
+      );
+      fetchPostComments();
       setAnswer("");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error("Error posting comment", error);
     }
   };
+  const formatDate = (date) => {
+    const currentDate = new Date();
+    const postDate = new Date(date);
 
+    const dateDiff = currentDate.getTime() - postDate.getTime();
+    const seconds = Math.floor(dateDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+
+    if (seconds < 60) {
+      return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+    } else if (minutes < 60) {
+      return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+    } else if (hours < 24) {
+      return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+    } else if (days < 30) {
+      return `${days} day${days !== 1 ? 's' : ''} ago`;
+    } else if (months < 12) {
+      return `${months} month${months !== 1 ? 's' : ''} ago`;
+    } else {
+      return `${years} year${years !== 1 ? 's' : ''} ago`;
+    }
+  };
   return (
     <div>
       {question ? (
         <div className="question-container">
           <h2 className="question-title">{question.title}</h2>
+          <div className="profiledetails">
+            {author && (
+              <div className="profilepic">
+                <img src={author.profilePicture} alt={author.username} className="authorProfilePicture" />
+                <p className="authorUsername">{author.username}</p>
+              </div> 
+            )}
+            <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597', marginLeft: '15px' }} className="postedtime">{formatDate(question.date)}</div>
+
+          </div>
           <hr />
           <div className="question-details">
             <p className="question-description">{question.description}</p>
             {question.imageUrl && (
-              <img
-                className="question-image"
-                src={question.imageUrl}
-                alt="Question"
-              />
+              <img className="question-image" src={question.imageUrl} alt="Question" />
             )}
           </div>
           <div className="forum-comments-section">
@@ -85,14 +120,13 @@ const ViewQuestion = () => {
             <div className="forum-write-comment">
               <textarea
                 onChange={(e) => setAnswer(e.target.value)}
-                
                 value={answer}
                 placeholder="Write Your Reply"
                 className="forumcomsection"
               />
               <button onClick={postComment}>Reply</button>
             </div>
-            <hr style={{boxShadow:"0 0 2px "}}/>
+            <hr style={{ boxShadow: "0 0 2px " }} />
             {answers.map((answer) => (
               <Forumreply key={answer._id} answer={answer} fetchPostComments={fetchPostComments} />
             ))}
