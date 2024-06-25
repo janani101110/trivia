@@ -180,13 +180,10 @@ const MyCollections = () => {
               )}
             </button>
           </div>
-          <p className="UserBlogsCount">
-            {" "}
-            No of Ads: {"   "} {shoppost.length}{" "}
-          </p>
+        
         </div>
 
-     
+       
       </div>
     </div>
   );

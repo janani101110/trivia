@@ -7,7 +7,7 @@ import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import "./MySaves.css";
 import "../Blogs/Blog.css";
-import bookMarkBanner from "./Assets/bookMarkBanner.png";
+import bookMarkBanner from "./Assets/bookMarkBanner.jpg";
 
 const MySaves = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -44,6 +44,7 @@ const MySaves = () => {
               alt=""
               className="BookMarkBannerImage"
             />
+            <div className="BookMarkBannerText">Your Book Marks</div>
         </div>
 
 
