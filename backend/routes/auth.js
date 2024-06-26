@@ -88,21 +88,26 @@ catch(err){
 }
 })
 
-//signup Route
 router.post('/signup', async (req, res) => {
-  try{
-    const {username,email,password}=req.body
-    const salt=await bcrypt.genSalt(10)
-    const hashedPassword=await bcrypt.hashSync(password,salt)
-    const newUser=new User({username,email,password:hashedPassword})
-    const savedUser=await newUser.save()
-    res.status(200).json(savedUser)
+  try {
+    const { username, email, password, userType } = req.body;
+    
+    // Generate salt and hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
-}
-catch(err){
-    res.status(500).json(err)
-}
+    // Create new user instance with userType
+    const newUser = new User({ username, email, password: hashedPassword, userType });
+    
+    // Save the new user to the database
+    const savedUser = await newUser.save();
+    
+    res.status(200).json(savedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
+
 
 // Logout route
 router.get('/logout', function(req, res) {
