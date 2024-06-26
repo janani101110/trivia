@@ -218,16 +218,15 @@
   /*---------------Post ---------------------------*/
   .bpost{
     margin-left: 100px;
-    margin-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 20px;
     font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
     height:fit-content;
-    width: 1225px;
+    width: 100%;
     display: grid;
     grid-template-columns: 380px 380px 380px;
-    column-gap: 75px;
+    column-gap: 25px;
   }
 
   
@@ -340,6 +339,36 @@
   margin-bottom: 10px;
   border-radius: 5px;
   color: #000;
+}
+
+.confirmDialog{
+  border: 2px #000;
+  padding: 10px 20px;
+}
+
+.confirmDialogText{
+  color: #000;
+  font-size: 18px;
+}
+
+.confirmButton{
+  border: 2px #220ed8;
+  background-color:#220ed8 ;
+  color:#fff ;
+  padding:5px 15px;
+  font-size: 15px;
+  margin-right: 25px;
+  border-radius: 5px;
+}
+
+.cancelButton{
+  margin-top: 10px;
+  border: 2px #d80e0e;
+  background-color:#d80e0e ;
+  color:#fff;
+  padding:5px 15px;
+  font-size: 15px;
+  border-radius: 5px;
 }
 
 /* --------------pagination ----------------------------- */

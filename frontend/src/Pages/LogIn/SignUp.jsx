@@ -19,11 +19,19 @@ const Signup = () => {
   // Function to handle form submission
   const handleSignup = async (e) => {
     e.preventDefault();
+    
+    let userType = 'user';
+    if (email === 'triviatechnology2024@gmail.com') {
+      userType = 'admin';
+    }
+  
     const user = {
       username,
       email,
-      password
+      password,
+      userType // include userType in the user object
     };
+  
     try {
       const res = await axios.post("http://localhost:5000/api/auth/signup", user);
       console.log(res.data);

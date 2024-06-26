@@ -12,7 +12,7 @@ const nodemailer = require('nodemailer');
 
 const scheduleEmail = (shoppost) => {
   const emailTime = new Date(shoppost.createdAt);
-  emailTime.setDate(emailTime.getDate() + 5);  // Add 5 days to the createdAt date
+  emailTime.setMinutes(emailTime.getMinutes() + 5);  // Add 5 days to the createdAt date
 
   // Ensure the minutes and hours are two digits for cron format
   const cronMinutes = emailTime.getMinutes().toString().padStart(2, '0');

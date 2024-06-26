@@ -62,14 +62,16 @@
     align-items: center;
   }
   
-  .resobanner-content {
+  .resobanner-content { 
     text-align: center;
     color: white;
-    margin-top: 50px; /* Adjust the margin to move the content down */
+    margin-top: 25px; /* Adjust the margin to move the content down */
     background-color: rgba(15, 15, 15, 0.699); /* Transparent black background */
     border-radius: 10px; /* Optional: Add rounded corners */
     padding-bottom: 5px;
+    
   }
+  
   
   .resobanner-content h1 {
     font-size: 3rem;

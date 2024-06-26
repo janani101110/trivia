@@ -22,7 +22,7 @@ export const ProjectForm = () => {
   const [circuit_diagram, setCircuitDiagram] = useState(null);
   const [pcb_design, setPcbDesign] = useState(null);
   const [git_link, setGitLink] = useState("");
-
+const [formData, setFormData] = useState(null);
   const [inputs, setInputs] = useState({});
 
   const [file, setFile] = useState("");
@@ -32,6 +32,8 @@ export const ProjectForm = () => {
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  
+
 
   const navigate = useNavigate();
 
@@ -169,9 +171,13 @@ export const ProjectForm = () => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
+  // const handleSubmit = (data) => {
+  //   setFormData(data);
+  // };
+
 
   return (
-    <div className="project_container">
+    <div className="project_container"> 
       <form onSubmit={handleSubmit}>
         <div className="project_form">
           <h2 className="project_topic">Fill below fields</h2>

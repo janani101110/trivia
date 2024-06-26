@@ -59,7 +59,7 @@ const ViewQuestion = () => {
       await axios.post(
         `${URL}/api/answer/create`,
         { answer, postId: id },
-        { withCredentials: true }
+        { withCredentials: true } 
       );
       fetchPostComments();
       setAnswer("");

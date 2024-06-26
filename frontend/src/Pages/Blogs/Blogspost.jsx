@@ -6,7 +6,7 @@ import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import { useUsers } from "../../Context/UserContext";
 import { formatDistanceToNow, format } from 'date-fns';
-import Notification from './BlogNotifications';
+import Notification from './BlogNotification';
 
 const Blogspost = ({ blogPost }) => {
   const [author, setAuthor] = useState(null);
@@ -144,6 +144,34 @@ const Blogspost = ({ blogPost }) => {
     }
   };
 
+  const handleWhatsAppShare = () => {
+    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; // Replace with your actual URL structure
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(postUrl)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleFacebookShare = () => {
+    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; // Replace with your actual URL structure
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+    window.open(facebookUrl, '_blank');
+  };
+
+  const copyToClipboard = (text) => {
+    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; 
+    navigator.clipboard.writeText(postUrl)
+      .then(() => {
+        setNotificationMessage('URL copied to clipboard!');
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 3000);
+      })
+      .catch(err => {
+        console.error('Error copying to clipboard: ', err);
+        setNotificationMessage('Failed to copy URL.');
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 3000);
+      });
+  };
+
   return (
     <div className="mainBlogpostcard">
       <div className="BlogpostCard">
@@ -168,8 +196,11 @@ const Blogspost = ({ blogPost }) => {
         </Link>
       </div>
       <div className="blogCardFooterMainDIv">
+
         <div className="blogCardFooterRow">
+       
           {author && (
+             <Link style={{ textDecoration: "none" }} to={`/authorpage/${author._id}`} key={author.id}>
             <div className="BlogCardAuthorInfo">
               <img
                 src={author.profilePicture}
@@ -178,7 +209,9 @@ const Blogspost = ({ blogPost }) => {
               />
               <p className="authorUsername"> {author.username} </p>
             </div>
+            </Link>
           )}
+          
         </div>
         <div className="blogCardFooterRow">
           <button className="BlogFooterkButton">
@@ -216,6 +249,42 @@ const Blogspost = ({ blogPost }) => {
               ? timeAgo
               : formattedDate}
           </div>
+
+          <div className="bookmarkWrapper">
+            <button className="BlogFooterkButton">
+              <CIcon
+                icon={icon.cilLink}
+                size=""
+                style={{ color: isBookmarked ? "purple" : "black" }}
+                className="BlogFooteMarkIcon"
+                onClick={copyToClipboard}
+              />
+            </button>
+          </div>
+
+          <div className="bookmarkWrapper">
+            <button className="BlogFooterkButton">
+              <CIcon
+                icon={icon.cibWhatsapp}
+                size=""
+                style={{ color: isBookmarked ? "purple" : "black" }}
+                className="BlogFooteMarkIcon"
+                onClick={handleWhatsAppShare}
+              />
+            </button>
+          </div>
+         
+          <div className="bookmarkWrapper">
+            <button className="BlogFooterkButton" onClick={handleFacebookShare}>
+              <CIcon
+                icon={icon.cibFacebookF}
+                size=""
+                style={{ color: isBookmarked ? "purple" : "black" }}
+                className="BlogFooteMarkIcon"
+              />
+            </button>
+          </div>
+
           <div className="bookmarkWrapper">
             <button className="BlogFooterkButton" onClick={handleBookmark}>
               <CIcon

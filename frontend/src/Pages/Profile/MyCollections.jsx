@@ -5,7 +5,6 @@ import { useUsers } from "../../Context/UserContext";
 import "./MySaves.css";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-import ShopCard from "./shopcard/ShopCard";
 
 const MyCollections = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -181,35 +180,10 @@ const MyCollections = () => {
               )}
             </button>
           </div>
-          <p className="UserBlogsCount">
-            {" "}
-            No of Ads: {"   "} {shoppost.length}{" "}
-          </p>
+        
         </div>
 
-        {shoppost.length === 0 ? (
-          <p>No advertisements found.</p>
-        ) : (
-          <ul>
-            {showShopGrid
-              ? shoppost.map((shoppost) => (
-                  <ShopCard
-                    style={{ textDecoration: "none" }}
-                    key={shoppost._id}
-                    shoppost={shoppost}
-                    onDelete={handleShopDelete}
-                  />
-                ))
-              : shoppost.slice(0, 3).map((shoppost) => (
-                  <ShopCard
-                    style={{ textDecoration: "none" }}
-                    key={shoppost._id}
-                    shoppost={shoppost}
-                    onDelete={handleShopDelete}
-                  />
-                ))}
-          </ul>
-        )}
+       
       </div>
     </div>
   );

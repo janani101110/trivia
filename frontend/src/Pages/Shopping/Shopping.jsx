@@ -6,7 +6,7 @@ import { Shopcard } from "./Shopcard";
 import { useUsers } from "../../Context/UserContext"; // Import user context
 import Alert from "../../Component/Alert/Alert";
 import drone from "./Assets/drone.png";
-
+ 
 export const Shopping = () => {
   const shopBannerRef = useRef(null);
   const [shopposts, setShopposts] = useState([]);
@@ -35,7 +35,7 @@ export const Shopping = () => {
   //   } else { 
   //     navigate("/shoppingpost");
   //   }
-  // };
+  // }; 
   const handleCreateClick = () => {
     if (!user) {
       setShowAlert(true);

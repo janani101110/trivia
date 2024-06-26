@@ -38,14 +38,14 @@ export const Shopcard = ({ shoppost }) => {
   }
 
   return (
-    <div className="shoppingcard" key={shoppost._id}>
+    <div className="shoppingcard" key={shoppost._id}> 
       <img src={shoppost.imageUrl} alt="" />
       <div className="shopcardtext">
         <div className="shopcardtitle">{shoppost.name}</div>
         <div className="shopcardprice">{shoppost.price}</div>
-        <div className="profile">
+        <div className="shopprofile">
           {author&&(
-            <div className="profilepic">
+            <div className="shopprofilepic">
               <img src={author.profilePicture} alt={author.username} className="authorProfilePicture"/>
             </div>
 

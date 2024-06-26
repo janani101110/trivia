@@ -1,3 +1,4 @@
+
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require("passport");
 const User = require('./models/User');
@@ -12,9 +13,8 @@ passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   callbackURL: "http://localhost:5000/auth/google/callback",
-  userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-  scope: ['email ', 'profile', ] 
-}, function(accessToken, refreshToken, profile, cb) {
+  scope: ["profile", "email"]
+}, function(accessToken, refreshToken, profile, done) {
   console.log("Google OAuth Profile:", profile); 
   const { id, displayName, photos, emails } = profile;
   const profilePicture = photos && photos.length > 0 ? photos[0].value : null;
@@ -24,15 +24,19 @@ passport.use(new GoogleStrategy({
     userId: id, 
     username: displayName,
     profilePicture,
-    email :"jananilasindu@gmail.com"
+    email: email
   }, function (err, user) {
-    if (err) { return cb(err); }
+    if (err) { 
+      return done(err); // Handle error
+    }
+    if (!user) {
+      return done(new Error("User not found or created")); // Handle case where user is not found or created
+    }
     
     const token = jwt.sign({ _id: user._id }, process.env.accessToken_secret, { expiresIn: "1h" });
-    return cb(null, user, token);
+    return done(null, user, token);
   });
 }));
-
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

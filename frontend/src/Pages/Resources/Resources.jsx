@@ -79,7 +79,10 @@ export const Resources = () => {
       <div className="resobanner">
 
         <div className="resobanner-content" id="resobanner-content">
-        <SearchResults/>
+          <div className="resosearchbar">
+            <SearchResults/>
+          </div>
+        
           <h1>Welcome to Our Resource Hub</h1>
           <p>
             Explore a vast collection of resources to enhance your electronic

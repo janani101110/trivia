@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import './Forum.css';
 import QuestionCard from './QuestionCard';
@@ -19,7 +20,8 @@ export const Forum = () => {
     const fetchQuestions = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/questions');
-        setQuestions(res.data.data);
+        const sortedQuestions = res.data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setQuestions(sortedQuestions);
       } catch (err) {
         console.log(err);
       }
@@ -29,13 +31,13 @@ export const Forum = () => {
   }, []);
 
   const handleClick = () => {
-    
     if (!user) {
       setShowAlert(true);
     } else {
       navigate('/questionform');
     }
   };
+
   const handleAlertClose = () => {
     setShowAlert(false);
     navigate('/login');
@@ -63,7 +65,7 @@ export const Forum = () => {
           )}
         </div>
       </div>
-      <div className='questionArea' style={{ width: '980px', marginLeft: '300px', marginTop: '45px' }}>
+      <div className='questionArea' style={{ width: '980px', marginLeft: '200px', marginTop: '45px' }}>
         {currentQuestions.map((question) => (
           <Link
             key={question._id}
@@ -75,7 +77,7 @@ export const Forum = () => {
         ))}
       </div>
       {/* Pagination controls */}
-      <div  className='pagination' style={{marginLeft:"1100px"}}>
+      <div className='pagination' style={{ marginLeft: '900px' }}>
         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className='b1'>
           Previous
         </button>

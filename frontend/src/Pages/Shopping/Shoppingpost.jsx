@@ -129,10 +129,10 @@ export const Shoppingpost = () => {
     //     throw new Error("Failed to create advertisement");
     //   }
     //   const data = await res.json();
-    //   console.log(data);
+    //   console.log(data); 
     //   navigate("/shopping");
     // } catch (error) {
-    //   console.error("Error creating shop post:", error);
+    //   console.error("Error creating shop post:",  error);
     // }
   };
 // Function to retrieve token from local storage

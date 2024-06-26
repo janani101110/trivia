@@ -1,14 +1,26 @@
 import React from "react";
-//import { useState, useEffect } from "react";
+import { useState } from "react";
 //import { ReactDOM } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { faBell, faHome, faMicrochip, faBook, faBlog, faCartShopping, faUser, faChartLine, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import "./AdminNavi.css";
+import AdminDropdown from "./AdminDropdown";
+import { useUsers } from "../../Context/UserContext";
 
 
 export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } }) => {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const { user, fetchUsers } = useUsers();
+
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
 
   return (
     <div>
@@ -25,9 +37,15 @@ export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } })
               </a>
             </li>
             <li>
-              <a href="#">
-                <FontAwesomeIcon icon={faUserCircle} />
-              </a>
+            <div className="menu"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
+            <FontAwesomeIcon icon={faUserCircle} />
+          
+          {isDropdownVisible && <AdminDropdown />}
+        </div>
+
+              
             </li>
           </div>
         </div>

@@ -110,10 +110,10 @@
   flex-direction: column;
   padding: 20px;
 }
-.profilepic .authorProfilePicture {
+.shopprofilepic .authorProfilePicture {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-left: 15px;
   margin-top: 35px;
 }
