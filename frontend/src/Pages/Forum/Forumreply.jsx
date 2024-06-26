@@ -4,11 +4,9 @@ import axios from "axios";
 import { URL } from "../../url";
 import "./Forum.css";
 import { Icon } from 'react-icons-kit'; 
-// import {ic_done_twotone} from 'react-icons-kit/md/ic_done_twotone'
-// import {ic_done_outline_twotone} from 'react-icons-kit/md/ic_done_outline_twotone'
-import {check} from 'react-icons-kit/fa/check';
-import {close} from 'react-icons-kit/fa/close';
-import {mailReply} from 'react-icons-kit/fa/mailReply'
+import { check } from 'react-icons-kit/fa/check';
+import { close } from 'react-icons-kit/fa/close';
+import { mailReply } from 'react-icons-kit/fa/mailReply';
 
 export const Forumreply = ({ answer, fetchPostComments }) => {
   const [reply, setReply] = useState("");
@@ -17,6 +15,7 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
   const [dislikes, setDislikes] = useState(answer.dislikes || 0);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [showReplies, setShowReplies] = useState(false); // State for toggling replies visibility
 
   useEffect(() => {
     setLikes(answer.likes);
@@ -84,6 +83,12 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
     }
   };
 
+  const toggleRepliesVisibility = () => {
+    setShowReplies(!showReplies);
+  };
+
+  const sortedReplies = answer.replies?.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   return (
     <div className="forum-comment">
       <div className="forum-comment-header">
@@ -97,13 +102,12 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
         </div>
         <div className="forum-comment-actions">
           <MdDelete onClick={() => deleteComment(answer._id)} />
-          <button onClick={() => setShowReplyInput(!showReplyInput)}className="reply"><Icon icon={mailReply} /></button>
+          <button onClick={() => setShowReplyInput(!showReplyInput)} className="reply"><Icon icon={mailReply} /></button>
           <button onClick={handleLike} disabled={liked} className="like"><Icon icon={check} /></button> {likes}
-          <button onClick={handleDislike} disabled={disliked}className="dislike"><Icon icon={close} /></button> {dislikes}
+          <button onClick={handleDislike} disabled={disliked} className="dislike"><Icon icon={close} /></button> {dislikes}
         </div>
       </div>
-      <p>{answer.answer}</p>
-
+      <p>{answer.answer}</p> {/* Always render the answer */}
       {showReplyInput && (
         <div className="forum-write-comment">
           <textarea
@@ -115,11 +119,18 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
           <button onClick={postReply}>Reply</button>
         </div>
       )}
-      <div className="forum-comment-replies">
-        {answer.replies && answer.replies.map(reply => (
-          <Forumreply key={reply._id} answer={reply} fetchPostComments={fetchPostComments} />
-        ))}
-      </div>
+      {answer.replies && answer.replies.length > 0 && (
+        <button onClick={toggleRepliesVisibility} className="toggle-replies">
+          {showReplies ? "Hide" : "Show"} Replies ({answer.replies.length})
+        </button>
+      )}
+      {showReplies && (
+        <div className="forum-comment-replies">
+          {sortedReplies.map(reply => (
+            <Forumreply key={reply._id} answer={reply} fetchPostComments={fetchPostComments} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
