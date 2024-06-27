@@ -6,12 +6,19 @@ import * as icon from "@coreui/icons";
 import { useUsers } from "../../Context/UserContext";
 import { formatDistanceToNow, format } from "date-fns";
 import "./popularBlogpost.css";
+import Notification from './BlogNotification';
+import ShareBox from './ShareBox';
 
 const BlogPostCard = ({ blogPost }) => {
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [comments, setComments] = useState([]);
+  const [showShareBox, setShowShareBox] = useState(false);
+const [shareUrl, setShareUrl] = useState('');
   const navigate = useNavigate();
 
   const fetchUserData = async (userId) => {
@@ -115,6 +122,24 @@ const BlogPostCard = ({ blogPost }) => {
     }
   };
 
+  const fetchBlogComments = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/blogComments/post/${blogPost._id}`);
+      setComments(res.data);
+    } catch (err) {
+      console.error("Error fetching blog comments:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogComments();
+  }, [blogPost._id]);
+
+  const toggleShareBox = () => {
+    setShowShareBox(!showShareBox);
+  };
+
+
   return (
     <div className="blog-post-card">
       <div className="post-card-content">
@@ -149,6 +174,7 @@ const BlogPostCard = ({ blogPost }) => {
               )}
             </div>{" "}
           </div>
+          </Link>
           <div className="blogCardFooterMainDIv">
             <div className="blogCardFooterRow">
               <button className="BlogFooterkButton" onClick={handleLike}>
@@ -174,7 +200,7 @@ const BlogPostCard = ({ blogPost }) => {
                     style={{ "--ci-primary-color": "black" }}
                     className="insideBlogLike"
                   />
-                  152 Comments
+                  {comments.length}
                 </span>
               </button>
               <div className="blogPostDate">
@@ -182,6 +208,23 @@ const BlogPostCard = ({ blogPost }) => {
                   ? timeAgo
                   : formattedDate}
               </div>
+
+              <div className="bookmarkWrapper">
+  <button
+    className="BlogFooterkButton"
+    onClick={toggleShareBox}
+  >
+  
+    <CIcon
+      icon={icon.cilShareAlt}
+      size=""
+      style={{ color:"black" }}
+      className="BlogFooteMarkIcon"
+    />
+  </button>
+  {showShareBox && <ShareBox postUrl={blogPost.url} onClose={toggleShareBox} />}
+</div>
+
               <div className="bookmarkWrapper">
                 <button className="BlogFooterkButton" onClick={handleBookmark}>
                   <CIcon
@@ -194,8 +237,14 @@ const BlogPostCard = ({ blogPost }) => {
               </div>
             </div>
           </div>
-        </Link>
+       
       </div>
+      {showNotification && (
+        <Notification
+          message={notificationMessage}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
     </div>
   );
 };

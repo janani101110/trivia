@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import { useUsers } from "../../Context/UserContext";
+import ShareBox from './ShareBox';
 import { formatDistanceToNow, format } from 'date-fns';
 import Notification from './BlogNotification';
 
@@ -16,6 +17,9 @@ const Blogspost = ({ blogPost }) => {
   const [liked, setLiked] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [comments, setComments] = useState([]);
+  const [showShareBox, setShowShareBox] = useState(false);
+const [shareUrl, setShareUrl] = useState('');
   const navigate = useNavigate();
 
   const fetchUserData = async (userId) => {
@@ -144,33 +148,25 @@ const Blogspost = ({ blogPost }) => {
     }
   };
 
-  const handleWhatsAppShare = () => {
-    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; // Replace with your actual URL structure
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(postUrl)}`;
-    window.open(whatsappUrl, '_blank');
+
+
+  const fetchBlogComments = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/blogComments/post/${blogPost._id}`);
+      setComments(res.data);
+    } catch (err) {
+      console.error("Error fetching blog comments:", err);
+    }
   };
 
-  const handleFacebookShare = () => {
-    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; // Replace with your actual URL structure
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
-    window.open(facebookUrl, '_blank');
+  useEffect(() => {
+    fetchBlogComments();
+  }, [blogPost._id]);
+
+  const toggleShareBox = () => {
+    setShowShareBox(!showShareBox);
   };
 
-  const copyToClipboard = (text) => {
-    const postUrl = `http://localhost:3000/InsidePost/${blogPost._id}`; 
-    navigator.clipboard.writeText(postUrl)
-      .then(() => {
-        setNotificationMessage('URL copied to clipboard!');
-        setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 3000);
-      })
-      .catch(err => {
-        console.error('Error copying to clipboard: ', err);
-        setNotificationMessage('Failed to copy URL.');
-        setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 3000);
-      });
-  };
 
   return (
     <div className="mainBlogpostcard">
@@ -239,7 +235,7 @@ const Blogspost = ({ blogPost }) => {
                 style={{ "--ci-primary-color": "black" }}
                 className="insideBlogLike"
               />
-              152 Comments
+             {comments.length}
             </span>
           </button>
         </div>
@@ -251,39 +247,21 @@ const Blogspost = ({ blogPost }) => {
           </div>
 
           <div className="bookmarkWrapper">
-            <button className="BlogFooterkButton">
-              <CIcon
-                icon={icon.cilLink}
-                size=""
-                style={{ color: isBookmarked ? "purple" : "black" }}
-                className="BlogFooteMarkIcon"
-                onClick={copyToClipboard}
-              />
-            </button>
-          </div>
+  <button
+    className="BlogFooterkButton"
+    onClick={toggleShareBox}
+  >
+  
+    <CIcon
+      icon={icon.cilShareAlt}
+      size=""
+      style={{ color:"black" }}
+      className="BlogFooteMarkIcon"
+    />
+  </button>
+  {showShareBox && <ShareBox postUrl={blogPost.url} onClose={toggleShareBox} />}
+</div>
 
-          <div className="bookmarkWrapper">
-            <button className="BlogFooterkButton">
-              <CIcon
-                icon={icon.cibWhatsapp}
-                size=""
-                style={{ color: isBookmarked ? "purple" : "black" }}
-                className="BlogFooteMarkIcon"
-                onClick={handleWhatsAppShare}
-              />
-            </button>
-          </div>
-         
-          <div className="bookmarkWrapper">
-            <button className="BlogFooterkButton" onClick={handleFacebookShare}>
-              <CIcon
-                icon={icon.cibFacebookF}
-                size=""
-                style={{ color: isBookmarked ? "purple" : "black" }}
-                className="BlogFooteMarkIcon"
-              />
-            </button>
-          </div>
 
           <div className="bookmarkWrapper">
             <button className="BlogFooterkButton" onClick={handleBookmark}>

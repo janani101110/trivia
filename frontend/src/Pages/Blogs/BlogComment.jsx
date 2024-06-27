@@ -92,16 +92,17 @@ export const BlogComment = ({ c, fetchBlogComments }) => {
           </h6>
         </div>
         <div className="comment-actions">
-          {author._id === user._id && (
-            <MdDelete onClick={() => deleteComment(c._id)} />
-          )}
-          <button onClick={() => setShowReplyInput(!showReplyInput)}>Reply</button>
-          {c.replies && c.replies.length > 0 && (
-            <button onClick={toggleReplies}>
-              {showReplies ? "Hide Replies" : "Show Replies"}
-            </button>
-          )}
-        </div>
+  {user && author._id === user._id && (
+    <MdDelete onClick={() => deleteComment(c._id)} />
+  )}
+  <button onClick={() => setShowReplyInput(!showReplyInput)}>Reply</button>
+  {c.replies && c.replies.length > 0 && (
+    <button onClick={toggleReplies}>
+      {showReplies ? "Hide Replies" : "Show Replies"}
+    </button>
+  )}
+</div>
+
       </div>
       <p>{c.comment}</p>
       {showReplyInput && (
