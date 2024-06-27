@@ -35,7 +35,7 @@ export const Navbar = () => {
           }}/>
  </Link>
  <Link style={{ textDecoration: "none" }} to="/home">
-        <h1>Trivia</h1>
+        <h1 className='NavbarTopic'>Trivia</h1>
         </Link>
       </div>
       <ul className="nav-menu">

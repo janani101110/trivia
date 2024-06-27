@@ -1,28 +1,18 @@
-html {
-  scroll-behavior: smooth;
-}
-
+/* Home.css */
 .Home {
-  width: 100%;
-  background-color: #fff;
-  overflow: hidden;
-  background-color: #000;
-}
-
-section {
-  width: 100%;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  padding: 20px;
+  background: #f5f5f5;
 }
 
 .HomeMainDiv {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  background-color: #fff;
+  background-color: #ffffff;
+  padding: 20px;
+  justify-content: space-between;
 }
 
 .homeDiv1 {
@@ -43,12 +33,14 @@ section {
   padding-bottom: 0px;
   font-size: 45px;
   font-family: prociano;
+  padding-left: 80px;
+  font-weight: 550;
 }
 
 .HomeMainSubText {
   margin-top: 30px;
   padding-bottom: 20px;
-  padding-left: 30px;
+  padding-left: 80px;
   font-size: 24px;
   font-family: prociano;
 }
@@ -58,8 +50,8 @@ section {
   color: #fff;
   border: none;
   margin-top: 30px;
-  margin-left: 150px;
-  padding: 10px 80px;
+  margin-left: 80px;
+  padding: 10px 40px;
   font-size: 16px;
   font-family: cursive;
   cursor: pointer;
@@ -97,27 +89,26 @@ section {
   display: flex;
   align-items: center;
   margin-top: 10px;
+  box-shadow: 0 0 10px gray;
+  border-radius: 5px;
 }
 
 .HomeSearch {
   height: 30px;
-  width: 270px;
+  width: 300px;
   border: none;
   background-color: transparent;
-  border-bottom: solid 2px #000;
   color: #000;
   font-size: 13px;
   font-family: cursive;
   padding-left: 20px;
   margin: 0;
-  outline: none;
 }
 
 .HomeSearchIcon {
-  height: 30px;
+  height: 20px;
   width: 30px;
   background-color: transparent;
-  border-bottom: solid 2px #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,68 +125,173 @@ section {
 }
 
 .HomeResourseDiv {
-  width: 100%;
-  height: 605px;
-  padding: 20px;
-  border-top: 1px solid #ddd;
-  background-color: #000;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  transition: transform 0.3s;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.HomeResourceSub1 {
+.HomeResourseDiv.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.HomeResourceSub1,
+.HomeForumSub2 {
   flex: 1;
-  padding: 60px;
+  display: flex;
+  justify-content: center;
 }
 
-.resourseImage {
-  width: 75%;
-  height: 100%;
+.resourseImage,
+.blogImage {
+  max-width: 100%;
+  border-radius: 10px;
 }
 
-.HomeResourceSub2 {
+.HomeResourceSub2,
+.HomeForumSub1 {
   flex: 1;
-  padding: 0px;
-  padding-right: 90px;
-  color: #fff;
+  padding: 20px;
 }
 
 .ResourcesTopic {
-  font-size: 80px;
-  margin-left: 0px;
-  margin-bottom: 10px;
-  font-family: prociano;
-}
-
-.HomeResourceSubText {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.HomeForumSub1 {
-  flex: 1;
-  padding: 60px;
+  font-size: 1.5em;
+  font-weight: bold;
   color: #fff;
-}
-
-.HomeForumSub2 {
-  flex: 1;
-  padding-left: 80px;
+  margin-bottom: 10px;
 }
 
 .ForumTopic {
-  font-size: 80px;
-  margin-left: 0px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #000;
   margin-bottom: 10px;
-  font-family: prociano;
-  padding-left: 20px;
+}
+
+.HomeResourceSubText {
+  font-size: 1.1em;
+  color: #bbb;
+  margin-bottom: 20px;
 }
 
 .HomeForumSubText {
-  font-size: 16px;
+  font-size: 1.1em;
+  color: #000;
   margin-bottom: 20px;
-  padding-left: 20px;
+}
+
+#section2,
+#section4,
+#section6 {
+  background-color: #000;
+}
+
+.AboutusDiv {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.AboutusDiv p {
+  font-size: 1.2em;
+  color: #7f8c8d;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .homeDiv1 {
+    padding-left: 40px;
+  }
+
+  .HomeMainSubText {
+    padding-left: 40px;
+    font-size: 20px;
+  }
+
+  .HomeGetStartedButton {
+    margin-left: 40px;
+  }
+}
+
+@media (max-width: 992px) {
+  .homeDiv1,
+  .homeDiv2 {
+    margin: 20px;
+    padding: 20px;
+    flex: 1 1 100%;
+  }
+
+  .HomeMainDiv {
+    flex-direction: column;
+  }
+
+  .HomeSearch {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .HomeResourseDiv {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .HomeResourceSub1,
+  .HomeForumSub2,
+  .HomeResourceSub2,
+  .HomeForumSub1 {
+    flex: 1 1 100%;
+    padding: 10px;
+  }
+
+  .resourseImage,
+  .blogImage {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .TriviaAPP {
+    font-size: 30px;
+    padding-left: 20px;
+  }
+
+  .HomeMainSubText {
+    font-size: 18px;
+    padding-left: 20px;
+  }
+
+  .HomeGetStartedButton {
+    padding: 10px 30px;
+    font-size: 14px;
+    margin-left: 20px;
+  }
+
+  .HomeSearch {
+    width: 200px;
+  }
+
+  .ResourcesTopic,
+  .ForumTopic {
+    font-size: 1.2em;
+  }
+
+  .HomeResourceSubText,
+  .HomeForumSubText {
+    font-size: 1em;
+  }
+
+  .AboutusDiv p {
+    font-size: 1em;
+  }
 }

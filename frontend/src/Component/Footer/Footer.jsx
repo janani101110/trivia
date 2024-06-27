@@ -9,20 +9,10 @@ export const Footer = () => {
   return (
     <div className="footer">
       <div className="footerIcon">
-        <div className="call">
-          {" "}
-          <a href="#">
-            <CIcon
-              icon={icon.cilPhone}
-              size=""
-              style={{ "--ci-primary-color": "black" }}
-              className="dropdownIcon"
-            />
-          </a>{" "}
-        </div>
+        
         <div className="email">
           {" "}
-          <a href="#">
+          <a href="mailto:triviatechnology2024@gmail.com" target='_blank'>
             {" "}
             <CIcon
               icon={icon.cibGmail}
@@ -32,12 +22,26 @@ export const Footer = () => {
             />{" "}
           </a>{" "}
         </div>
-        <div className="location">
+
+        <div className="LinkedIn">
           {" "}
-          <a href="#">
+          <a href="https://www.linkedin.com/showcase/gavesha/" target='_blank'>
+            <CIcon
+              icon={icon.cibLinkedinIn}
+              size=""
+              style={{ "--ci-primary-color": "black" }}
+              className="dropdownIcon"
+            />
+          </a>{" "}
+        </div>
+
+
+        <div className="tiktok">
+          {" "}
+          <a href="https://www.tiktok.com/@gaveshaedtech" target='_blank'>
             {" "}
             <CIcon
-              icon={icon.cilLocationPin}
+              icon={icon.cibTiktok}
               size=""
               style={{ "--ci-primary-color": "black" }}
               className="dropdownIcon"
@@ -46,7 +50,7 @@ export const Footer = () => {
         </div>
         <div className="facebook">
           {" "}
-          <a href="#">
+          <a href="https://www.facebook.com/gaveshaEdtech/" target='_blank'>
             {" "}
             <CIcon
               icon={icon.cibFacebookF}
@@ -56,18 +60,19 @@ export const Footer = () => {
             />{" "}
           </a>{" "}
         </div>
-        <div className="twitter">
+        <div className="youtube">
           {" "}
-          <a href="#">
+          <a href="https://www.youtube.com/c/Gavesha" target='_blank'>
             {" "}
             <CIcon
-              icon={icon.cibTwitter}
+              icon={icon.cibYoutube}
               size=""
               style={{ "--ci-primary-color": "black" }}
               className="dropdownIcon"
             />{" "}
           </a>{" "}
         </div>
+       
       </div>
 
       <ul className="footer-nav-menu">
@@ -107,12 +112,7 @@ export const Footer = () => {
       >
         <Link to="/forum">Forum</Link>
       </li>
-      <li
-        onClick={() => setMenu("about")}
-        className={menu === "about" ? "active" : ""}
-      >
-        <Link to="/aboutus">About Us</Link>
-      </li>
+     
     </ul>
 
 

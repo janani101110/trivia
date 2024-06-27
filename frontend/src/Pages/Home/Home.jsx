@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Home.css";
-import octopus from "../Home/Assets/octopus.png";
-import resources1 from "../Home/Assets/Resources1.png";
-import forum1 from "../Home/Assets/forum1.png";
-import project1 from "../Home/Assets/project1.png";
-import blog1 from "../Home/Assets/blog1.png";
-import shopping1 from "../Home/Assets/shopping1.png";
+import octopus from "../Home/Assets/space.png";
+import resources1 from "./Assets/r1.png";
+import forum1 from "../Home/Assets/f1.png";
+import project1 from "../Home/Assets/octopus.png";
+import blog1 from "../Home/Assets/b1.png";
+import shopping1 from "../Home/Assets/s1.png";
+import aboutus from "../Home/Assets/AboutUs.jpg";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 
@@ -17,26 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const Home = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-
-    sections.forEach((section, index) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top center",
-          end: "bottom center",
-          scrub: true,
-          onEnter: () => {
-            gsap.fromTo(section, { x: "100%" }, { x: "0%", duration: 1 });
-          },
-          onLeaveBack: () => {
-            gsap.fromTo(section, { x: "0%" }, { x: "-100%", duration: 1 });
-          },
-        },
-      });
-    });
-  }, []);
+ 
 
   const handleGetStartedClick = () => {
     navigate("/signup");
@@ -61,8 +43,28 @@ export const Home = () => {
   const handleExploreShoppingClick = () => {
     navigate("/shopping");
   };
-
-
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+  
+    sections.forEach((section) => {
+      gsap.fromTo(
+        section,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    });
+  }, []);
+  
   return (
     <div className="Home">
       <div className="HomeMainDiv">
@@ -101,22 +103,20 @@ export const Home = () => {
 
       <section id="section2" className="HomeResourseDiv">
         <div className="HomeResourceSub1">
-          <img src={resources1} alt="resources image" className="resourseImage" />
+          <img src={resources1} alt="resourcesimg" className="resourseImage" />
         </div>
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Resources </p>
           <p className="HomeResourceSubText">
-            Unleash your creativity with our Content Management System, your
-            personal genie for electronic tinkering. This innovative tool
-            streamlines every aspect of your project, making even the most
-            complex tasks a breeze. Customize and manage your content
-            effortlessly, ensuring your creative vision is always within reach.
-            Whether you're a novice or a seasoned pro, our CMS provides the
-            intuitive interface and powerful features needed to bring your ideas
-            to life. Embrace the ease of seamless project management and watch
-            your electronic creations flourish.
+            Looking for the encyclopedia of IOT ?<br></br>
+            We got you all the knowledge you need to know about IOT when
+            building your project and you can be a part of this encyclopedia by
+            sharing your knowledge.
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreResourcesClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreResourcesClick}
+          >
             Explore
           </button>
         </div>
@@ -126,47 +126,40 @@ export const Home = () => {
         <div className="HomeForumSub1">
           <p className="ForumTopic"> Forum </p>
           <p className="HomeForumSubText">
-            Unleash the power of community collaboration with our Forum feature,
-            your personal hub for electronic tinkering discussions. This dynamic
-            platform streamlines every aspect of sharing and seeking knowledge,
-            making even the most complex topics approachable. Engage with fellow
-            enthusiasts, ask questions, and share your insights effortlessly,
-            ensuring your creative projects are always supported by collective
-            wisdom. Whether you're a novice seeking guidance or a seasoned pro
-            offering advice, our Forum provides an intuitive interface and
-            robust features to foster vibrant discussions. Embrace the ease of
-            community-driven learning and watch your electronic innovations
-            thrive.
+            A Friend in need is a friend in deed ! Solve your IOT problems by
+            connecting with other IOT Tinkers like you and help them with their
+            projects also. Join the Community !
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreForumClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreForumClick}
+          >
             Explore
           </button>
         </div>
         <div className="HomeForumSub2">
-          <img src={forum1} alt="forum image" className="resourseImage" />
+          <img src={forum1} alt="forumimage" className="resourseImage" />
         </div>
       </section>
 
       <section id="section4" className="HomeResourseDiv">
         <div className="HomeResourceSub1">
-          <img src={project1} alt="projects image" className="resourseImage" />
+          <img src={project1} alt="projectsimage" className="resourseImage" />
         </div>
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Projects </p>
           <p className="HomeResourceSubText">
-            Unleash your potential with our Sample Project feature, your
-            personal guide to electronic tinkering excellence. This dynamic
-            library streamlines every aspect of discovering and replicating
-            projects, making even the most complex builds approachable. Explore
-            detailed guides, follow step-by-step instructions, and gain
-            invaluable insights effortlessly, ensuring your creative journey is
-            always supported by proven examples. Whether you're a novice seeking
-            inspiration or a seasoned pro looking for new challenges, our Sample
-            Project feature provides an intuitive interface and comprehensive
-            resources to fuel your innovation. Embrace the ease of guided
-            learning and watch your electronic creations come to life.
+            If you are running out of ideas for your IOT project we got you !
+            <br></br>
+            Follow the step-by-step guidelines provided to build your project.
+            <br></br>
+            As well as if you are an innovator who wants to share your new
+            project with others you are at the right place.
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreProjectsClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreProjectsClick}
+          >
             Explore
           </button>
         </div>
@@ -176,50 +169,57 @@ export const Home = () => {
         <div className="HomeForumSub1">
           <p className="ForumTopic"> Blog </p>
           <p className="HomeForumSubText">
-            Unleash your creativity with our Blog feature, your personal hub for
-            sharing electronic tinkering experiences. This dynamic platform
-            streamlines every aspect of writing and publishing articles, making
-            even the most complex topics engaging and approachable. Share your
-            insights and tips effortlessly, ensuring your creative journey is
-            always supported by a vibrant audience. Whether you're a novice
-            documenting your learning process or a seasoned pro sharing advanced
-            techniques, our Blog feature provides an intuitive interface and
-            powerful tools to create captivating content. Embrace the ease of
-            storytelling and watch your electronic innovations inspire and
-            thrive.
+            See what others are doing by clicking our Blogs !<br></br>and share
+            your creative ideas and experience about your IOT life with our
+            tinkers by discovering the blog feature
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreBlogsClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreBlogsClick}
+          >
             Explore
           </button>
         </div>
         <div className="HomeForumSub2">
-          <img src={blog1} alt="blog image" className="resourseImage" />
+          <img src={blog1} alt="blogimage" className="blogImage" />
         </div>
       </section>
 
       <section id="section6" className="HomeResourseDiv">
         <div className="HomeResourceSub1">
-          <img src={shopping1} alt="projects image" className="resourseImage" />
+          <img src={shopping1} alt="projectsimage" className="resourseImage" />
         </div>
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Shopping </p>
           <p className="HomeResourceSubText">
-            Unleash the power of community commerce with our Classifieds
-            feature, your personal marketplace for electronic components and
-            projects. This dynamic platform streamlines every aspect of buying
-            and selling, making even the most specific items accessible. Engage
-            with fellow enthusiasts, find rare parts, and offer your creations
-            effortlessly, ensuring your projects are always supported by a
-            robust marketplace. Whether you're a novice seeking affordable
-            components or a seasoned pro looking to sell your designs, our
-            Classifieds feature provides an intuitive interface and powerful
-            tools to foster seamless transactions. Embrace the ease of
-            community-driven commerce and watch your electronic ventures
-            flourish.
+            Don't know where to buy IOT components or wanna sell those used
+            components ? <br></br>
+            Check out our classified website ; A place where you can buy and
+            sell !
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreShoppingClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreShoppingClick}
+          >
             Explore
           </button>
+        </div>
+      </section>
+
+      <section id="section7" className="HomeResourseDiv">
+      <div className="HomeForumSub2">
+          <img src={aboutus} alt="AboutUsimage" className="blogImage" />
+        </div>
+        <div className="HomeForumSub1">
+          <p className="ForumTopic"> About us </p>
+          <p className="HomeForumSubText">
+          Welcome to Gavesha, the ultimate destination for young innovators! 🌟
+          <br/> <br/>
+          Is your child fascinated by electronics, Arduino, and DIY projects? Or
+          perhaps you're an adult who's still young at heart? Gavesha is perfect
+          for all ages with a passion for hands-on learning and creativity.
+          </p>
+       
         </div>
       </section>
     </div>
