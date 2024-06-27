@@ -14,8 +14,12 @@ const userRoute=require('./routes/users');
 const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments')
 const bookMarkRoutes = require('./routes/BookMarks')
+
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
+
+const Shoppost = require('./models/Shoppost');
+const shoppostRoute= require("./routes/Shoppost");
 
 require('dotenv').config();
 require('./passport'); 
@@ -88,6 +92,8 @@ app.use("/api/users", userRoute);
 app.use("/api/blogPosts", blogPostRoutes);
 app.use("/api/blogComments", blogCommentRoutes);
 app.use("/api/bookMarks", bookMarkRoutes);
+
+app.use("/api/shoppost",shoppostRoute); 
 
 
 

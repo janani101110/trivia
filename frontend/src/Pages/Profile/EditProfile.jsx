@@ -9,7 +9,7 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-import editProfileImage from './Assets/editProfileImage.png'
+import editProfileImage from './Assets/editProfileImage.jpg'
 
 const EditProfile = () => {
   const { user } = useUsers();
@@ -88,7 +88,6 @@ const handleUpload = async (e) => {
         </div>
         <div className="form-group">
           <label className="createBlogTextLabel"> Image: </label>
-          <br />
           <br />
           {author.profilePicture && (
             <img src={author.profilePicture} alt="Blog Image" className="blogImage" />

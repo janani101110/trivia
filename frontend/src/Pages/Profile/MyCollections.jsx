@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard/blogCard";
+import ShopCard from "./shopCard/ShopCard";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
 import "./MySaves.css";
@@ -155,6 +156,7 @@ const MyCollections = () => {
                 ))}
           </ul>
         )}
+        
       </div>
       <hr />
       <div className="mySaveBookMarksDiv">
@@ -180,8 +182,34 @@ const MyCollections = () => {
               )}
             </button>
           </div>
-        
+          <p className="UserBlogsCount">
+            {" "}
+            No of Ads: {"   "} {shoppost.length}{" "}
+          </p>
         </div>
+        {shoppost.length === 0 ? (
+          <p>No saved blog posts found.</p>
+        ) : (
+          <ul>
+            {showBlogGrid
+              ? shoppost.map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleBlogDelete}
+                  />
+                ))
+              : shoppost.slice(0, 3).map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleBlogDelete}
+                  />
+                ))}
+          </ul>
+        )}
 
        
       </div>

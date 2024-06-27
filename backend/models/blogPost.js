@@ -1,6 +1,6 @@
+const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 const Bookmark = require('./Bookmark.js');
-const mongoose = require('mongoose');
 
 // Function to validate YouTube URLs
 const isValidYoutubeUrl = (url) => {
@@ -45,7 +45,7 @@ const blogPostSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: false, // Ensure the email is required if needed
+    required: false,
   }
 });
 
@@ -62,6 +62,6 @@ blogPostSchema.pre('findOneAndDelete', async function (next) {
   }
 });
 
-const blogPost = mongoose.model('blogPost', blogPostSchema);
+const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
-module.exports = blogPost;
+module.exports = BlogPost;

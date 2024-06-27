@@ -1,41 +1,119 @@
+/* Main container styling */
 .editProfileMainDiv {
-    display: flex;
-    margin-top: 3px;
-    justify-content: center;
-    align-items: center;
-    height: 98vh;
-  }
-  
-  .editProfileContainer {
-    display: flex;
-    align-items: flex-start;
-    max-width: 800px; /* Adjust as needed */
-    width: 90%;
-  }
-  
-  .editProfileimg {
-    flex: 1;
-    margin-right: 20px; /* Adjust spacing between the two divs */
-  }
-  
-  .secondDivEditProfile {
-    flex: 1;
-    margin-left: 150px;
-  }
-  
-  /* Style for image */
-  .editProfileimg img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* Style for form elements */
-  .form-group {
-    margin-bottom: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 750px;
+  margin-top: 3px;
+}
 
-  .editProfilemainText{
-    font-size: 18px;
-    margin-bottom: 35px;
-  }
-  
+/* Container for the profile image and the form */
+.editProfileContainer {
+  display: flex;
+  align-items: flex-start;
+  max-width: 800px;
+  margin-left: 50px;
+  width: 90%;
+}
+
+/* Profile image styling */
+.editProfileimg {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.editProfileimg img {
+  width: 97.5%;
+  height: auto;
+}
+
+/* Container for the form */
+.secondDivEditProfile {
+  flex: 1;
+  margin-left: 150px;
+}
+
+/* Main heading styling */
+.editProfilemainText {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Input field styling */
+.form-group input[type="text"],
+.form-group input[type="email"] {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Input field focus state styling */
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+  border-color: #27272780;
+  outline: none;
+  box-shadow: 0 0 5px #27272780;
+}
+
+/* Placeholder text styling */
+.form-group input[type="text"]::placeholder,
+.form-group input[type="email"]::placeholder {
+  color: #999;
+}
+
+/* Image upload label styling */
+.createBlogTextLabel {
+  display: block;
+  font-weight: bold;
+}
+
+/* Uploaded image styling */
+.blogImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* File input styling */
+.createBlogEnterImage {
+  display: block;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+}
+
+.createBlogEnterImage:hover {
+  border-color: #27272780;
+}
+
+/* Submit button styling */
+.btn-primary {
+  background-color: #101010;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-primary:hover {
+  background-color: #000000;
+}

@@ -1,6 +1,7 @@
 const express = require('express');
 const router=express.Router();
 const Post=require('../models/blogPost.js');
+const Bookmark = require('../models/Bookmark.js');
 const { sendEmail } = require('./nodemailer.js');
 
 
@@ -49,18 +50,17 @@ router.put("/:id", async (req, res) => {
 
 
 
-//Delete
 router.delete("/:id", async (req, res) => {
   try {
-      const post = await Post.findOneAndDelete({ _id: req.params.id });
-      if (post) {
-          await Bookmark.deleteMany({ blogPost: req.params.id });
-          res.status(200).json("Post and associated bookmarks have been deleted");
-      } else {
-          res.status(404).json("Post not found");
-      }
+    const post = await Post.findOneAndDelete({ _id: req.params.id });
+    const bookmark =  await Bookmark.deleteMany({ blogPost: req.params.id });
+    if (post, bookmark) {
+      res.status(200).json("Post and associated bookmarks have been deleted");
+    } else {
+      res.status(404).json("Post not found");
+    }
   } catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 });
 
