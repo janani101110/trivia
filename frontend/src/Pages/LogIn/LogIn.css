@@ -36,10 +36,11 @@
     outline: none; 
   }
   
-  .LoginTextdiv {
-   
+  .loginTextdiv {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
 
   .loginsubText{
@@ -79,7 +80,10 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
   }
-  .loginGoogleButton{
+  .loginGoogleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 300px;
     background-color: #fff;
     border: 2px solid #532f44;
@@ -91,7 +95,7 @@
     transition: background-color 0.3s, color 0.3s;
   }
   
-.loginGoogleButton:hover {
+  .loginGoogleButton:hover {
     background-color: #532f44;
     color: #fff;
   }
@@ -135,10 +139,8 @@
     color: #532f44;
 }
 
-.googleIcon{
-    height: 20px;
-    width: 20px;
-    margin-left: 20px;
-    cursor: pointer;
-
+.LoginGoogleIcon {
+  height: 30px; /* Adjust height as needed */
+  width: 30px; /* Adjust width as needed */
+  margin-right: 10px; /* Space between icon and text */
 }
