@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginImage from "../LogIn/images/loginImage.jpg";
+import GoogleIcon from "../LogIn/images/googleIcon.png";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 
@@ -107,12 +108,8 @@ function Login() {
         <div className="loginTextdiv">
           <button onClick={google} className="loginGoogleButton">
             {" "}
-            <CIcon
-              icon={icon.cibGoogle}
-              size=""
-              style={{ "--ci-primary-color": "#fff" }}
-               className="dropdownIcon"
-            />  Signin with Google{"   "}
+           <img src={GoogleIcon} className="LoginGoogleIcon"/> 
+            Signin with Google{"   "}
           </button>
         </div>
         <div className="loginhr">

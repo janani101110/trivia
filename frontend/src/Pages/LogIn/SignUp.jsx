@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../LogIn/images/loginImage.jpg";
+import GoogleIcon from "../LogIn/images/googleIcon.png";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,7 +69,9 @@ const Signup = () => {
         </div>
         <br/>
         <div className="loginTextdiv">
-          <button onClick={google} className="loginGoogleButton"> Signup with Google </button>
+          <button onClick={google} className="loginGoogleButton"> 
+          <img src={GoogleIcon} className="LoginGoogleIcon" alt=""/> 
+          Signup with Google </button>
         </div>
         <div className="loginhr">
           <hr className="hrclass" />

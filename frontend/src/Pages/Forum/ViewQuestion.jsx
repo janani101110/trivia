@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import { URL } from "../../url"; // Ensure this is correctly imported
 import { Forumreply } from "./Forumreply";
+import { useUsers } from "../../Context/UserContext";
+import Alert from "../../Component/Alert/Alert";
 
 const ViewQuestion = () => {
   const [question, setQuestion] = useState(null);
@@ -10,6 +12,10 @@ const ViewQuestion = () => {
   const [answers, setAnswers] = useState([]);
   const [answer, setAnswer] = useState("");
   const [author, setAuthor] = useState(null);
+  const { user } = useUsers();
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate(); 
+
 
   const fetchUserData = async (userId) => {
     try {
@@ -20,6 +26,15 @@ const ViewQuestion = () => {
       throw error;
     }
   };
+  
+  // const fetchAuthor = async (userId) => {
+  //   try {
+  //     const userData = await fetchUserData(userId);
+  //     setAuthor(userData);
+  //   } catch (error) {
+  //     console.error("Error fetching author:", error);
+  //   }
+  // };
 
   const fetchQuestion = async () => {
     try {
@@ -54,19 +69,32 @@ const ViewQuestion = () => {
   const postComment = async (e) => {
     e.preventDefault();
     if (!answer.trim()) return;
-
-    try {
-      await axios.post(
-        `${URL}/api/answer/create`,
-        { answer, postId: id },
-        { withCredentials: true } 
-      );
-      fetchPostComments();
-      setAnswer("");
-    } catch (error) {
-      console.error("Error posting comment", error);
+    if (user && user._id) {
+      try {
+        await axios.post(
+          `${URL}/api/answer/create`,
+          { answer, postId: id, postedBy: user._id }, // Include postedBy field
+          { withCredentials: true }
+        );
+        fetchPostComments();
+        setAnswer("");
+      } catch (error) {
+        console.error("Error posting comment", error);
+        if (error.response) {
+          console.error("Server responded with:", error.response.data);
+        }
+        // Handle errors as needed
+      }
+    } else {
+      setShowAlert(true);
     }
+    
   };
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    navigate('/login');
+  };
+  
   const formatDate = (date) => {
     const currentDate = new Date();
     const postDate = new Date(date);
@@ -125,6 +153,12 @@ const ViewQuestion = () => {
                 className="forumcomsection"
               />
               <button onClick={postComment}>Reply</button>
+              {showAlert && (
+            <Alert
+              message="Please login to reply"
+              onClose={handleAlertClose}
+            />
+          )}
             </div>
             <hr style={{ boxShadow: "0 0 2px " }} />
             {answers.map((answer) => (

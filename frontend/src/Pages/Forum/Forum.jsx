@@ -69,7 +69,7 @@ export const Forum = () => {
         {currentQuestions.map((question) => (
           <Link
             key={question._id}
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none' }} 
             to={`/viewquestion/${question._id}`}
           >
             <QuestionCard question={question} />

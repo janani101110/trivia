@@ -14,7 +14,11 @@ const AnswerSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Adjust as per your application logic
+      required: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

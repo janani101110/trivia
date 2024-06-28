@@ -12,7 +12,7 @@ export const Shopping = () => {
   const [shopposts, setShopposts] = useState([]);
   const { user } = useUsers(); // Access user data from context
   const [showAlert, setShowAlert] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
  
   useEffect(() => {
     fetch("http://localhost:5000/getpost", {

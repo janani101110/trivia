@@ -6,140 +6,110 @@ import { imageDb } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
-import { useUsers } from "../../Context/UserContext"; 
+import { useUsers } from "../../Context/UserContext";
+
 export const Shoppingpost = () => {
-  //variables
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(""); 
+  const [price, setPrice] = useState("");
   const [contact, setContact] = useState("");
   const [photoURL, setPhotoURL] = useState(null);
-  const [, setPhoto] = useState(null);
-  const [image, setImage] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const { user } = useUsers();
   const [postedBy, setPostedBy] = useState("");
-  const [ userEmail,setuserEmail]=useState("");
-  
+  const [userEmail, setUserEmail] = useState("");
+  const [error, setError] = useState({ contact: "", email: "" });
 
   useEffect(() => {
     if (user) {
-      setPostedBy(user._id); 
+      setPostedBy(user._id);
     }
   }, [user]);
 
-  const [input, setInput] = useState({
-    name: "",
-    description: "",
-    price: "",
-    contact: "", 
-    imageUrl: "",
-    userEmail:"",
-    
-    
-  });
-
-  //function to upload photo for preview post
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     setPhoto(file);
     setPhotoURL(URL.createObjectURL(file));
+    setImage(file);
   };
 
-  //post upload
-  function handleChange(event) {
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setInput((prevInput) => {
-      return {
-        ...prevInput,
-        [name]: value,
-      };
-    });
-  }
+    // Handling specific validations based on input name
+    if (name === "contact") {
+        const NumberPattern = /^[0-9]{10}$/;
+        if (!NumberPattern.test(value)) {
+            setError(prevError => ({ ...prevError, contact: "Please enter a valid 10-digit phone number" }));
+        } else {
+            setError(prevError => ({ ...prevError, contact: "" }));
+        }
+    }
 
-  //button click
-  async function handleClick(event) {
+    if (name === "userEmail") {
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!isValidEmail.test(value)) {
+            setError(prevError => ({ ...prevError, email: "Please enter a valid email address" }));
+        } else {
+            setError(prevError => ({ ...prevError, email: "" }));
+        }
+    }
+
+    // Handling "price" input specifically for "Rs." prefix
+    if (name === "price") {
+        if (!value.startsWith("Rs.")) {
+            setPrice("Rs." + value);  // Add "Rs." prefix and update state
+        } else {
+            setPrice(value);  // Update state with the current value (already prefixed)
+        }
+    } else {
+        // For other input fields, update state normally
+        if (name === "name") setName(value);
+        if (name === "description") setDescription(value);
+        if (name === "contact") setContact(value);
+        if (name === "userEmail") setUserEmail(value);
+    }
+};
+
+  const handleClick = async (event) => {
     event.preventDefault();
 
+    if (error.contact || error.email) {
+      alert("Please correct the errors before submitting.");
+      return;
+    }
+
     const imgRef = ref(imageDb, `shoppingimages/${v4()}`);
-   
-    // Upload the image to Firebase Storage
-    uploadBytes(imgRef, image)
-      .then(() => {
-        // Once the image is uploaded, get its download URL
-        return getDownloadURL(imgRef);
-      })
-      .then((downloadURL) => {
-        //  download URL to the console
-        console.log("Download URL:", downloadURL);
+    let downloadURL = "";
 
-        // Create a new shop post object
-        const newShoppost = {
-          name: input.name,
-          description: input.description,
-          price: input.price,
-          contact: input.contact,
-          imageUrl: downloadURL,
-          userEmail: input.userEmail,
-          postedBy:postedBy,
-           // Add the image URL to the shop post object(firebase)
-        };
+    try {
+      await uploadBytes(imgRef, image);
+      downloadURL = await getDownloadURL(imgRef);
+      console.log("Download URL:", downloadURL);
+    } catch (uploadError) {
+      console.error("Error uploading image:", uploadError);
+    }
 
-        // Send the shoppost data to your backend
-        return axios.post("http://localhost:5000/create", newShoppost);
-      })
-      .then((response) => {
-        // Handle successful response from the backend if needed
-        console.log("Shop post created:", response.data);
-        navigate("/shopping");
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error creating shop post:", error);
-      });
-  
- 
-
- const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`, // Set the authorization token in headers
-      },
-      body: JSON.stringify(Shoppingpost), // Convert blog post object to JSON string
+    const newShoppost = {
+      name,
+      description,
+      price,
+      contact,
+      imageUrl: downloadURL,
+      userEmail,
+      postedBy,
     };
 
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/newShoppost/create",
-        requestOptions
-      );
-      if (!res.ok) {
-        throw new Error("Failed to create advertisment");
-      }
-      const data = await res.json();
-      console.log(data);
+      const response = await axios.post("http://localhost:5000/create", newShoppost);
+      console.log("Shop post created:", response.data);
       navigate("/shopping");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Error creating shop post:", error);
     }
-    // const res = await fetch("http://localhost:5000/api/newShoppost/create", requestOptions);
-    //   if (!res.ok) {
-    //     throw new Error("Failed to create advertisement");
-    //   }
-    //   const data = await res.json();
-    //   console.log(data); 
-    //   navigate("/shopping");
-    // } catch (error) {
-    //   console.error("Error creating shop post:",  error);
-    // }
   };
-// Function to retrieve token from local storage
-const getToken = () => {
-  return localStorage.getItem("token");
-};
-
 
   return (
     <div className="adpost">
@@ -171,15 +141,9 @@ const getToken = () => {
                 <td>
                   <input
                     type="file"
-                    onChange={(e) => {
-                      setImage(e.target.files[0]);
-                      handlePhotoChange(e);
-                    }}
+                    onChange={handlePhotoChange}
                     style={{ border: "none" }}
                   />
-                  {/*handlePhotoChange is for the preview and this function will be called only here. then handleSubmit is on the form tag
-                it is for the whole form submission. These two won't conflict each other. we can call two functions in same from. one on the
-                form tag and other one inside the form*/}
                 </td>
               </tr>
               <tr className="shoprow">
@@ -188,12 +152,9 @@ const getToken = () => {
                   <input
                     type="text"
                     name="name"
-                    value={input.name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                      handleChange(e);
-                    }} //recieving data
-                    placeholder=" Enter the component name with correct spellings"
+                    value={name}
+                    onChange={handleChange}
+                    placeholder="Enter the component name with correct spellings"
                   />
                 </td>
               </tr>
@@ -203,12 +164,11 @@ const getToken = () => {
                   <input
                     type="text"
                     name="price"
-                    value={input.price}
-                    onChange={(e) => {
-                      setPrice(e.target.value);
-                      handleChange(e);
-                    }} //recieving data
-                    placeholder=" Enter the price in Sri Lankan currency"
+                    value={price}
+                    onChange={handleChange}
+                    placeholder="Rs."
+                    
+                    
                   />
                 </td>
               </tr>
@@ -217,33 +177,25 @@ const getToken = () => {
                 <td>
                   <textarea
                     name="description"
-                    value={input.description}
-                    onChange={(e) => {
-                      setDescription(e.target.value);
-                      handleChange(e);
-                    }} //recieving data
+                    value={description}
+                    onChange={handleChange}
                     cols={50}
                     rows={18}
-                    placeholder="  Write a description about the component you wish to sell.Include all the necessary details including any constraints"
+                    placeholder="Write a description about the component you wish to sell. Include all the necessary details including any constraints"
                   />
                 </td>
               </tr>
-              
-
-
               <tr className="shoprow">
                 <th>Contact Number</th>
                 <td>
                   <input
                     type="text"
                     name="contact"
-                    value={input.contact}
-                    onChange={(e) => {
-                      setContact(e.target.value);
-                      handleChange(e);
-                    }} //recieving data
-                    placeholder=" Enter a contact number containing 10 digits"
+                    value={contact}
+                    onChange={handleChange}
+                    placeholder="Enter a contact number containing 10 digits"
                   />
+                  {error.contact && <span style={{ color: "red" }}>{error.contact}</span>}
                 </td>
               </tr>
               <tr className="shoprow">
@@ -252,56 +204,38 @@ const getToken = () => {
                   <input
                     type="email"
                     name="userEmail"
-                    value={input.userEmail}
-                    onChange={(e) => {
-                      setuserEmail(e.target.value);
-                      handleChange(e);
-                    }} //recieving data
+                    value={userEmail}
+                    onChange={handleChange}
                     placeholder="This email will be used for communication purpose"
                   />
+                  {error.email && <span style={{ color: "red" }}>{error.email}</span>}
                 </td>
               </tr>
             </tbody>
           </table>
-
           <button className="shopbutton" type="submit" onClick={handleClick}>
             Add
           </button>
         </form>
-
-        {/*-----------------preview setting------------------------------*/}
-
         <table className="shoptable2">
           <tbody>
             <tr className="shoppostup">
               <td className="shopphoto">
                 {photoURL ? <img src={photoURL} alt="Selected" /> : ""}{" "}
-                {/*assign data for given variable */}
               </td>
               <td className="shoptext">
                 <tr className="comname">{name}</tr>
-                {/*assign data for given variable */}
-
                 <tr className="comprice">{price}</tr>
-                {/*assign data for given variable */}
               </td>
             </tr>
             <hr style={{ color: "black" }} />
             <div className="shoppostdown">
-              <tr
-                className="comdesc"
-                style={{ fontSize: "18px", textAlign: "justify" }}
-              >
+              <tr className="comdesc" style={{ fontSize: "18px", textAlign: "justify" }}>
                 <td>{description}</td>
-                {/*assign data for given variable */}
               </tr>
               <hr style={{ color: "black" }} />
-              <tr
-                className="concontact"
-                style={{ fontSize: "18px", color: "purple" }}
-              >
-                <td> Contact for more information:&nbsp; {contact}</td>
-                {/*assign data for given variable */}
+              <tr className="concontact" style={{ fontSize: "18px", color: "purple" }}>
+                <td>Contact for more information: {contact}</td>
               </tr>
             </div>
           </tbody>

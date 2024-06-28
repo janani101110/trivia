@@ -12,7 +12,7 @@ const nodemailer = require('nodemailer');
 
 const scheduleEmail = (shoppost) => {
   const emailTime = new Date(shoppost.createdAt);
-  emailTime.setMinutes(emailTime.getMinutes() + 5);  // Add 5 days to the createdAt date
+  emailTime.getDate(emailTime.getDate() + 5);  // Add 5 days to the createdAt date
 
   // Ensure the minutes and hours are two digits for cron format
   const cronMinutes = emailTime.getMinutes().toString().padStart(2, '0');
@@ -124,7 +124,8 @@ router.get("/user/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
     console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
-    const shopPosts = await ShopPost.find({ postedBy: userId });
+    const shopPosts = await Shoppost.find({ postedBy: userId });
+    console.log('Shop posts:', shopPosts); // Log fetched shop posts
     if (!shopPosts || shopPosts.length === 0) {
       console.error(`No shop posts found for user ID: ${userId}`);
       return res.status(404).json({ error: 'No shop posts found' });

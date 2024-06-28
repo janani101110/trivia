@@ -1,8 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import "./shopcard.css";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-
+import { Link } from "react-router-dom";
 const ShopCard = ({ shoppost, onDelete }) => {
   const [author, setAuthor] = useState(null);
 
@@ -47,25 +48,18 @@ const ShopCard = ({ shoppost, onDelete }) => {
   };
 
   return (
-    <div className="shop-card">
-      <div className="shop-card-content">
-        <div className="shop-card-image">
-          <img src={shoppost.imageUrl} alt={shoppost.name} />
-        </div>
-        <div className="shop-card-details">
-          <div className="shop-card-title">{shoppost.name}</div>
-          <div className="shop-card-price">{shoppost.price}</div>
-          {author && (
-            <div className="shop-card-author">
-              <img
-                src={author.profilePicture}
-                alt={author.username}
-                className="shop-card-author-image"
-              />
-              <span>{author.username}</span>
-            </div>
-          )}
-        </div>
+    
+    <div className="shoppingcard"> 
+    <Link
+            key={shoppost._id} // Key should be placed on the outermost JSX element inside map
+            style={{ textDecoration: "none" }}
+            to={`/productdescription/${shoppost._id}`}
+          >
+      <img src={shoppost.imageUrl} alt="" />
+      <div className="shopcardtext">
+        <div className="shopcardtitle">{shoppost.name}</div>
+        <div className="shopcardprice">{shoppost.price}</div>
+         <div className="shopprofile">
         <button onClick={handleDelete} className="shop-card-delete-button" aria-label="Delete post">
           <CIcon
             icon={icon.cilTrash}
@@ -73,7 +67,20 @@ const ShopCard = ({ shoppost, onDelete }) => {
             style={{ "--ci-primary-color": "black" }}
           />
         </button>
+          {author&&(
+            <div className="shopprofilepic">
+              <img src={author.profilePicture} alt={author.username} className="authorProfilePicture"/>
+            </div>
+
+          )}
+          
+        </div>
+        
       </div>
+      </Link>
+   
+        
+      
     </div>
   );
 };

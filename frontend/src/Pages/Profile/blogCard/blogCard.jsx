@@ -91,7 +91,7 @@ const BlogCard = ({ blogPost, onDelete }) => {
                 style={{ "--ci-primary-color": "black" }}
                  
               />
-              
+               
       </Link>
 
       <button onClick={handleDelete} className="editButton">

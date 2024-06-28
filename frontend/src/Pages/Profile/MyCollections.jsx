@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard/blogCard";
+import ShopCard from "./shopcard/ShopCard";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
 import "./MySaves.css";
@@ -155,11 +156,12 @@ const MyCollections = () => {
                 ))}
           </ul>
         )}
+        
       </div>
       <hr />
-      <div className="mySaveBookMarksDiv">
-        <div className="mySaveBookMarksSubDiv">
-          <div className="mySaveTags">
+      <div className="mySaveBookMarksshopDiv">
+        <div className="mySaveBookMarksshopSubDiv">
+          <div className="mySaveTagsshop">
             Advertisements
             {"   "}
             <button onClick={handleToggleShopGrid} className="toggleButton">
@@ -180,8 +182,34 @@ const MyCollections = () => {
               )}
             </button>
           </div>
-        
+          <p className="UseradCount">
+            {" "}
+            No of Ads: {"   "} {shoppost.length}{" "}
+          </p>
         </div>
+        {shoppost.length === 0 ? (
+          <p>No saved Advertisements found.</p>
+        ) : (
+          <ul>
+            {showBlogGrid
+              ? shoppost.map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))
+              : shoppost.slice(0, 4).map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))}
+          </ul>
+        )}
 
        
       </div>

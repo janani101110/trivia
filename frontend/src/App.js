@@ -7,8 +7,17 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import { Navbar } from "./Component/Navbar/Navbar";
+import { UserContextProvider } from "./Context/UserContext";
+
+import ErrorBoundary from './ErrorBoundary';
+
 import { Home } from "./Pages/Home/Home";
+import SignUp from "./Pages/LogIn/SignUp";
+import Login from "./Pages/LogIn/LogIn";
+import ForgotPassword from "./Pages/LogIn/ForgotPassword";
+
+import Loader from "./Component/Loader/Loader";
+
 import { Resources } from "./Pages/Resources/Resources";
 import { Sensors } from "./Pages/Resources/Sensors/Sensors";
 import { Pcb } from "./Pages/Resources/Sensors/pcb";
@@ -23,34 +32,31 @@ import { ResoPostdetails } from "./Pages/Resources/ResoPostdetails";
 import { ResoEditpost } from "./Pages/Resources/ResoEditpost";
 import { SearchResults } from "./Pages/Resources/Sensors/SearchResults";
 
-import { Blogs } from "./Pages/Blogs/Blogs";
-import { Shopping } from "./Pages/Shopping/Shopping";
-import { Forum } from "./Pages/Forum/Forum";
-import { Footer } from "./Component/Footer/Footer";
-import { Shoppingpost } from "./Pages/Shopping/Shoppingpost";
-import SignUp from "./Pages/LogIn/SignUp";
-import Login from "./Pages/LogIn/LogIn";
-import { UserContextProvider } from "./Context/UserContext";
-import { WriteBlog } from "./Pages/Blogs/WriteBlog";
-import { InsidePost } from "./Pages/Blogs/InsidePost";
-import { UpdateBlog } from "./Pages/Blogs/UpdateBlog";
-import MySaves from "./Pages/Profile/MySaves";
-import MyCollections from "./Pages/Profile/MyCollections";
-import MyQuestions from "./Pages/Profile/MyQuestions";
-import { Productdescription } from "./Pages/Shopping/Productdescription";
-import Loader from "./Component/Loader/Loader";
-import EditProfile from "./Pages/Profile/EditProfile";
-import ForgotPassword from "./Pages/LogIn/ForgotPassword";
-import AuthorPage from "./Pages/Blogs/AuthorPage";
-import QuestionForm from "./Pages/Forum/QuestionForm";
-import ViewQuestion from "./Pages/Forum/ViewQuestion";
-
 import Project from "./Pages/Project/Project";
 import { ProjectForm } from "./Pages/Project/ProjectForm";
 import { ProjectCard } from "./Pages/Project/ProjectCard";
 import { ProjectSeeMore } from "./Pages/Project/ProjectSeeMore";
 import { ProjectPgNavi } from "./Pages/Project/ProjectPgNavi";
 import ProjectViewAll from "./Pages/Project/ProjectViewAll";
+
+import { Blogs } from "./Pages/Blogs/Blogs";
+import { WriteBlog } from "./Pages/Blogs/WriteBlog";
+import { InsidePost } from "./Pages/Blogs/InsidePost";
+import { UpdateBlog } from "./Pages/Blogs/UpdateBlog";
+import AuthorPage from "./Pages/Blogs/AuthorPage";
+
+import { Shopping } from "./Pages/Shopping/Shopping";
+import { Shoppingpost } from "./Pages/Shopping/Shoppingpost";
+import { Productdescription } from "./Pages/Shopping/Productdescription";
+
+import { Forum } from "./Pages/Forum/Forum";
+import QuestionForm from "./Pages/Forum/QuestionForm";
+import ViewQuestion from "./Pages/Forum/ViewQuestion";
+
+import MySaves from "./Pages/Profile/MySaves";
+import MyCollections from "./Pages/Profile/MyCollections";
+import MyQuestions from "./Pages/Profile/MyQuestions";
+import EditProfile from "./Pages/Profile/EditProfile";
 
 import Admin from "./Pages/Admin/Admin";
 import BlogsAdmin from "./Pages/Admin/BlogsAdmin";
@@ -81,8 +87,6 @@ const AppWithLoader = () => {
       {loading && <Loader />}
       {!loading && (
         <>
-          {/* <Navbar /> */}
-
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/home" element={<Home />} />
@@ -104,21 +108,22 @@ const AppWithLoader = () => {
               <Route path="/resoeditpost/:id" element={<ResoEditpost />} />
               <Route path="/search-results" element={<SearchResults />} />
 
+
               <Route path="/projectseemore" element={<ProjectSeeMore />} />
               <Route path="/projectcard" element={<ProjectCard />} />
-              {/*<Route path="/projectform" element={<ProjectForm />} />*/}
               <Route path="/projectform" element={<ProjectForm />} />
               <Route path="/project" element={<Project />} />
               <Route path="/projectpgnavi" element={<ProjectPgNavi />} />
-              {/* <Route path="/posts/post/:id" element={<ProjectSeeMore/>} /> */}
               <Route path="/projectseemore/:id" element={<ProjectSeeMore />} />
               <Route path="/projectviewall" element={<ProjectViewAll />} />
+
 
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/WriteBlog" element={<WriteBlog />} />
               <Route path="/insidePost/:id" element={<InsidePost />} />
               <Route path="/authorpage/:id" element={<AuthorPage />} />
               <Route path="/UpdateBlog/:id" element={<UpdateBlog />} />
+
 
               <Route path="/shopping" element={<Shopping />} />
               <Route path="/shoppingpost" element={<Shoppingpost />} />
@@ -127,12 +132,15 @@ const AppWithLoader = () => {
                 element={<Productdescription />}
               />
 
+
               <Route path="/forum" element={<Forum />} />
               <Route path="/questionform" element={<QuestionForm />} />
               <Route path="/viewquestion/:id" element={<ViewQuestion />} />
 
+
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
+
 
               <Route path="/MySaves" element={<MySaves />} />
               <Route path="/MyCollections" element={<MyCollections />} />
@@ -145,8 +153,6 @@ const AppWithLoader = () => {
 
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<Admin />} />
-              {/* <Route path="/blogadmin" element={<BlogsAdmin />} /> */}
-              {/*<Route path="/projectsadmin" element={<ProjectsAdmin />} />*/}
               <Route
                 path="/projectsadmin/:status"
                 element={<ProjectsAdmin />}
@@ -154,7 +160,6 @@ const AppWithLoader = () => {
               <Route path="/projectsresources" element={<ResourcesAdmin />} />
               <Route path="/blogsadmin" element={<BlogsAdmin />} />
               <Route path="/shoppingsadmin" element={<ShoppingAdmin />} />
-              {/* <Route path="/shoppingsadmin" element={<ShoppingAdmin />} /> */}
               <Route path="/usersadmin" element={<UsersAdmin />} />
               <Route path="/performanceadmin" element={<PerformanceAdmin />} />
               <Route
@@ -165,7 +170,6 @@ const AppWithLoader = () => {
               <Route path="/admingraph" element={<AdminGraph />} />
             </Route>
           </Routes>
-          {/* <Footer /> */}
         </>
       )}
     </div>
@@ -175,10 +179,11 @@ const AppWithLoader = () => {
 const App = () => (
   <BrowserRouter>
     <UserContextProvider>
-      <AppWithLoader />
+      <ErrorBoundary>
+        <AppWithLoader />
+      </ErrorBoundary>
     </UserContextProvider>
   </BrowserRouter>
 );
 
 export default App;
-// onFormSubmit={handleFormSubmit}

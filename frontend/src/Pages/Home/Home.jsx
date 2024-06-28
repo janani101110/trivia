@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
@@ -10,6 +9,7 @@ import forum1 from "../Home/Assets/f1.png";
 import project1 from "../Home/Assets/octopus.png";
 import blog1 from "../Home/Assets/b1.png";
 import shopping1 from "../Home/Assets/s1.png";
+import aboutus from "../Home/Assets/AboutUs.jpg";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 
@@ -18,26 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const Home = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-
-    sections.forEach((section, index) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top center",
-          end: "bottom center",
-          scrub: true,
-          onEnter: () => {
-            gsap.fromTo(section, { x: "100%" }, { x: "0%", duration: 1 });
-          },
-          onLeaveBack: () => {
-            gsap.fromTo(section, { x: "0%" }, { x: "-100%", duration: 1 });
-          },
-        },
-      });
-    });
-  }, []);
+ 
 
   const handleGetStartedClick = () => {
     navigate("/signup");
@@ -62,8 +43,28 @@ export const Home = () => {
   const handleExploreShoppingClick = () => {
     navigate("/shopping");
   };
-
-
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+  
+    sections.forEach((section) => {
+      gsap.fromTo(
+        section,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    });
+  }, []);
+  
   return (
     <div className="Home">
       <div className="HomeMainDiv">
@@ -108,11 +109,14 @@ export const Home = () => {
           <p className="ResourcesTopic"> Resources </p>
           <p className="HomeResourceSubText">
             Looking for the encyclopedia of IOT ?<br></br>
-            We got you all the knowledge you need to know about IOT
-            when building your project and you can be a part of this encyclopedia by sharing 
-            your knowledge.
+            We got you all the knowledge you need to know about IOT when
+            building your project and you can be a part of this encyclopedia by
+            sharing your knowledge.
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreResourcesClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreResourcesClick}
+          >
             Explore
           </button>
         </div>
@@ -122,13 +126,14 @@ export const Home = () => {
         <div className="HomeForumSub1">
           <p className="ForumTopic"> Forum </p>
           <p className="HomeForumSubText">
-            A Friend in need is a friend in deed ! 
-            Solve your IOT problems by connecting with other IOT Tinkers like you 
-            and help them with their projects also.
-            Join the Community ! 
-
+            A Friend in need is a friend in deed ! Solve your IOT problems by
+            connecting with other IOT Tinkers like you and help them with their
+            projects also. Join the Community !
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreForumClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreForumClick}
+          >
             Explore
           </button>
         </div>
@@ -144,12 +149,17 @@ export const Home = () => {
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Projects </p>
           <p className="HomeResourceSubText">
-            If you are running out of ideas for your IOT project we got you !<br></br>
-            Follow the step-by-step guidelines provided to build your project.<br></br>
-            As well as if you are an innovator who wants to share your new project 
-            with others you are at the right place. 
+            If you are running out of ideas for your IOT project we got you !
+            <br></br>
+            Follow the step-by-step guidelines provided to build your project.
+            <br></br>
+            As well as if you are an innovator who wants to share your new
+            project with others you are at the right place.
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreProjectsClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreProjectsClick}
+          >
             Explore
           </button>
         </div>
@@ -159,12 +169,14 @@ export const Home = () => {
         <div className="HomeForumSub1">
           <p className="ForumTopic"> Blog </p>
           <p className="HomeForumSubText">
-            See what others are doing by clicking our Blogs ! 
-             <br></br>and share your creative ideas and experience about your IOT life with our 
+            See what others are doing by clicking our Blogs !<br></br>and share
+            your creative ideas and experience about your IOT life with our
             tinkers by discovering the blog feature
-
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreBlogsClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreBlogsClick}
+          >
             Explore
           </button>
         </div>
@@ -180,15 +192,34 @@ export const Home = () => {
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Shopping </p>
           <p className="HomeResourceSubText">
-            Don't know where to buy IOT components or
-            wanna sell those used components ? <br></br>
-            Check out our classified website ;
-            A place where you can buy and sell !
-            
+            Don't know where to buy IOT components or wanna sell those used
+            components ? <br></br>
+            Check out our classified website ; A place where you can buy and
+            sell !
           </p>
-          <button className="HomeGetStartedButton" onClick={handleExploreShoppingClick}>
+          <button
+            className="HomeGetStartedButton"
+            onClick={handleExploreShoppingClick}
+          >
             Explore
           </button>
+        </div>
+      </section>
+
+      <section id="section7" className="HomeResourseDiv">
+      <div className="HomeForumSub2">
+          <img src={aboutus} alt="AboutUsimage" className="blogImage" />
+        </div>
+        <div className="HomeForumSub1">
+          <p className="ForumTopic"> About us </p>
+          <p className="HomeForumSubText">
+          Welcome to Gavesha, the ultimate destination for young innovators! 🌟
+          <br/> <br/>
+          Is your child fascinated by electronics, Arduino, and DIY projects? Or
+          perhaps you're an adult who's still young at heart? Gavesha is perfect
+          for all ages with a passion for hands-on learning and creativity.
+          </p>
+       
         </div>
       </section>
     </div>

@@ -113,7 +113,7 @@ const getToken = () => {
       <div className='formBody'>
         <form className='forumform' onSubmit={handleSubmit}>
           <table className='forumTable'>
-            <thead>
+            <thead> 
               <tr>
                 <td>
                   <input 

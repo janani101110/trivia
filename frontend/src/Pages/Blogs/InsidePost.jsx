@@ -84,18 +84,23 @@ export const InsidePost = () => {
 
   const postComment = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post(
-        `${URL}/api/blogComments/create`,
-        { comment, postId: blogPostId, postedBy:user._id },
-        { withCredentials: true }
-      );
-      fetchBlogComments();
-      setComment("");
-    } catch (err) {
-      console.error("Error posting comment:", err);
+    if (user) {
+      try {
+        await axios.post(
+          `${URL}/api/blogComments/create`,
+          { comment, postId: blogPostId, postedBy: user._id },
+          { withCredentials: true }
+        );
+        fetchBlogComments();
+        setComment("");
+      } catch (err) {
+        console.error("Error posting comment:", err);
+      }
+    } else {
+      window.alert("Please login to post a comment.");
     }
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {

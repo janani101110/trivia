@@ -86,7 +86,7 @@ const QuestionCard = ({ question }) => {
           {question.title}
         </div>
         <div className="profile">
-          {author&&(
+          {author&&( 
             <div className="profilepic">
               <img src={author.profilePicture} alt={author.username} className="authorProfilePicture"/>
               <p className="authorUsername"> {author.username} </p>

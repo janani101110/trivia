@@ -47,6 +47,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 5px;
+  margin-top: 15px;
 }
 
 .UserEmail {
@@ -56,7 +57,7 @@
 
 .UserProfilePicture {
   flex: 0 0 auto;
-  margin-right: 240px;
+  margin-left: 25px;
 }
 
 .UserImage {
@@ -78,7 +79,7 @@
 
 .mySaveBookMarksDiv ul {
   list-style-type: none;
-  margin: 20px 0 20px 80px;
+  margin: 20px 0 20px 200px;
   font-size: 20px;
   font-family: 'PT Sans', sans-serif; /* Correctly use the font-family */
   padding: 0;
@@ -100,7 +101,7 @@
 }
 
 .mySaveBookMarksSubDiv {
-  padding: 20px 0;
+  /* padding: 20px 0; */
   display: flex;
   align-items: center;
   justify-content: space-between; /* Add this to align items horizontally */
@@ -129,4 +130,25 @@
   display: grid;
   grid-template-columns: repeat(3, 380px); /* Make grid responsive */
   gap: 20px; /* Adjust gap between grid items */
+}
+.UseradCount {
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-align: right;
+  margin-left: 15px;
+}
+.mySaveBookMarksshopDiv ul{
+  margin-left: 45px; /* Adjust margin for smaller screens */
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Adjust column width based on available space */
+  grid-gap: 20px;
+}
+.mySaveTagsshop{
+  
+ margin-top: 10px;
+  font-size: 24px; /* Adjust font size */
+  margin-left: 40px;
 }

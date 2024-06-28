@@ -12,6 +12,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "firebase": "^10.11.1",
+    "google-translate-api": "^2.3.0",
     "gsap": "^3.12.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose-findorcreate": "^4.0.0",

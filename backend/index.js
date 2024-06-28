@@ -1,6 +1,6 @@
 const express =require('express');
 const mongoose  = require('mongoose')
-const app=express()
+const app=express() 
 const cors = require('cors');
 const dotenv = require('dotenv')
 const cookieParser=require('cookie-parser')
@@ -24,6 +24,8 @@ const resopostRoutes = require("./routes/resoposts");
 const resocommentRoutes = require("./routes/resocomments");
 const projectpostRoute = require("./routes/projectposts");
 const answerRoutes = require("./routes/answer");
+const bookMarkRoutes = require('./routes/BookMarks');
+const translate = require('google-translate-api');
 
 
 
@@ -102,6 +104,7 @@ app.use("/api/resoposts", resopostRoutes); // Route for resource posts
 app.use("/api/resocomments", resocommentRoutes);
 app.use("/api/projectposts", projectpostRoute);
 app.use("/api/answer", answerRoutes);
+app.use("/api/bookMarks", bookMarkRoutes);
 
 
 Shoppost.init().then(() => {
@@ -148,7 +151,17 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+// app.post('/api/translate', async (req, res) => {
+//   const { text, targetLanguage } = req.body;
 
+//   try {
+//       const result = await translate(text, { to: targetLanguage });
+//       res.json({ translatedText: result.text });
+//   } catch (error) {
+//       console.error('Translation error:', error);
+//       res.status(500).json({ error: 'Translation failed' });
+//   }
+// });
 
 
 

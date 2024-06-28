@@ -1,0 +1,45 @@
+.createBlog {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .createBlogTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .createBlogTextbox {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .createBlogEnterImage {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .createBlogTextArea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .createBlogSubmit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .blogImage {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }

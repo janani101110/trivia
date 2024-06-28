@@ -5,7 +5,7 @@ const mongoose = require ("mongoose");
 const Questions = new mongoose.Schema(
     {
         title:{
-            type:String,
+            type:String, 
             required : true,
 
         },

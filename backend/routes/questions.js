@@ -63,7 +63,7 @@ router.put("/views/:postId", async (req, res) => {
   }
 });
 router.get("/user/:userId", async (req, res) => {
-  try {
+  try { 
     const { userId } = req.params;
     console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
     const questions = await Question.find({ postedBy: userId });
