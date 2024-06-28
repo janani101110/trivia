@@ -10,7 +10,8 @@ import {Resources} from './Pages/Resources/Resources';
 import {Sensors} from './Pages/Resources/Sensors/Sensors';
 import {Pcb} from './Pages/Resources/Sensors/pcb';
 import {Communi} from './Pages/Resources/Sensors/communi';
-import {DataSheet} from './Pages/Resources/Sensors/dataSheet';
+import {DataSheet} from './Pages/Resources/Sensors/datasheets/dataSheet';
+import {DataSheetWrite} from './Pages/Resources/Sensors/datasheets/DataSheetWrite';
 import {IotPlat} from './Pages/Resources/Sensors/IotPlat';
 import {IotProto} from './Pages/Resources/Sensors/IotProto';
 import {Micro} from './Pages/Resources/Sensors/micro';
@@ -35,10 +36,10 @@ import MySaves from './Pages/Profile/MySaves';
 import MyCollections from "./Pages/Profile/MyCollections";
 import MyQuestions from './Pages/Profile/MyQuestions'
 
-
 import Productdescription from './Pages/Shopping/Productdescription';
 import {UserContextProvider} from './Context/UserContext';
-
+import QuestionForm from './Pages/Forum/QuestionForm';
+import ViewQuestion from './Pages/Forum/ViewQuestion';
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
             <Route path='/pcb' element={<Pcb/>}/>
             <Route path='/communi' element={<Communi/>}/>
             <Route path='/dataSheet' element={<DataSheet/>}/>
+            <Route path='/DataSheetWrite' element={<DataSheetWrite/>}/>
             <Route path='/IotPlat' element={<IotPlat/>}/>
             <Route path='/IotProto' element={<IotProto/>}/>
             <Route path='/micro' element={<Micro/>}/>
@@ -64,7 +66,7 @@ function App() {
               <Route path='/writepost' element={<Writepost/>}/>
               <Route path='/resopostdetails/:id' element={<ResoPostdetails/>}/>
               <Route path='/resoeditpost/:id' element={<ResoEditpost/>}/>
-              <Route path="/search-results" element={<SearchResults />} />
+              <Route path="/search" element={<SearchResults />} />
 
           <Route path='/projects'element={<Projects/>}/>
           <Route path='/blogs'element={<Blogs/>}/>
@@ -80,6 +82,9 @@ function App() {
           <Route path='/MyCollections' element={<MyCollections/>}/>
           <Route path='/MyQuestions' element={<MyQuestions/>}/>
           <Route path='/productdescription' element={<Productdescription/>}/>
+          <Route path='/questionform' element={<QuestionForm/>}/>
+          <Route path='/viewquestion/:id' element={<ViewQuestion/>}/>
+
 
           <Route path='/' element={<Navigate to="/home" />}/>
           

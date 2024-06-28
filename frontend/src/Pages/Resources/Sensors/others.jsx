@@ -52,13 +52,13 @@ export const Others = () => {
       
       <div className="sidebar">
       <table>
-        <thead>
+        {/* <thead>
           <tr>
             <Link to="/others" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/others?category=Codes/Programming" className={getLinkClassName("Codes/Programming")}>

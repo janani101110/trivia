@@ -9,9 +9,13 @@ const ResoPostSchema = new mongoose.Schema(
     },
     desc: {
       type: String,
-      required: true,
+      required: false,
     },
     photo: {
+      type: String,
+      required: false,
+    },
+    pdf: {
       type: String,
       required: false,
     },
@@ -28,7 +32,6 @@ const ResoPostSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-
   },
   { timestamps: true }
 );

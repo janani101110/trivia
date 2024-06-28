@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ResoPostdetails.css";
+import ReactQuill from "react-quill"; // Import ReactQuill for rendering
 
 const Resourcepost = ({ resoPost }) => {
   const [author, setAuthor] = useState(null);
@@ -56,11 +57,15 @@ const Resourcepost = ({ resoPost }) => {
         </div>
         <div className="respostcontent">
           <h3>{resoPost.title}</h3>
-          <p>{resoPost.desc.slice(0, 200)}...<span>Read more</span></p>
+          {resoPost.desc ? (
+            <ReactQuill value={resoPost.desc.slice(0, 200) + "...Read more"} readOnly={true} theme="bubble" />
+          ) : (
+            <p>Description not available</p>
+          )}
         </div>
       </Link>
     </div>
   );
 };
 
-export default Resourcepost;
+export default Resourcepost

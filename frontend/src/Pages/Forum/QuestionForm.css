@@ -1,0 +1,29 @@
+.forumTable {
+    border:1px solid purple;
+    padding: 25px;
+    margin-left: 275px;
+    margin-bottom: 15px;
+
+}
+
+.formsubmitbutton {
+    margin-left: 690px;
+    width: 250px;
+    height: 45px;
+    font-size: large;
+    font-weight: 600;
+    border: 1px solid purple;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.forumTable input{
+    margin-bottom: 8px;
+}
+.forumTable textarea { 
+    margin-bottom: 8px;
+}
+.questionForm h1 {
+    text-align: center;
+}

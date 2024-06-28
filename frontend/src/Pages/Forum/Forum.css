@@ -1,0 +1,47 @@
+.forumButton{
+    text-align: right;
+    margin-right: 6em;
+}
+.forumButton button{
+    width: 200px;
+  height: 50px;
+  font-size: large;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 2px solid rgb(72, 7, 72);
+  cursor: pointer;
+  margin-top: 55px;
+}
+.upperbody{
+    background-image:url('./Assets/forum.jpg');
+    height: 200px;
+    margin-bottom: 25px;
+}
+/*---------------ViewQuestion.jsx-------------------*/
+
+.question-container{
+    border: 1px solid ;
+    box-shadow: 0 0 10px rgba(66, 9, 113, 0.915);
+    margin-left: 150px;
+    width: 980px;
+    margin-top: 45px;
+    padding: 35px;
+    margin-bottom: 45px;
+}
+.question-image{
+    width: 550px;
+    margin-left: 200px;
+    height: fit-content;
+}
+.question-details{
+    border: 1px solid rgb(155, 51, 155);
+    padding:25px ;
+}
+.question-description{
+    text-align: justify;
+    margin-bottom: 30px;
+}
+.question-title{
+    margin-bottom: 25px;
+    text-align: justify;
+}

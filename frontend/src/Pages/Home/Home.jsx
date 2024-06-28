@@ -1,7 +1,8 @@
 import {useEffect,useState, React} from 'react'
 import './Home.css'
 import octopus from '../Home/Assets/octopus.png'
-import axios from "axios";
+// import axios from "axios";
+import {Search} from '../../Component/Search/Search'
 
 export const Home = () => {
   const [user, setUser] = useState(null);
@@ -47,7 +48,7 @@ export const Home = () => {
        <h1>Welcome Tinkers !</h1>
       </div>
       <div className='home-right'>
-        <input type='text' className='mainsearch' placeholder='     Search your problem' />
+        <Search/>
       </div>
     </div>
     

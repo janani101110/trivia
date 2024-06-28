@@ -52,13 +52,13 @@ export const Micro = () => {
       
       <div className="sidebar">
       <table>
-        <thead>
+        {/* <thead>
           <tr>
             <Link to="/micro" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/micro?category=Popular Microcontroller Families" className={getLinkClassName("Popular Microcontroller Families")}>

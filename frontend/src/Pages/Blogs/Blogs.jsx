@@ -4,11 +4,13 @@ import Blogspost from "./Blogspost";
 import PopularBlogpost from "./PopularBlogpost"; // Ensure the file exists in the same directory
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext"; // Import user context
-import CIcon from "@coreui/icons-react";
-import * as icon from "@coreui/icons";
+// import CIcon from "@coreui/icons-react";
+// import * as icon from "@coreui/icons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { SearchResults} from "../Resources/Sensors/SearchResults"
+
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
@@ -133,18 +135,7 @@ export const Blogs = () => {
           </div>
         </div>
         <div className="BlogSearchDiv">
-          <input
-            type="text"
-            name="search"
-            placeholder="Search For..."
-            autoComplete="new Search"
-            className="BlogSearchBox"
-          />
-          <CIcon
-            icon={icon.cilSearch}
-            style={{ "--ci-primary-color": "black" }}
-            className="BlogSearchIcon"
-          />
+        <SearchResults/>
         </div>
       </div>
 

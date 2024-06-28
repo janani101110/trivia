@@ -52,13 +52,13 @@ export const Pcb = () => {
       
       <div className="sidebar">
       <table>
-        <thead>
+        {/* <thead>
           <tr>
             <Link to="/pcb" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/pcb?category=Design Software" className={getLinkClassName("Design Software")}>
@@ -86,7 +86,7 @@ export const Pcb = () => {
             </Link>
           </tr>
           <tr>
-            <Link to="/Sensors?category=Testing and Validation" className={getLinkClassName("Testing and Validation")}>
+            <Link to="/pcb?category=Testing and Validation" className={getLinkClassName("Testing and Validation")}>
               <td>Testing and Validation</td>
             </Link>
           </tr>

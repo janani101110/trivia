@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../../url";
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
+import { useUsers } from "../../Context/UserContext";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import "./ResoPostdetails.css";
 import { ResoComment } from "./ResoComment";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import ReactQuill from "react-quill"; // Import ReactQuill for rendering
 
 export const ResoPostdetails = () => {
   const [resorating, setResoRating] = useState(null);
   const [resohover, setResoHover] = useState(null);
+  const [setAverageRating] = useState(0);
   const [author, setAuthor] = useState(null);
-
-  const handleStarClick = (rating) => {
-    if (resorating === rating) {
-      setResoRating(null);
-    } else {
-      setResoRating(rating);
-    }
-  };
+  const { user } = useUsers();
 
   const { id: resoPostId } = useParams();
   const navigate = useNavigate();
@@ -45,6 +41,7 @@ export const ResoPostdetails = () => {
     }
   };
 
+  
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
@@ -78,17 +75,46 @@ export const ResoPostdetails = () => {
     }
   };
 
+  const fetchAverageRating = async () => {
+    try {
+      const res = await axios.get(`${URL}/api/ratings/${resoPostId}`);
+      setAverageRating(res.data.averageRating);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchResoPost();
     fetchPostComments();
+    fetchAverageRating();
   }, [resoPostId]);
 
-  const postComment = async (e) => {
-    e.preventDefault();
+  const handleStarClick = async (rating) => {
+    if (resorating === rating) {
+      setResoRating(null);
+    } else {
+      setResoRating(rating);
+    }
+
+    try {
+      await axios.post(`${URL}/api/ratings`, {
+        postId: resoPostId,
+        userId: "USER_ID", // Replace with actual user ID
+        rating: rating,
+      });
+      fetchAverageRating();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const postComment = async () => {
+    if (user){
     try {
       await axios.post(
         `${URL}/api/resocomments/create`,
-        { comment, postId: resoPostId },
+        { comment, postId: resoPostId, postedBy: user._id },
         { withCredentials: true }
       );
       fetchPostComments();
@@ -96,6 +122,14 @@ export const ResoPostdetails = () => {
     } catch (err) {
       console.log(err);
     }
+  } else {
+    setTimeout(() => {
+      window.alert('Please login to post a comment.'); // Show error message in alert box
+    }, 100);
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  }
   };
 
   const handleDeletePost = async () => {
@@ -125,20 +159,23 @@ export const ResoPostdetails = () => {
         </div>
       </div>
       <div className="reso-post-info">
-      {author && (
-            <div className="authorInfo">
-              <img
-                src={author.profilePicture}
-                alt={author.name}
-                className="authorProfilePicture"
-              />
-              <p>{author.name}</p> {/* Display author name */}
-            </div>
-          )}
+        {author && (
+          <div className="authorInfo">
+            <img
+              src={author.profilePicture}
+              alt={author.username}
+              className="authorProfilePicture"
+            />
+            <p>{author.username}</p> {/* Display author name */}
+          </div>
+        )}
         <p>{new Date(resoPost.createdAt).toString().slice(0, 15)}</p>
       </div>
       <img src={resoPost.photo} alt="" className="reso-post-image" />
-      <p className="reso-post-content">{resoPost.desc}</p>
+      <div className="reso-post-content">
+        <ReactQuill value={resoPost.desc} readOnly={true} theme="bubble" />
+      </div>
+      
       <div className="reso-post-categories">
         <p>Categories:</p>
         <div>
@@ -147,38 +184,37 @@ export const ResoPostdetails = () => {
           ))}
         </div>
       </div>
-      
+
       <div className="resoStarRating">
-  {[0, ...Array(4)].map((_, index) => {
-    const currentResoRating = index + 1;
-    return (
-      <label key={index}>
-        <input
-          type="radio"
-          name="resorating"
-          value={currentResoRating}
-          checked={currentResoRating === resorating}
-          onChange={() => handleStarClick(currentResoRating)}
-        />
-        <FaStar
-          className="resoStar"
-          size={20}
-          color={
-            currentResoRating <= (resohover || resorating)
-              ? "#ffc107"
-              : "#e4e5e9"
-          }
-          onMouseEnter={() => setResoHover(currentResoRating)}
-          onMouseLeave={() => setResoHover(null)}
-        />
-      </label>
-    );
-  })}
-  <p>{resorating === null ? "0" : resorating} Star Rating</p>
-</div>
-
-
-
+        {[0, ...Array(4)].map((_, index) => {
+          const currentResoRating = index + 1;
+          return (
+            <label key={index}>
+              <input
+                type="radio"
+                name="resorating"
+                value={currentResoRating}
+                checked={currentResoRating === resorating}
+                onChange={() => handleStarClick(currentResoRating)}
+              />
+              <FaStar
+                className="resoStar"
+                size={20}
+                color={
+                  currentResoRating <= (resohover || resorating)
+                    ? "#ffc107"
+                    : "#e4e5e9"
+                }
+                onMouseEnter={() => setResoHover(currentResoRating)}
+                onMouseLeave={() => setResoHover(null)}
+              />
+            </label>
+          );
+        })}
+        <p>{resorating === null ? "0" : resorating} Star Rating</p>
+        {resorating && <p>Your Rating: {resorating}</p>}
+      </div>
+      
       <div className="reso-comments-section">
         <h3>Comments:</h3>
         <div className="reso-write-comment">

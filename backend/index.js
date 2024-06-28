@@ -13,10 +13,12 @@ const authRoute=require('./routes/auth');
 const userRoute=require('./routes/users');
 const blogPostRoutes=require('./routes/blogPosts');
 const blogCommentRoutes=require('./routes/blogComments');
+const questionRoute= require("./routes/questions");
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
 const resopostRoutes = require("./routes/resoposts");
 const resocommentRoutes = require("./routes/resocomments");
+const answerRoutes = require("./routes/answer");
 const bookMarkRoutes = require ('./routes/BookMarks')
 
 require('dotenv').config();
@@ -91,32 +93,52 @@ app.use("/api/blogComments", blogCommentRoutes);
 app.use("/api/resoposts", resopostRoutes); // Route for resource posts
 app.use("/api/resocomments", resocommentRoutes); // Route for resource post comments
 app.use("/api/bookMarks", bookMarkRoutes);
-
+app.use("/api/questions",questionRoute);
+app.use("/api/answer", answerRoutes);
 
 app.get("/api/search", async (req, res) => {
   try {
     const query = req.query.q; // Get search query from request
-    const results = await ResoPost.aggregate([
-      // Search ResoPost part in MongoDB
+
+    // Search in ResoPost collection
+    const resoResults = await ResoPost.aggregate([
       {
         $search: {
-          index: "SearchReso", // name of the search index
+          index: "SearchReso", 
           text: {
             query: query,
             path: {
-              wildcard: "*", // Search all fields
+              wildcard: "*", 
             },
           },
         },
       },
     ]);
-    res.json(results); // Send search results as JSON response
+
+    // Search in OtherCollection
+    const blogResults = await Post.aggregate([
+      {
+        $search: {
+          index: "searchblog", 
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", 
+            },
+          },
+        },
+      },
+    ]);
+
+    // Combine results from both collections
+    const combinedResults = [...resoResults, ...blogResults];
+
+    res.json(combinedResults); // Send combined search results as JSON response
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" }); 
   }
 });
-
 
 
 app.listen(5000, () => {

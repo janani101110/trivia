@@ -67,15 +67,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-// Get All Posts with pagination route
-router.get("/", async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+
 
 // Route to handle post like
 router.post("/:postId/like", async (req, res) => {
@@ -127,4 +119,18 @@ router.delete("/:postId/like/:userId", async (req, res) => {
   }
 });
 
+// Route to get all posts, optionally filtered by a search query
+router.get("/", async (req, res) => {
+  const query = req.query.search;
+  console.log("Received query:", query); // Debug: Log the received query
+  try {
+    const searchFilter = query ? { title: { $regex: query, $options: "i" } } : {};
+    const posts = await Post.find(searchFilter);
+    console.log("Filtered posts:", posts); // Debug: Log the filtered posts
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log("Error retrieving posts:", err); // Debug: Log any errors
+    res.status(500).json(err);
+  }
+});
 module.exports = router;

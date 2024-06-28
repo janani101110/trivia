@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ResoComment = require("../models/ResoComment");
-const User = require('../models/User.js');
-const verifyToken = require('../middleware/verifyToken.js');
+
 
 // Route for creating a new comment
 router.post("/create", async (req, res) => {
