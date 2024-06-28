@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { ObjectId } = require('mongodb');
+const { ObjectId } = mongoose.Schema.Types;
 const Bookmark = require('./Bookmark.js');
 
 // Function to validate YouTube URLs
@@ -37,7 +37,7 @@ const blogPostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  likes: [{ type: ObjectId, ref: 'User' }],
   postedBy: {
     type: ObjectId,
     ref: "User",

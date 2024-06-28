@@ -78,7 +78,8 @@ export const Blogs = () => {
       const res = await axios.get(
         `http://localhost:5000/api/blogPosts?sort=${sortOrder}`
       );
-      setPost(res.data);
+      const sortedBlogs = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPost(sortedBlogs);
     } catch (err) {
       console.error("Error fetching blog posts:", err);
     }
