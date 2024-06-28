@@ -29,6 +29,8 @@ import { UserContextProvider } from './Context/UserContext';
 import Admin from "./Pages/Admin/Admin";
 import MainLayout from './Layouts/MainLayout';
 import AdminLayout from './Layouts/AdminLayout';
+import QuestionForm from "./Pages/Forum/QuestionForm";
+import ViewQuestion from "./Pages/Forum/ViewQuestion";
 
 function App() {
   return (
@@ -59,6 +61,9 @@ function App() {
             <Route path='/ForgotPassword' element={<ForgotPassword />} />
             <Route path='/ResetPassword/:token' element={<ResetPassword />} />
             <Route path='/productdescription' element={<Productdescription />} />
+            <Route path="/questionform" element={<QuestionForm />} />
+            <Route path="/viewquestion/:id" element={<ViewQuestion />} />
+
             <Route path='/' element={<Navigate to="/home" />} />
           </Route>
           <Route element={<AdminLayout />}>

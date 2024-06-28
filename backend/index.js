@@ -21,6 +21,9 @@ const cookieSession = require("cookie-session")
 const Shoppost = require('./models/Shoppost');
 const shoppostRoute= require("./routes/Shoppost");
 
+const questionRoute= require("./routes/questions");
+const answerRoutes = require("./routes/answer");
+
 require('dotenv').config();
 require('./passport'); 
 
@@ -94,6 +97,9 @@ app.use("/api/blogComments", blogCommentRoutes);
 app.use("/api/bookMarks", bookMarkRoutes);
 
 app.use("/api/shoppost",shoppostRoute); 
+
+app.use("/api/questions",questionRoute);
+app.use("/api/answer", answerRoutes);
 
 
 
