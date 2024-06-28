@@ -1,10 +1,10 @@
-import react from "react";
-import { useState, useEffect } from "react";
-import { ReactDOM } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from "react";
+//import { useState, useEffect } from "react";
+//import { ReactDOM } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import { faBars } from "@fortawesome/free-solid-svg-icons"
-import { faBell, faHome, faMicrochip, faBook, faBlog, faCartShopping, faUser, faChartLine, faCircleCheck, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faHome, faMicrochip, faBook, faBlog, faCartShopping, faUser, faChartLine, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import "./AdminNavi.css";
 
 
@@ -18,10 +18,10 @@ export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } })
             <h2>Gavesha</h2>
           </nav>
           <div className="admin_nav_grid">
-            <li className="notification-icon">
+            <li className="admin_notification-icon">
               <a href="#">
                 <FontAwesomeIcon icon={faBell} />
-                {counts.pending > 0 && <span className="notification-count">{counts.pending}</span>}
+                {counts.pending > 0 && <span className="admin_notification-count">{counts.pending}</span>}
               </a>
             </li>
             <li>
@@ -40,7 +40,7 @@ export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } })
               </a> 
             </li>
 
-           <Link to={'/admin'}> <li>
+           <Link to={'/proadmin'}> <li>
               <a href="">
                 <FontAwesomeIcon icon={faMicrochip} /> Projects{" "}
               </a>
@@ -64,11 +64,11 @@ export const AdminNavi = ({ counts = { pending: 0, approved: 0, rejected: 0 } })
               </a>
             </li></Link> 
 
-           <Link to={'/usersadmin'}> <li>
+     { /*     <Link to={'/usersadmin'}> <li>
               <a href="#">
                 <FontAwesomeIcon icon={faUser} /> Users{" "}
               </a>
-            </li></Link> 
+            </li></Link> */}
 
             <Link to={'/performanceadmin'}> <li>
               <a href="#">

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-
+// import GoogleTranslate from "../../Component/GoogleTranslate";
 // Define the function to fetch user data
 const fetchUserData = async (userId) => {
   try {
@@ -19,6 +19,8 @@ const fetchUserData = async (userId) => {
   }
 };
 
+
+
 // InsidePost component to display details of a single blog post
 export const InsidePost = () => {
   const blogPostId = useParams().id;
@@ -27,7 +29,7 @@ export const InsidePost = () => {
   const { user } = useUsers();
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
-
+  
   useEffect(() => {
     // Function to fetch the blog post details
     const fetchPost = async () => {
@@ -38,8 +40,6 @@ export const InsidePost = () => {
         );
         setBlogPost(res.data);
         fetchAuthor(res.data.postedBy);
-        setLikes(res.data.likes); // Set initial likes count
-        setLiked(res.data.likes.includes(user.userId)); // Check if user has already liked
       } catch (err) {
         console.error(err);
       }
@@ -81,10 +81,21 @@ export const InsidePost = () => {
       console.error("Error unliking post:", error);
     }
   };
-  
+
+  // useEffect(() => {
+  //   // Reinitialize Google Translate after data is fetched and rendered
+  //   if (window.googleTranslateElementInit) {
+  //     try {
+  //       window.googleTranslateElementInit();
+  //     } catch (error) {
+  //       console.error('Error reinitializing Google Translate:', error);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <div className="InsidePost">
+      
       <div className="Blog">
         <h1 className="blogTitle">{blogPost.title}</h1>
         <hr />
@@ -106,8 +117,10 @@ export const InsidePost = () => {
           </p>
         </div>
         <img src={blogPost.photo} alt="" className="postImage" />
-        <p className="blogbody"> {blogPost.desc} </p>
-        <div>
+        <p className="blogbody" dangerouslySetInnerHTML={{ __html: blogPost.desc }} />
+      </div>
+
+      <div>
           was this article helpful to you?  {"  "} {" "}
           <CIcon
                 icon={icon.cilThumbUp}
@@ -123,8 +136,8 @@ export const InsidePost = () => {
                 onClick={handleUnlike}
                 className="insideBlogLike"
               />
-        </div>
-      </div>
+        </div>  
+
       {/* Blog comments section */}
       <div className="BlogComments">
         <div className="blogCommentTitle"> Comments</div>

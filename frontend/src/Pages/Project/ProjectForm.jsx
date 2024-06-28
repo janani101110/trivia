@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../firebase.js";
 import "./ProjectForm.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { URL } from "../../url";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+//scroll
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const ProjectForm = () => {
   const [name, setName] = useState("");
@@ -23,12 +26,16 @@ export const ProjectForm = () => {
   const [pcb_design, setPcbDesign] = useState(null);
   const [git_link, setGitLink] = useState("");
 
+  useEffect(() => {
+    AOS.refresh(); // Refresh AOS on component mount/update
+  }, []);
+
   const [inputs, setInputs] = useState({});
 
   const [file, setFile] = useState("");
-  const [downloadURL, setDownloadURL] = useState("");
+ const [downloadURL, setDownloadURL] = useState("");
 
-  const [userVideoLink, setUserVideoLink] = useState("");
+  /*const [userVideoLink, setUserVideoLink] = useState("");*/
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -49,7 +56,7 @@ export const ProjectForm = () => {
       case "project_photo":
         setProjectPhoto(url);
         break;
-      case "project_video":
+  /*    case "project_video":
         setProjectVideo(url);
         break;
       case "circuit_diagram":
@@ -57,15 +64,15 @@ export const ProjectForm = () => {
         break;
       case "pcb_design":
         setPcbDesign(url);
-        break;
+        break;*/
       default:
         break;
     }
   };
 
-  const handleVideoLinkChange = (e) => {
+  /*const handleVideoLinkChange = (e) => {
     setUserVideoLink(e.target.value);
-  };
+  };*/
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //automatically refresh
@@ -87,10 +94,10 @@ export const ProjectForm = () => {
       objectives,
       intro,
       project_photo: downloadURL,
-      project_video: downloadURL,
+    /*  project_video: downloadURL,*/
       explanation,
-      circuit_diagram: downloadURL,
-      pcb_design: downloadURL,
+    /*  circuit_diagram: downloadURL,
+      pcb_design: downloadURL,*/
       git_link,
     };
 
@@ -142,21 +149,21 @@ export const ProjectForm = () => {
       errors.project_photo = "Project photo is required";
     }
 
-    if (!project_video && !userVideoLink?.trim()) {
+ /*   if (!project_video && !userVideoLink?.trim()) {
       errors.project_video = "Video file is  required";
-    }
+    }*/
 
     if (!explanation?.trim()) {
       errors.explanation = "Expalanation is required";
     }
 
-    if (!circuit_diagram) {
+  /*  if (!circuit_diagram) {
       errors.circuit_diagram = "Circuit diagram is required";
     }
 
     if (!pcb_design) {
       errors.pcb_design = "PCB Design is required";
-    }
+    } */
 
     if (!git_link?.trim()) {
       errors.git_link = "GIT Link is required";
@@ -171,7 +178,7 @@ export const ProjectForm = () => {
   };
 
   return (
-    <div className="project_container">
+    <div className="project_container" data-aos="fade-up">
       <form onSubmit={handleSubmit}>
         <div className="project_form">
           <h2 className="project_topic">Fill below fields</h2>
@@ -179,8 +186,8 @@ export const ProjectForm = () => {
           <div className="project_frame_box_center">
             <div className="project_fill">
               <div className="project_field">
-                <label>Name </label>
-                <input
+                <label className="project_label">Name </label>
+                <input className="project_input"
                   onChange={(e) => setName(e.target.value)}
                   type="text"
                   name="name"
@@ -192,8 +199,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <label>E-mail address</label>
+                <label className="project_label">E-mail address</label>
                 <input
+                className="project_input"
                   onChange={(e) => setEmail(e.target.value)}
                   type="text"
                   name="email"
@@ -205,8 +213,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <label>Project name</label>
+                <labe className="project_label"l>Project name</labe>
                 <input
+                className="project_input"
                   onChange={(e) => setProjectName(e.target.value)}
                   type="text"
                   name="project_name"
@@ -218,8 +227,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <label>Used components and libraries</label>
+                <label className="project_label">Used components and libraries</label>
                 <textarea
+                  className="project_input"
                   onChange={(e) => setComponents(e.target.value)}
                   name="components"
                   placeholder="Components ex:ATMega32,Rain sensor"
@@ -232,8 +242,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <label>Final goal / objectives</label>
+                <label className="project_label">Final goal / objectives</label>
                 <textarea
+                  className="project_input"
                   onChange={(e) => setObjectives(e.target.value)}
                   type="text"
                   name="objectives"
@@ -247,8 +258,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <label>Give an brief introduction about the project</label>
+                <label className="project_label">Give an brief introduction about the project</label>
                 <textarea
+                className="project_input"
                   onChange={(e) => setIntro(e.target.value)}
                   type="text"
                   name="intro"
@@ -262,10 +274,11 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_upload">
-                <label htmlFor="project_photo">
+                <label htmlFor="project_photo" className="project_label">
                   Upload a clear image of your project
                 </label>
                 <input
+                className="project_input"
                   onChange={(e) => handleUpload(e)}
                   type="file"
                   name="project_photo"
@@ -276,11 +289,12 @@ export const ProjectForm = () => {
                 <p className="project_error">{formErrors.project_photo}</p>
               )}
 
-              <div className="project_upload">
-                <label htmlFor="prooject_video">
+         { /*    <div className="project_upload">
+                <label htmlFor="prooject_video" className="project_label">
                   Upload the video about the project
                 </label>
                 <input
+                className="project_input"
                   onChange={handleVideoLinkChange}
                   type="file"
                   name="project_video"
@@ -289,11 +303,12 @@ export const ProjectForm = () => {
               </div>
               {formErrors.project_video && (
                 <p className="project_error">{formErrors.project_video}</p>
-              )}
+              )} */}
 
               <div className="project_field">
-                <label>Explain your project descriptively</label>
+                <label className="project_label">Explain your project descriptively</label>
                 <textarea
+                className="project_input"
                   onChange={(e) => setExplanation(e.target.value)}
                   type="text"
                   name="explain"
@@ -306,11 +321,12 @@ export const ProjectForm = () => {
                 <p className="project_error">{formErrors.explanation}</p>
               )}
 
-              <div className="project_upload">
-                <label htmlFor="project_photo">
+          {/*    <div className="project_upload">
+                <label htmlFor="project_photo" className="project_label">
                   Upload the circuit/schematic diagram
                 </label>
                 <input
+                className="project_input"
                   onChange={(e) => handleUpload(e)}
                   type="file"
                   name="circuit_diagram"
@@ -322,8 +338,9 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_upload">
-                <label htmlFor="project_photo">Upload the PCB design</label>
+                <label htmlFor="project_photo" className="project_label">Upload the PCB design</label>
                 <input
+                className="project_input"
                   onChange={(e) => handleUpload(e)}
                   type="file"
                   name="pcb_design"
@@ -332,11 +349,12 @@ export const ProjectForm = () => {
               </div>
               {formErrors.pcb_design && (
                 <p className="project_error">{formErrors.pcb_design}</p>
-              )}
+              )} */}
 
               <div className="project_field">
-                <label>Github repository link with the source code</label>
+                <label className="project_label">Github repository link with the source code</label>
                 <input
+                className="project_input"
                   onChange={(e) => setGitLink(e.target.value)}
                   type="text"
                   name="code"

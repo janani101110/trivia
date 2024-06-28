@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
-import {getStorage} from "firebase/storage";
-import firebase from "firebase/compat/app";
-import 'firebase/compat/storage';
-
+//import { getAnalytics } from "firebase/analytics";
+import {getStorage} from "firebase/storage"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdoRQLIVBCoR9RXRDD4vz48JKNs_qzOyA",
@@ -15,10 +13,6 @@ const firebaseConfig = {
 };
 
 
-//const app = firebase.initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
-//const storage = getStorage(app);
-
-export const imageDb = getStorage(app);
-//export default app;
-
+//const analytics = getAnalytics(app);
+export const imageDb = getStorage(app)

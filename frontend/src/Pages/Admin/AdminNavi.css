@@ -74,19 +74,19 @@ font-size: xx-large;
    gap: 1px;
 }
 
-.notification-icon {
+.admin_notification-icon {
     position: relative;
     display: inline-block;
     margin-right: 20px;
   }
   
-  .notification-icon a {
+  .admin_notification-icon a {
     text-decoration: none;
     color: inherit;
     position: relative;
   }
   
-  .notification-count {
+  .admin_notification-count {
     position: absolute;
     top: -7px;
     right: -12px;

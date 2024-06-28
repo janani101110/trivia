@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const mongoose = require("mongoose");
 
 const ShoppostSchema = new mongoose.Schema(
@@ -17,30 +19,29 @@ const ShoppostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     imageUrl: {
       type: String,
     },
-    createdAt:{
+    createdAt:{ 
       type: Date,
       default: Date.now,
-      index: { expires: '7d' },
+      index: { expires: '4d' },
     },
     userEmail:{
       type:String,
       required:true,
     } ,
     
-    /*username: { 
-        type:String,
-        required:true
-    }, 
-    userid: { 
-        type:String,
-        required:true
-    },*/
+    postedBy: {
+      type: ObjectId,
+      ref: "User",
+      required: false  
+  },
   },
   { timestamps: true }
 );
+
 
 
 module.exports = mongoose.model("Shoppost", ShoppostSchema);

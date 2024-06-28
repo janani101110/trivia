@@ -1,323 +1,288 @@
-import React from 'react'
-import './Resources.css'
-import './Sensors/Sensors'
+import React, { useEffect } from "react";
+import "./Resources.css";
+import read from "../Resources/Assets/read1.png"; // Import icon image
+import pen from "../Resources/Assets/pen1.png"; // Import icon image
+import { Link , useNavigate } from "react-router-dom";
+import { useUsers } from "../../Context/UserContext"; // Import user context
+import { SearchResults} from "../Resources/Sensors/SearchResults"
 
-import sensors from '../Resources/Assets/sensors.png'
-import pcb from '../Resources/Assets/pcb.png'
-import datasheet from '../Resources/Assets/datasheet.jpg'
-import code from '../Resources/Assets/code.png'
-import communi from '../Resources/Assets/com.png'
-import power from '../Resources/Assets/power.png'
-import proto from '../Resources/Assets/proto.png'
-
-import { Link } from 'react-router-dom';
-import { Search } from '../../Component/Search/Search'
+import sensors from "../Resources/Assets/sensors.png";
+import pcb from "../Resources/Assets/pcb.png";
+import datasheet from "../Resources/Assets/datasheet.jpg";
+import communi from "../Resources/Assets/com.png";
+import cloud from "../Resources/Assets/cloud.jpg";
+import kit from "../Resources/Assets/kit.jpg";
+import iot from "../Resources/Assets/iot.jpg";
+import micro from "../Resources/Assets/micro.png";
 
 export const Resources = () => {
+
+  const { user } = useUsers(); // Access user data from context
+  const navigate = useNavigate(); // Use useNavigate hook
+
+  // Function to handle create button click
+  const handleCreateClick = () => {
+    if (!user) {
+      setTimeout(() => {
+        window.alert('Please login to create a blog post.'); // Show error message in alert box
+      }, 100);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } else {
+      // If user is logged in, navigate to create post page
+      navigate("/writepost");
+    }
+  };
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5, // Change this threshold as needed for the desired effect
+    };
+
+    const handleIntersect = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target);
+        } else {
+          entry.target.classList.remove("active");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, options);
+
+    const elements = document.querySelectorAll(".rescollect");
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    // Clean up
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const scrollToContent = () => {
+    const content = document.getElementById("resobanner-content");
+    if (content) {
+      const scrollOffset = content.getBoundingClientRect().height * 1.75; // Adjust the scroll offset as needed
+      window.scrollBy({ top: scrollOffset, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className='resoCollect'>
-        <Search/>
-      <div className='collect' id='collect1'>
-          <div className='resoimg'>
-              <img src={sensors} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Sensors : </h3>
-              <br />
-              <p>The sensors section includes motion, temperature, light, proximity, gas,sound, image, and 
-                environmental sensors, each serving specific purposes in detecting movement, measuring temperature, 
-                gauging light levels, identifying nearby objects, monitoring gases, capturing sound, imaging, and
-                assessing environmental factors like humidity.
-              </p>
-          </div>
-          <div className='seemore'>
-              <Link to='/sensors' > <button>See more</button></Link>
-          </div>
-      </div>
+    <div className="resoCollect">
+      <div className="resobanner">
 
-      <div className='collect' id='collect2'>
-            <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
+        <div className="resobanner-content" id="resobanner-content">
+          <div className="resosearchbar">
+            <SearchResults/>
+          </div>
+        
+          <h1>Welcome to Our Resource Hub</h1>
+          <p>
+            Explore a vast collection of resources to enhance your electronic
+            projects
+          </p>
+        
+            <div className="button-container">
+              <button onClick={scrollToContent}>
+              {read && (
+                  <img src={read} alt="read" className="button-icon" />
+                )} Learn
+              </button>
+             
+              <button onClick={handleCreateClick}> 
+                {pen && (
+                  <img src={pen} alt="pen" className="button-icon" />
+                )} Write
+              </button>
             </div>
-          <div className='resopara'>
-              <h3>PCB (Printed Circuit Board) :</h3>
-              <br />
-              <p>The PCB section covers design tools like Altium Designer, PCB manufacturing, components, 
-                and assembly. Altium Designer is a highlighted tool in this context. It provides concise 
-                insights into the entire process of creating and assembling Printed Circuit Boards, essential 
-                for electronic device development.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+   
+        </div>
       </div>
 
-      <div className='collect' id='collect3'>
-            <div className='resoimg'>
-              <img src={datasheet} alt="" className='resoimg'/> 
-            </div>
-          <div className='resopara'>
-              <h3>Data Sheets :</h3>
-              <br />
-              <p>The Data Sheets section offers concise details on microcontroller, sensor, communication module, 
-                and integrated circuit (IC) specifications. These sheets serve as valuable resources, providing 
-                essential information for informed decision-making and efficient implementation in diverse 
-                applications.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+      
+
+      <div className="rescollect" id="collect1">
+        <div className="resoimg">
+          <img src={sensors} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>Sensors : </h3>
+          <br />
+          <p>
+            The sensors section includes motion, temperature, light, proximity,
+            gas,sound, image, and environmental sensors, each serving specific
+            purposes in detecting movement, measuring temperature, gauging light
+            levels, identifying nearby objects, monitoring gases, capturing
+            sound, imaging, and assessing environmental factors like humidity.
+          </p>
+        </div>
+        <div className="seemore">
+          <Link to="/sensors">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect4'>
-            <div className='resoimg'>
-              <img src={code} alt="" className='resoimg'/> 
-            </div>
-          <div className='resopara'>
-              <h3>Codes/Programming :</h3>
-              <br />
-              <p>The Codes/Programming section encompasses programming languages (C, C++, Python), Integrated 
-                Development Environments (IDEs), code debugging techniques, and provides sample codes for projects, 
-                along with specific examples tailored for various microcontrollers.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+      <div className="rescollect" id="collect2">
+        <div className="resoimg">
+          <img src={pcb} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>PCB (Printed Circuit Board) :</h3>
+          <br />
+          <p>
+          Navigate the intricacies of PCBs with resources on Design Software, Manufacturing Services, and
+          Components Sourcing. Learn about PCB Layout Techniques, Assembly and Soldering processes, and
+          Testing and Validation methods to ensure the reliability and efficiency of your electronic circuits.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/pcb">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect5'>
-            <div className='resoimg'>
-              <img src={communi} alt="" className='resoimg'/> 
-            </div>
-          <div className='resopara'>
-              <h3>Communication Modules :</h3>
-              <br />
-              <p>The Communication Modules section covers Wi-Fi, Bluetooth, Zigbee, and Cellular modules, 
-                serving diverse wireless applications. Wi-Fi provides internet connectivity, Bluetooth 
-                facilitates short-range data exchange, Zigbee supports low-power communication, and Cellular 
-                modules offer long-range connectivity options.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+      <div className="rescollect" id="collect3">
+        <div className="resoimg">
+          <img src={datasheet} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>Data Sheets :</h3>
+          <br />
+          <p>
+          Access comprehensive data sheets for various electronic components. Categories include Sensor 
+          Data Sheets, Microcontroller Data Sheets, Communication Module Data Sheets, Power Management IC Data 
+          Sheets, and detailed Component Specifications, providing all the technical information needed for your 
+          projects.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/dataSheet">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect6'>
-            <div className='resoimg'>
-              <img src={power} alt="" className='resoimg'/> 
-            </div>
-          <div className='resopara'>
-              <h3>Power Management :</h3>
-              <br />
-              <p>The Power Management section discusses batteries for portable energy, power supply circuits 
-                for stable voltage, and energy harvesting techniques for sustainability. It offers a concise 
-                overview of key elements in effective power management, emphasizing the importance of these 
-                components in electronic systems.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+
+      <div className="rescollect" id="collect5">
+        <div className="resoimg">
+          <img src={communi} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>Communication Modules :</h3>
+          <br />
+          <p>
+          Explore a variety of communication modules essential for connectivity in modern electronics. 
+          Categories include Wi-Fi Modules, Bluetooth Modules, Zigbee Modules, LoRa Modules, Cellular Modules, 
+          and RFID and NFC Modules, each offering unique features and capabilities for different communication needs.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/communi">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect7'>
-          <div className='resoimg'>
-              <img src={proto} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Prototyping Tools :</h3>
-              <br />
-              <p>The Prototyping Tools section includes breadboards for circuit construction, prototyping platforms 
-                like Arduino and Raspberry Pi, jumper wires for flexible connections, and oscilloscopes plus 
-                multimeters for signal analysis. These tools are pivotal for efficient electronic prototyping and 
-                testing.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+
+      <div className="rescollect" id="collect11">
+        <div className="resoimg">
+          <img src={micro} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>Microcontrollers :</h3>
+          <br />
+          <p>
+          Delve into the world of microcontrollers with a focus on Popular Microcontroller Families such as 
+          Arduino and ESP32. Learn about Development Environments (IDEs), Programming Microcontrollers, Power 
+          Management for Microcontrollers, and how to leverage Interfaces and Peripherals for enhanced functionality.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/micro">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect8'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Enclosures and Cases :</h3>
-              <br />
-              <p>The Enclosures and Cases section covers protective enclosures for electronics and explores 3D 
-                printing for customized prototyping. It emphasizes the importance of tailored solutions for 
-                electronic device development, underlining the role of suitable enclosures and innovative 3D 
-                printing techniques.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+      <div className="rescollect" id="collect12">
+        <div className="resoimg">
+          <img src={cloud} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>IoT Platforms and Cloud Services : </h3>
+          <br />
+          <p>
+          Uncover the potential of IoT Platforms like AWS IoT and Azure IoT, along with Cloud Storage Solutions 
+          and Data Analytics. Manage your devices efficiently with Device Management tools and explore Integration 
+          and APIs to seamlessly connect your IoT ecosystem.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/IotPlat">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect9'>
-          <div className='resoimg'>
-              <img src={sensors} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Networking :</h3>
-              <br />
-              <p>The Networking section delves into IoT basics, highlighting protocols such as MQTT and CoAP, and 
-                indispensable networking components. It furnishes a concise overview, equipping readers with 
-                foundational knowledge crucial for effective Internet of Things (IoT) networking design and seamless 
-                implementation.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+
+      <div className="rescollect" id="collect15">
+        <div className="resoimg">
+          <img src={kit} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>IoT Prototyping and Development Kits :</h3>
+          <br />
+          <p>
+          Jumpstart your IoT projects with a variety of prototyping and development kits. Categories include 
+          Arduino Kits, Raspberry Pi Kits, ESP32 Development Kits, Sensor Kits, and Wireless Communication Kits, 
+          providing everything you need to prototype and develop IoT solutions.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/IotProto">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
 
-      <div className='collect' id='collect10'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Security :</h3>
-              <br />
-              <p>The Security section addresses IoT security best practices, encryption techniques, and secure 
-                coding practices. It emphasizes implementing effective measures for safeguarding sensitive data 
-                during communication, highlighting the pivotal role of code integrity in fortifying IoT systems 
-                against potential threats.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
 
-      <div className='collect' id='collect11'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Microcontrollers :</h3>
-              <br />
-              <p>The Microcontrollers section includes basics, popular models, interfacing, and development tools. 
-                Emphasizing microcontroller datasheets, it explores Real-time Operating Systems (RTOS), low-power 
-                microcontrollers, and advanced topics. This concise overview encapsulates key aspects of 
-                microcontroller technology.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
+      <div className="rescollect" id="collect17">
+        <div className="resoimg">
+          <img src={iot} alt="" className="resoimg" />
+        </div>
+        <div className="resopara">
+          <h3>Others :</h3>
+          <br />
+          <p>
+          Find additional resources and tools to support your projects. Explore Codes/Programming, Power Management 
+          techniques, Prototyping Tools, Enclosures and Cases for your devices, Networking essentials, Wireless 
+          Communication options, and the integration of Machine Learning and AI for IoT. This category also includes 
+          miscellaneous resources.
+          </p>
+        </div>
+        <div className="seemore">
+        <Link to="/others">
+            {" "}
+            <button>See more</button>
+          </Link>
+        </div>
       </div>
-
-      <div className='collect' id='collect12'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>IoT Platforms and Cloud Services: :</h3>
-              <br />
-              <p>The IoT Platforms and Cloud Services section covers Cloud Service Providers, IoT platform 
-                comparisons, and emphasizes data storage and analysis. This concise overview offers insights into 
-                navigating IoT platforms and leveraging cloud services for optimal functionality.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
-      <div className='collect' id='collect13'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Wireless Communication :</h3>
-              <br />
-              <p>The Wireless Communication section covers RF communication, antennas, and signal propagation. 
-                It explores RF technologies, delves into antenna design, and addresses signal propagation 
-                principles. This concise overview provides key insights for optimizing wireless networks.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
-      <div className='collect' id='collect14'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Machine Learning and AI for IoT :</h3>
-              <br />
-              <p>The Machine Learning and AI for IoT section introduces ML/AI fundamentals, explores dedicated 
-                libraries for IoT, and emphasizes the role of Edge Computing. It provides key insights for 
-                leveraging ML and AI to enhance data processing and decision-making in IoT applications.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
-      <div className='collect' id='collect15'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>IoT Prototyping and Development Kits :</h3>
-              <br />
-              <p>The IoT Prototyping and Development Kits section includes kits for beginners, facilitating an easy 
-                entry into IoT prototyping, and advanced development kits for complex projects. This concise 
-                overview ensures options catering to users at different skill levels in the IoT prototyping and 
-                development domain.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
-      <div className='collect' id='collect16'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Documentation and Project Management :</h3>
-              <br />
-              <p>The Documentation and Project Management section emphasizes best practices for clear IoT project 
-                documentation, highlighting its significance in streamlined development. It also explores project 
-                management tools, providing insights for efficient collaboration and tracking in IoT projects.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
-      <div className='collect' id='collect17'>
-          <div className='resoimg'>
-              <img src={pcb} alt="" className='resoimg'/> 
-          </div>
-          <div className='resopara'>
-              <h3>Troubleshooting and Debugging :</h3>
-              <br />
-              <p>The Troubleshooting and Debugging section provides solutions for common issues and explores 
-                debugging techniques in IoT projects. It equips users with insights into identifying and resolving 
-                challenges during development and deployment, enhancing problem-solving skills for efficient 
-                troubleshooting in the dynamic field of IoT.
-              </p>   
-          </div>
-          <div className='seemore'>
-              <button>See more</button>
-          </div>  
-      </div>
-
     </div>
-  )
-}
+  );
+};

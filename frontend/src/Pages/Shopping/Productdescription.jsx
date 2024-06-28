@@ -10,7 +10,7 @@ export const Productdescription = () => {
       // Using template literal to include the ID in the URL. this is fetch using relevant id
       method: "GET",
     })
-      .then((res) => res.json())
+      .then((res) => res.json()) 
       .then((data) => {
         console.log(data, "shoppost");
         setShoppost(data); // show the data
@@ -33,7 +33,7 @@ export const Productdescription = () => {
 
   return (
     <div className="pdescrip">
-      {shoppost ? ( //this show the post with relevent data for relevant id. if the data is not available loading.. is shown
+      {shoppost ? ( 
         <tbody>
           <tr className="descup">
             <td className="descphoto">

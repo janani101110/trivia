@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
@@ -5,6 +6,8 @@ import Blogspost from "../Blogs/Blogspost";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import "./MySaves.css";
+import "../Blogs/Blog.css";
+import bookMarkBanner from "./Assets/bookMarkBanner.jpg";
 
 const MySaves = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -35,14 +38,18 @@ const MySaves = () => {
 
   return (
     <div className="mySavesBody">
-      <div className="mySaveMainBody">
-        <div className="mySaveUserDiv">
-          <div className="userDetails">
-            <img src={user.profilePicture} alt="" className="mySavesImg" />
-            {user.username}
-          </div>
+        <div className="BookMarkBanner">
+        <img
+              src={bookMarkBanner}
+              alt=""
+              className="BookMarkBannerImage"
+            />
+            <div className="BookMarkBannerText">Your Book Marks</div>
         </div>
+
+
         <div className="mySaveBookMarksDiv">
+        <div className="mySaveBookMarksSubDiv">
           <div className="mySaveTags">
             Blogs <hr />
             <button onClick={handleToggleGrid} className="toggleButton">
@@ -59,6 +66,12 @@ const MySaves = () => {
             /> }
             </button>
           </div>
+          <p className="UserBlogsCount">
+            {" "}
+            No of Blogs: {"   "} {blogPosts.length}{" "}
+          </p>
+        </div>
+        <div className="blogCardMyBookMarks">
           {blogPosts.length === 0 ? (
             <p>No saved blog posts found.</p>
           ) : (
@@ -83,8 +96,9 @@ const MySaves = () => {
                     ))}
             </ul>
           )}
+          </div>
         </div>
-      </div>
+      
     </div>
   );
 };

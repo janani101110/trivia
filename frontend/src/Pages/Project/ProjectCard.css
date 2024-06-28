@@ -30,6 +30,9 @@
   padding: 20px 16px;
 }
 
+.project_container_text{
+  margin-left: -30px;
+}
 .project_card_title {
   font-weight: bold;
   font-size: larger;
@@ -68,25 +71,43 @@
   background-color: rgb(104, 19, 183);
 }
 
+.project_last_line{
+  display:inline-flex;
+}
+
 .project_details .project_published_details {
   line-height: 0px;
   text-align: right;
-  padding-top: 20px;
+ padding-top: 20px;
   color: rgb(104, 103, 103);
   font-size: smaller;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
+.project_details{
+  text-align: right;
+ padding-left: 120px;
+}
+
 .project_heart {
   cursor: pointer;
   color: blue;
-  align-items: center;
-  font-size: 20px;
-  background-color: rgb(208, 179, 204);
+ /* align-items: center;*/
+ margin-top: -20px;
+  /*font-size: 20px;*/
+  list-style: none;
+
+  /*background-color: rgb(208, 179, 204);
   padding-top: 0px;
   margin-top: 20px;
   border-radius: 10px;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto auto;*/
 }
 
+.project_heart_line{
+  margin-top: -5px;
+  font-size: 15px;
+  padding-left: 30px;
+  margin-top: -50px;
+}

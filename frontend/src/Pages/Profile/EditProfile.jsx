@@ -1,10 +1,11 @@
+
 import React, { useEffect, useState } from "react";
 import { useUsers } from "../../Context/UserContext";
 import axios from "axios";
 import "./EditProfile.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { imageDb } from "../../firebase";
+import { imageDb } from "./../../firebase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import CIcon from "@coreui/icons-react";

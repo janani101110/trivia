@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
-import "./Navbar.css";
-import logo from "../Assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+
+import React, {useState } from 'react'
+import './Navbar.css'
+import logo from '../Assets/logo.png'
+import { Link, useNavigate } from 'react-router-dom';
 import DropdownMenu from "./DropdownMenu";
 import { useUsers } from "../../Context/UserContext";
+import GoogleTranslate from "../GoogleTranslate";
+
+
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("home");
   const { user, fetchUsers } = useUsers();
- // const [user, setUser] = useState(null);
   const navigation = useNavigate();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -20,66 +23,27 @@ export const Navbar = () => {
     setDropdownVisible(false);
   };
 
-  // Ensure to fetch users on component mount or as needed
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-
-  // function gotoProfile() {
-  //   navigation.navigate("/Profile", { user: user });
-  // }
-
-  /*useEffect(() => {
-    // Fetch authentication status
-    const fetchAuthenticationStatus = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/auth/login/success",
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const resObject = await response.json();
-          setUser(resObject.user);
-        } else {
-          throw new Error("Authentication has failed");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchAuthenticationStatus();
-  }, []);*/ // Fetch authentication status on component mount
+// Ensure to fetch users on component mount or as needed
+// useEffect(() => {
+//   fetchUsers();
+// }, [fetchUsers]);
+ 
 
   console.log(user);
 
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <img src={logo} alt="" className="logo" />
-
+      <Link style={{ textDecoration: "none" }} to="/home">
+        <img src={logo} alt="" className="logo"  onClick={() => {
+            setMenu("home");
+          }}/>
+ </Link>
+ <Link style={{ textDecoration: "none" }} to="/home">
         <h1>Gavesha</h1>
+        </Link>
       </div>
       <ul className="nav-menu">
-        <li
-          onClick={() => {
-            setMenu("home");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/home">
-            Home
-          </Link>
-          {menu === "home" ? <hr /> : <></>}
-        </li>
         <li
           onClick={() => {
             setMenu("resources");
@@ -116,7 +80,7 @@ export const Navbar = () => {
           }}
         >
           <Link style={{ textDecoration: "none" }} to="/shopping">
-            Shopping
+            Shop
           </Link>
           {menu === "shopping" ? <hr /> : <></>}
         </li>
@@ -130,18 +94,8 @@ export const Navbar = () => {
           </Link>
           {menu === "forum" ? <hr /> : <></>}
         </li>
-        <li
-          onClick={() => {
-            setMenu("about");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/aboutus">
-            About Us
-          </Link>
-          {menu === "about" ? <hr /> : <></>}
-        </li>
 
-        <li
+    <li
           onClick={() => {
             setMenu("admin");
           }}
@@ -150,7 +104,10 @@ export const Navbar = () => {
             Admin
           </Link>
           {menu === "admin" ? <hr /> : <></>}
-        </li>
+        </li> 
+
+        <li><GoogleTranslate/></li>
+          
       </ul>
 
       {user ? (
@@ -179,5 +136,5 @@ export const Navbar = () => {
       
     </div>
   );
-};
+}
 export default Navbar;

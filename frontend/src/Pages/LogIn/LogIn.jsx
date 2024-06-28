@@ -37,9 +37,15 @@ function Login() {
         "http://localhost:5000/api/auth/login",
         user
       );
-      console.log(res.data);
+      console.log("logged in user ",res.data);
+      const userType = res.data.user.userType
       localStorage.setItem("token", res.data.token);
-      navigate("/home"); 
+      localStorage.setItem("userType", res.data.user.userType);
+      if (userType === 'admin') {
+        navigate("/Admin"); 
+      } else {
+        navigate("/home"); 
+      }
       window.location.reload();
     } catch (err) {
       if (err.response) {

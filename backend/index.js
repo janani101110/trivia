@@ -1,141 +1,182 @@
-
-const express =require('express')
+const express =require('express');
+const mongoose  = require('mongoose')
+const app=express()
+const cors = require('cors');
+const dotenv = require('dotenv')
+const cookieParser=require('cookie-parser')
 const router = express.Router();
 const session = require('express-session')
-const mongoose  = require('mongoose')
 const jwt = require("jsonwebtoken");
 const bodyParser=require('body-parser');
-const cors = require('cors');
 const path = require("path");
 const passport = require('passport')
 const passportSetup = require('./passport');
-const cookieParser = require('cookie-parser')
 const authRoute=require('./routes/auth');
 const userRoute=require('./routes/users');
-const blogPostRoutes=require('./routes/blogPosts');
-const blogCommentRoutes=require('./routes/blogComments')
-const projectpostRoute = require("./routes/projectposts");
 const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
-const app=express()
-const dotenv = require('dotenv')
+const blogPostRoutes=require('./routes/blogPosts');
+const blogCommentRoutes=require('./routes/blogComments');
 const Shoppost = require('./models/Shoppost');
+const questionRoute= require("./routes/questions");
+const shoppostRoute= require("./routes/shoppost");
+const resopostRoutes = require("./routes/resoposts");
+const resocommentRoutes = require("./routes/resocomments");
+const projectpostRoute = require("./routes/projectposts");
+const answerRoutes = require("./routes/answer");
 
-//require('dotenv').config();
-//const cookieParser = require('cookie-parser')
-require('dotenv').config();
-require('./passport'); 
 
+
+//database 
+ const connectDB=async()=>{
+    try{
+        await mongoose.connect("mongodb+srv://jananilasindu:Trivia2024@cluster0.bic47ow.mongodb.net/")
+        console.log("database connected ")
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+//middlewares
+dotenv.config()
+require('./passport');
+app.use(express.json())
+app.use(cors({
+      origin: 'http://localhost:3000',
+      methods: "GET, POST, PUT, DELETE",
+      credentials: true
+    }));
+app.use(cookieParser())
 app.use(bodyParser.json());
 
-//database connection
 
-//use mongoose.connect to connect the mongodb database
-const connectDB=async()=>{
-  try{
-      await mongoose.connect("mongodb+srv://jananilasindu:Trivia2024@cluster0.bic47ow.mongodb.net/")
-      //await mongoose.connect(process.env.db);
-      console.log("database connected ")
-  }
-  catch(err){
-    //console.log(err.message);
-     console.log(err)
-  }
-}
+app.use("/",require("./routes/shoppost"));
 
 // session
 app.use(session({
-  secret: process.env.accessToken_secret,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false}
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-//middlewares
-dotenv.config();
-app.use(express.json());
-app.use(cookieParser());
-
-//allow rquests from 3000 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: "GET, POST, PUT, DELETE",
-    credentials: true
+    secret: process.env.accessToken_secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false}
   }));
-app.use("/api/projectposts", projectpostRoute);
-app.use("/",require("./routes/shoppost"));
-
-  // Set up passport strategies (e.g., GoogleStrategy) using passportSetup
-
-// Placeholder for Google OAuth route handling
-
-// Placeholder for handling Google OAuth callback
-//app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
- //  res.redirect('/'); // Redirect to home page after successful authentication
- //});
-
-
- app.get("/auth/google",
- passport.authenticate("google", { scope: ['profile'] })
-);
-
-
-app.get("/auth/google/callback",
- passport.authenticate("google", { failureRedirect: "/loginError" }),
- function(req, res) {
-   // Successful authentication, redirect secrets.
-   res.redirect("http://localhost:3000");
- }
-);
-
-app.get('/loginError', function (req, res) {
-
-res.status(500).send('Login process encountered an error. Please try again.');
-});
- 
-app.get('/checkAuth', verifyToken, (req, res) => {
-  res.sendStatus(200);
-})
-
-app.get('/', (req, res) => {
-  res.send('express app is running');
-});
-
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/blogPosts", blogPostRoutes);
-app.use("/api/blogComments", blogCommentRoutes);
-
-// image storage engine
-// const storage = multer.diskStorage({
   
-//   //Project
-//   destination: (req, file, fn) => {
-//     fn(null, "images")
-//   },
-//   filename: (req, file, fn) => {
-//     fn(null, req.body.img);
-//   },
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  
+  
+  
+  
+  
+    app.get("/auth/google",
+    passport.authenticate("google", { scope: ['profile'] })
+  );
+  
+  
+  app.get("/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/loginError" }),
+    function(req, res) {
+      // Successful authentication, redirect secrets.
+      res.redirect("http://localhost:3000");
+    }
+  );
+  
+  app.get('/loginError', function (req, res) {
+  
+  res.status(500).send('Login process encountered an error. Please try again.');
+  });
+  
+  
+  app.get('/checkAuth', verifyToken, (req, res) => {
+    res.sendStatus(200);
+  })
+  
+   
+  app.use("/api/shoppost",shoppostRoute); 
+  app.use("/api/questions",questionRoute);
+  app.use("/api/auth", authRoute);
+  app.use("/api/users", userRoute);
+  app.use("/api/blogPosts", blogPostRoutes);
+app.use("/api/blogComments", blogCommentRoutes);
+app.use("/api/resoposts", resopostRoutes); // Route for resource posts
+app.use("/api/resocomments", resocommentRoutes);
+app.use("/api/projectposts", projectpostRoute);
+app.use("/api/answer", answerRoutes);
 
-// });
-// const upload = multer({storage:storage})
-// //creating upload end point for images
-// /*app.use('/images',express.static('upload/images'))*/
 
-// //project from here 3 lines
-// app.post("/api/upload", upload.single("file"), (req, res) => {
-//   res.status(200).json("Image has been uploaded successfully!");
-// });
-// Shoppost.init().then(() => {
-//   console.log('Indexes are ensured to be created.');
-// }).catch((err) => {
-//   console.error('Error ensuring indexes:', err);
-// });
-
-app.listen(5000, () => {
-    connectDB(); 
-    console.log('Server is running on port 5000');
+Shoppost.init().then(() => {
+  console.log('Indexes are ensured to be created.');
+}).catch((err) => {
+  console.error('Error ensuring indexes:', err);
 });
+// const dropAndCreateIndex = async () => {
+//   try {
+//     await Shoppost.collection.dropIndex('createdAt_1'); // Assuming 'createdAt_1' is the name of the index
+//     console.log('Old index dropped successfully');
+    
+//     // Ensure new index is created with correct TTL
+//     await Shoppost.init();
+//     console.log('New index created successfully');
+//   } catch (err) {
+//     console.error('Error handling index:', err);
+//   }
+// };
+
+// dropAndCreateIndex(); 
+
+app.get("/api/search", async (req, res) => {
+  try {
+    const query = req.query.q; // Get search query from request
+    const results = await ResoPost.aggregate([
+      // Search ResoPost part in MongoDB
+      {
+        $search: {
+          index: "SearchReso", // name of the search index
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", // Search all fields
+            },
+          },
+        },
+      },
+    ]);
+    res.json(results); // Send search results as JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" }); 
+  }
+});
+
+
+
+
+
+//graph
+const AdStatSchema = new mongoose.Schema({
+  date: { type: String, required: true },
+  remainingCount: { type: Number, required: true },
+  //deletedCount: { type: Number, required: true }
+});
+
+const AdStat = mongoose.model('AdStat', AdStatSchema);
+
+app.get('/ad-stats', async (req, res) => {
+  try {
+    const adStats = await AdStat.find().sort({ date: -1 }).limit(30); // Fetch latest 30 records, adjust as needed
+    res.json(adStats);
+  } catch (error) {
+    console.error("Error fetching ad stats:", error);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+
+
+
+app.listen(5000,()=>{
+    connectDB()
+    console.log("app is running on port 5000")
+})

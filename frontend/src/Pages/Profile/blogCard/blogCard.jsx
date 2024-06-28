@@ -3,7 +3,6 @@ import "./blogCard.css";
 import { Link } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-import { Button } from "@mui/material";
 
 const BlogCard = ({ blogPost, onDelete }) => {
   // Check if blogPost is available, if not return null
@@ -86,7 +85,7 @@ const BlogCard = ({ blogPost, onDelete }) => {
         <div className="blogPostdate">{createdDate}</div>
      
       <Link style={{ marginTop: '12px' }} className="editButton"  to={`/UpdateBlog/${blogPost._id}`}  key={blogPost.id}>
-              <CIcon
+              <CIcon 
                 icon={icon.cilPen}
                 size=""
                 style={{ "--ci-primary-color": "black" }}

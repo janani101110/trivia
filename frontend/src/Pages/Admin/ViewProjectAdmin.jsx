@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ViewProjectAdmin.css";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { URL } from "../../url";
 //import { useLocation } from "react-router-dom";
 import AdminNavi from "./AdminNavi";
@@ -75,7 +74,7 @@ export const ViewProjectAdmin = () => {
     }
   }, [projectpost]);*/
 
- {/*useEffect(() => {
+ /*useEffect(() => {
     fetchProjectPost(id);
   }, [id]);
 
@@ -87,9 +86,9 @@ export const ViewProjectAdmin = () => {
     } catch (err) {
       console.log(err);
     }
-  };  */}
+  };  */
 
-  {/*      
+  /*      
 
 
   } // Fetch posts
@@ -104,7 +103,35 @@ export const ViewProjectAdmin = () => {
       });
   }, []);
 
-*/}
+*/
+
+const renderButtons = () => {
+  if (!projectPost.approved && !projectPost.rejected) {
+    return (
+      <>
+        <button type="submit" className="approved" onClick={() => handleApproval(true)}>
+          Approve
+        </button>
+        <button type="submit" className="reject" onClick={() => handleApproval(false)}>
+          Reject
+        </button>
+      </>
+    );
+  } else if (projectPost.approved) {
+    return (
+      <button type="submit" className="reject" onClick={() => handleApproval(false)}>
+        Reject
+      </button>
+    );
+  } 
+    else if (projectPost.rejected) {
+      return (
+        <button type="submit" className="approved" onClick={() => handleApproval(true)}>
+          Approve
+        </button>
+      );
+  }
+};
 
   return (
     <div>
@@ -145,21 +172,21 @@ export const ViewProjectAdmin = () => {
 
       <br></br>
 
-      <div className="project_image">
+   { /*  <div className="project_image">
 
         {/*<video width="100%" controls autoPlay loop>
        //   <source
        //     src={projectpost.project_video}
        //     type="video/mp4"
        //   />
-// </video> */}
+// </video> 
 
 <Link to={projectPost.project_video} >
   click mee
 </Link>
 
         <p className="project_figure">Video explanation of the project</p>
-      </div>
+      </div> */}
 
       <br></br>
       <div>
@@ -167,19 +194,19 @@ export const ViewProjectAdmin = () => {
         <p className="project_describe">{projectPost.explanation}</p>
       </div>
       <br></br>
-      <div className="project_image">
+     {/* <div className="project_image">
         <img
           src={projectPost.circuit_diagram}
-          alt="Project Image"
+          alt="ProjectImage"
           width={600}
         ></img>
         <p className="project_figure">Circuit Diagram</p>
       </div>
 
       <div className="project_image">
-        <img src={projectPost.pcb_design} alt="Project Image" width={600}></img>
+        <img src={projectPost.pcb_design} alt="ProjectImage" width={600}></img>
         <p className="project_figure">PCB Design</p>
-      </div>
+      </div> */}  
 
       <div>
         <p className="project_head">Refer the code through this GitHub link:</p>
@@ -194,16 +221,7 @@ export const ViewProjectAdmin = () => {
         </a>
       </div>
       <br></br>
-<div className="button_flex">
-      <button type="submit" className="approved"
-       onClick={() => handleApproval(true)}>
-                Approve
-              </button>
-              <button type="submit" className="reject"
-              onClick={() => handleApproval(false)}>
-                Reject
-              </button>
-              </div>
+      <div className="button_flex">{renderButtons()}</div>
       <br></br>
     </div>
     </div>

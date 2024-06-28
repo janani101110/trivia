@@ -6,10 +6,17 @@ import AdminNavi from "./AdminNavi";
 import "./ProjectsAdmin.css";
 import axios from "axios";
 import { URL } from "../../url";
+//scroll
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ProjectsAdmin = () => {
   const [projectPosts, setProjectPosts] = useState([]);
   const { status } = useParams(); // Get the status from the URL
+
+  useEffect(() => {
+    AOS.refresh(); // Refresh AOS on component mount/update
+  }, []);
 
   useEffect(() => {
     const fetchProjectPosts = async () => {
@@ -34,36 +41,36 @@ const ProjectsAdmin = () => {
 
 
   return (
-    <div>
+    <div data-aos="fade-up">
       <AdminNavi />
       <div className="admin_content">
         <table>
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Project Name</th>
-              <th>Email</th>
-              <th>Time</th>
-              <th>Stauts</th>
-              <th>View</th>
+            <tr className="admin_tr">
+              <th className="admin_th">Name</th>
+              <th className="admin_th">Project Name</th>
+              <th className="admin_th">Email</th>
+              <th className="admin_th">Time</th>
+              <th className="admin_th">Stauts</th>
+              <th className="admin_th">View</th>
             </tr>
           </thead>
           <tbody>
             {projectPosts.map((projectpost) => (
-              <tr key={projectpost._id}>
-                <td>{projectpost.name}</td>
-                <td>{projectpost.project_name}</td>
-                <td>{projectpost.email}</td>
+              <tr key={projectpost._id} className="admin_tr">
+                <td className="admin_td">{projectpost.name}</td>
+                <td className="admin_td">{projectpost.project_name}</td>
+                <td className="admin_td">{projectpost.email}</td>
                 {/*<td>{projectpost.createdAt}</td> */}
-                <td>{new Date(projectpost.createdAt).toLocaleString()}</td>
-                <td>
+                <td className="admin_td">{new Date(projectpost.createdAt).toLocaleString()}</td>
+                <td className="admin_td">
                   {projectpost.approved
                     ? "Approved"
                     : projectpost.rejected
                     ? "Rejected"
                     : "Pending Approval"}
                 </td>
-                <td>
+                <td className="admin_td">
                   <Link
                     to={`/viewprojectadmin/${projectpost._id}?status=${status}`}
                   >

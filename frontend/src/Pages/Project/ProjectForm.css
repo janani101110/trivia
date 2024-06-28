@@ -40,7 +40,7 @@
   display: flex;
 }
 
-label {
+.project_label {
   padding-right: 10px;
   padding-bottom: 15px;
   position: relative;
@@ -49,8 +49,7 @@ label {
   text-align: left;
 }
 
-textarea,
-input {
+.project_input{
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;

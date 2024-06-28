@@ -1,70 +1,145 @@
-.sensorsCollect {
-    display: flex;
-  }
+/*.sensorsCollect {
+  display: flex;
+}
+
+.resoTitle {
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+  margin-top: 20px;
+  margin-bottom: 25px; / Increased margin for better spacing 
+}
+
+#motion {
+  font-size: 30px;
+}
+
+.reso-content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; / Center content horizontally 
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.res-posts-container {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.res-post {
+  width: calc(33.33% - 20px); / Adjusted width for responsiveness 
+  max-width: 300px; / Maximum width for post cards 
+  flex: 1 0 300px; / Flex properties to ensure equal width 
+  margin-bottom: 20px;  Adjusted margin for better spacing 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(195, 50, 251, 0.5);
+  transition: all 0.3s ease;
+}
+
+.res-post a {
+  color: inherit; or specify your desired text color 
+  text-decoration: none;  removes underline 
+}
+
+.res-post:hover {
+  transform: translateY(-5px);  Lift the card on hover 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);  Enhanced box shadow on hover 
+  cursor: pointer;
+}
+
+.res-post img {
+  width: 100%;
+  height: 250px;  Adjusted image height 
+
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.res-post img:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.res-post h2 {
+  font-size: 20px;  Adjusted heading font size 
+  margin-top: 15px;  Increased margin for spacing 
+}
+
+.res-post p {
+  font-size: 14px; Adjusted paragraph font size
+  margin-top: 5px;Increased margin for spacing 
+}
+
+.respostcontent p {
+  text-align: justify;
+}
+
+.resuserdetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.resuserdetails p {
+  font-size: 12px; Adjust font size for smaller text ]
+  color: #4b5563; Text color
+}
+
+.resuserdetails span {
+  font-size: 10px; /* Adjust font size for smaller text
+  color: #6b7280; /* Lighter text color 
+}
+
+.button-label {
+  padding-bottom: 5px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination .page-item {
+  margin-right: 5px;
+}
+
+.pagination .page-link {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #007bff;
+  padding: 6px 12px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination .page-link:hover {
+  background-color: #e9ecef;
+}
+
+.resuserdetails .authorProfilePicture{
+  width:30px;
+  height: 30px;
+  border: #000;
+  border-radius: 50%;
   
-  .custom-button {
-      width: 90px;
-      height: 35px;
-      outline: none;
-      border: 2px solid black;
-      border-radius: 5px;
-      font-size: 15px;
-      font-weight: bold;
-      justify-content: center;
-      margin-left: 950px;
-      cursor: pointer;
-  }
-  
-  .custom-button:hover {
-      background: rgb(216, 216, 216);
-  }
-  .resoTitle{
-    display: flex;
-    justify-content: center;
-    font-size: 50px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 10px;
-  }
-  
-  #motion{
-    font-size: 30px;
-  }
-  
-  
-  
-  .content-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column; 
-  }
-  
-  .res-posts-container {
-    flex: 2;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 20px;
-  }
-  
-  .res-post {
-    flex: 0 0 calc(33.333% - 20px); 
-    padding: 10px;
-    border: 1px solid purple;
-    border-radius: 10px;
-    
-    
-  }
-  
-  .res-post:hover{
-    background: linear-gradient(0deg, rgba(105,47,89,1) 0%, rgba(61,3,48,1) 100%);
-    color: white;
-    cursor: pointer;
-   }
-  
-  .res-post img {
-    width: 100%;
-    height: 280px;
-    border-radius: 25px;
-    border: none;
-  }
-  
+}
+
+.resuserdetails .authorInfo {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.resuserdetails .authorInfo p{
+  margin-top: 12px;
+  margin-left: 5px;
+}*/

@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import "./ProjectCard.css";
 import AnimatedHeart from "react-animated-heart";
-import ProjectSeeMore from "./ProjectSeeMore";
+import axios from "axios";
+//import ProjectSeeMore from "./ProjectSeeMore";
+import { URL } from "../../url"; // Ensure this is correctly imported
 
 export const ProjectCard = ({ projectpost, page }) => {
   // State to manage the click state and count for each project card for the current session
-  const [isLiked, setIsLiked] = useState(false);
+  const [isClick, setClick] = useState(false);
+  const [likes, setLikes] = useState(projectpost.likes);
 
-  const handleClick = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+  const handleClick = async () => {
+    try {
+      const res = await axios.post(
+        `${URL}/api/projectposts/${projectpost._id}/like`
+      );
+      setLikes(res.data.likes);
+      setClick(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  const getLikesCount = () => (isLiked ? 1 : 0);
 
   return (
     <div className="project_inline_cards">
@@ -25,27 +33,42 @@ export const ProjectCard = ({ projectpost, page }) => {
         />
 
         <div className="project_container">
-          <p className="project_card_title">{projectpost.project_name}</p>
-          <p className="project_description">{projectpost.intro}</p>
+          <div className="project_container_text">
+            <p className="project_card_title">{projectpost.project_name}</p>
+            <p className="project_description">{projectpost.intro}</p>
 
-          <div>
-            <Link
-              to={`/projectseemore/${projectpost._id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <button className="project_card__btn">Explore</button>
-            </Link>
+            <div>
+              <Link
+                to={`/projectseemore/${projectpost._id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="project_card__btn">Explore</button>
+              </Link>
+            </div>
           </div>
 
-          <div className="project_heart">
+          {/*  <div className="project_heart">
             <AnimatedHeart
-             isClick={isLiked}
-              onClick={handleClick}
+             isClick={isClick}
+             onClick={handleClick}
                  />
             <p className="project_heart_line">
-            {getLikesCount()} Likes
+            {likes} Likes
             </p>
+          </div>*/}
+        </div>
+        <div className="project_last_line">
+          <div className="project_heart">
+            <ul>
+              <li>
+                <AnimatedHeart isClick={isClick} onClick={handleClick} />{" "}
+              </li>
+              <br></br>
+              <li>
+                <p className="project_heart_line">{likes} Likes</p>
+              </li>
+            </ul>
           </div>
 
           <div className="project_details">
@@ -58,6 +81,15 @@ export const ProjectCard = ({ projectpost, page }) => {
             <p className="project_published_details">by {projectpost.name}</p>
           </div>
         </div>
+        {/*    <div className="project_details">
+            <p className="project_published_details">
+              {new Date(projectpost.updatedAt).toString().slice(0, 15)}
+            </p>
+            <p className="project_published_details">
+              {new Date(projectpost.updatedAt).toString().slice(16, 24)}
+            </p>
+            <p className="project_published_details">by {projectpost.name}</p>
+          </div>*/}
       </div>
     </div>
   );

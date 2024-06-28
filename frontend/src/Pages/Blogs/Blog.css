@@ -1,14 +1,14 @@
 /** -----------------------------banner-------------------------------*/
-
 .blogBanner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-image: url('./images/blogBanner.png');
+  background-image: url("images/banner1.jpg");
   background-size: cover;
-  padding: 40px;
+  padding-top: 20px;
+  padding-left: 40px;
   width: 100%;
-  height: 300px;
+  height: 450px;
   font-size: 20px;
   font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,17 +24,19 @@
 }
 
 .Bannercreate {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-left: 120px;
   
 }
 
 .Bannercreate .createLink {
   text-decoration: none;
-  color: #532f44; 
-  border: solid #532f44;
-  padding: 10px 20px;
-  border-radius: 25px;
+  color: #000000; 
+  border: solid #000000;
+  padding: 5px 80px;
+  border-radius: 10px;
+  box-shadow: inset;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .blogQuote{
@@ -47,7 +49,45 @@
   box-shadow: none;
 }
 
-.pagination-container {
+.BlogSearchDiv {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding-right: 20px;
+  margin-bottom: 100px;
+}
+
+.BlogSearchBox {
+  height: 30px;
+  width: 270px;
+  border: none;
+  background-color: transparent;
+  border-bottom: solid 2px #000;
+  color: #ece7e7;
+  font-size: 13px;
+  font-family: cursive;
+  padding-left: 20px;
+  margin: 0;
+  outline: none;
+}
+
+.BlogSearchIcon {
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  border-bottom: solid 2px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.BlogSearchBox::placeholder {
+  color: #ece7e7;
+}
+
+/*mine*/
+/*.pagination-container {
   display: flex;
   flex-direction: row;
   row-gap: 50px;
@@ -64,12 +104,10 @@
   align-items: center;
   margin-top: 2px;
   cursor: pointer;
-}
+  margin-bottom: 30px;
+}*/
 
-.active {
-  background-color: #1e50ff;
-  border-radius: 50%;
-}
+
 
 .page-item {
   list-style: none;
@@ -104,6 +142,11 @@
   color:#fff;
 }
 
+.filterButton:hover{
+  background-color: #532f44;
+  color:#fff;
+}
+
   .create{ 
     height: 40px;
     width: 150px;
@@ -116,27 +159,22 @@
     
   }
   .createLink{
-    color: rgb(83, 47, 68);
+    color: rgb(0, 0, 0);
     background-color: #dddddd;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 15px;
     cursor: pointer;
+    border-color: #000;
     font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
-
-  
-   
-    
-    
+    transition: background-color 0.3s, transform 0.3s;
   
   }
-  
-  .create:hover{
-    border: solid 3px #532f44;
-    border-radius: 40px;
-    
+  .createLink:hover{
+    transform: scale(1.05);
   }
-
-  .pagination {
+ 
+/*mine*/
+ /* .pagination {
     margin-bottom: 10px;
     margin-left: 15px;
     display: flex;
@@ -149,7 +187,7 @@
   .page-item {
     margin: 0 5px;
    
-  }
+  }*/
   
   .page-link {
     color: #532f44; /* Text color */
@@ -168,12 +206,19 @@
   }
   
 
-  
+  .PopularBlogsTopic{
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+
+ }
   
   
   /*---------------Post ---------------------------*/
   .bpost{
-    margin-left: 60px;
+    margin-left: 100px;
     margin-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -182,130 +227,10 @@
     height:fit-content;
     width: 1225px;
     display: grid;
-    grid-template-columns: 250px 250px 250px;
-    column-gap: 150px;
+    grid-template-columns: 380px 380px 380px;
+    column-gap: 75px;
   }
 
-  .mainpostcard{
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    margin-left: 60px;
-    margin-right: 0px;
-    margin-top: 20px;
-    background-color: #ffffff;
-    color:#000;
-    font-size: 20px;
-    height:600px;
-    width: 300px;
-    cursor: pointer;    
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .postCard{
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.3s;
-  }
-
-  .postCard:hover {
-    transform: scale(1.05); 
-  }
-  
-  .blogPostImage{
-    max-width: 100%;
-    padding: 0px;
-    height: 200px;
-    
-  }
-  .blogPostDate{
-    font-size: 15px;
-  }
-
-  .likesCount{
-    margin-top: 10px;
-    font-size: 15px;
-  }
-
-  .authorProfilePicture{
-    width:40px;
-    height: auto;
-    border: #000;
-    border-radius: 50%;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .blogCardFooter{
-    display: flex;
-    margin-right: 10px;
-  }
-
-  .BlogFooterkButton{
-    border:none;
-    background-color: #fff;
-    width: 40px;
-  }
-
-  .BlogFooteMarkIcon{
-    width: 20px;
-    cursor: pointer;
-  }
-
-  .blogPostostDetails {
-    position: absolute;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .postCard:hover .blogPostostDetails {
-    opacity: 1; /* Show post details on hover */
-  }
-  
-  .blogPostostDetails {
-    
-    padding: 20px;
-    text-align: center;
-  }
-  .blogPostText{
-    
-    color: #000;
-  }
-  .blogPostTitle{
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    text-transform: uppercase;
-    justify-content: center;
-    text-align: left;
-   
-  }
-
-  .blogPostDescription{
-    font-size: 16px;
-    text-align: justify;
-
-  }
-  .blogcard{
-    text-decoration: none;
-    color: inherit;
-  }
-  .likedislikeDiv{
-    display: flex;
-    color: #532f40;
-    gap: 25px;
-
-  }
   
 
   /**--------------create blog posts -------------------------**/
@@ -419,7 +344,8 @@
 }
 
 /* --------------pagination ----------------------------- */
-.pagination {
+/*mine*/
+/*.pagination {
   display: flex;
   list-style: none;
   padding: 0;
@@ -451,5 +377,4 @@
 .active .pagination-link {
   background-color: #007bff;
   color: #fff;
-}
-
+}*/

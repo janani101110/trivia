@@ -5,6 +5,12 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { URL } from "../../url";
 import ProjectCard from "./ProjectCard";
+// import { Element, scroller } from 'react-scroll';
+// import ScrollAnimation from "react-animate-on-scroll";
+// import "animate.css/animate.min.css";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const ProjectSeeMore = () => {
   const { id } = useParams();
@@ -13,6 +19,10 @@ export const ProjectSeeMore = () => {
   const [page, setPage] = useState(1); // State to keep track of the current page
   const containerRef = useRef(null); // Reference to the container
   const wrapperRef = useRef(null); // Reference to the wrapper
+
+  useEffect(() => {
+    AOS.refreshHard(); // Refresh AOS on component mount/update
+  }, [projectpost]);
 
   const fetchProPost = async () => {
     try {
@@ -66,8 +76,8 @@ export const ProjectSeeMore = () => {
     }
   }, [page]);
 
-   // Event handlers to pause and resume the scrolling animation
-   const handleMouseEnter = () => {
+  // Event handlers to pause and resume the scrolling animation
+  const handleMouseEnter = () => {
     if (wrapperRef.current) {
       wrapperRef.current.classList.add("paused");
     }
@@ -80,7 +90,7 @@ export const ProjectSeeMore = () => {
   };
 
   return (
-    <div className="project_seemore_container">
+    <div className="project_seemore_container" data-aos="fade-up">
       <h1 className="project_title">{projectpost.project_name}</h1>
       <hr className="project_line"></hr>
       <div className="project_inline_user">
@@ -102,12 +112,11 @@ export const ProjectSeeMore = () => {
         <div className="project_head">
           Components required for this project are:
         </div>
-        <div className="project_describe">
-          {projectpost.components}
-        </div>
+        <div className="project_describe">{projectpost.components}</div>
       </div>
       <br></br>
-      <div>
+
+      <div data-aos="fade-up">
         <p className="project_head">Objectives of this project:</p>
         <p className="project_describe">{projectpost.objectives}</p>
       </div>
@@ -115,78 +124,80 @@ export const ProjectSeeMore = () => {
       <br></br>
 
       <div className="project_image">
+        
 
-        {/*<video width="100%" controls autoPlay loop>
-       //   <source
-       //     src={projectpost.project_video}
-       //     type="video/mp4"
-       //   />
-// </video> */}
-
-        <Link to={projectpost.project_video} >
-          click mee
-        </Link>
+       {/* <Link to={projectpost.project_video}>click mee</Link> */}
 
         <p className="project_figure">Video explanation of the project</p>
       </div>
 
       <br></br>
-      <div>
+      <div data-aos="fade-up">
         <p className="project_head">Explanation of the project:</p>
         <p className="project_describe">{projectpost.explanation}</p>
       </div>
+
       <br></br>
-      <div className="project_image">
+    {/*  <div className="project_image">
         <img
           src={projectpost.circuit_diagram}
           alt="Project Image"
           width={600}
         ></img>
         <p className="project_figure">Circuit Diagram</p>
-      </div>
+      </div> 
 
       <div className="project_image">
         <img src={projectpost.pcb_design} alt="Project Image" width={600}></img>
         <p className="project_figure">PCB Design</p>
-      </div>
+      </div> */}
 
       <div>
         <p className="project_head">Refer the code through this GitHub link:</p>
         <a
           className="project_github"
-          href= { projectpost.git_link}
-         // href="https://github.com/flesler/jquery.scrollTo.git"
+          href={projectpost.git_link}
+          // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"
         >
           {projectpost.git_link}
         </a>
       </div>
+
       <br></br>
       <hr className="project_line"></hr>
       {relatedProjects.length > 0 ? (
-        <div className="related_projects_section" ref={containerRef}
-        onScroll={handleScroll}>
+        <div
+          className="related_projects_section"
+          ref={containerRef}
+          onScroll={handleScroll}
+        >
           <br></br>
           <p className="project_head">Related Projects by {projectpost.name}</p>
-          <div className="related_projects_wrapper" ref={wrapperRef}
+          <div
+            className="related_projects_wrapper"
+            ref={wrapperRef}
             onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-          <div className="related_projects_grid">
-            {relatedProjects
-            .filter((project) => project.name === projectpost.name && project.approved ) // Filter by user name and approval status
-            .map((project) => (
-              <div className="related_project_item" key={project._id}>
-                <ProjectCard projectpost={project} />
-              </div>
-            ))}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="related_projects_grid">
+              {relatedProjects
+                .filter(
+                  (project) =>
+                    project.name === projectpost.name && project.approved
+                ) // Filter by user name and approval status
+                .map((project) => (
+                  <div className="related_project_item" key={project._id}>
+                    <ProjectCard projectpost={project} />
+                  </div>
+                ))}
             </div>
           </div>
         </div>
-      ):(
+      ) : (
         <p>No related projects to see.</p>
       )}
-
     </div>
   );
 };
