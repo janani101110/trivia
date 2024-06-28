@@ -1,8 +1,8 @@
-.resocontainer {
+.container {
   padding: 1.5rem;
 }
 
-.resotitle {
+.title {
   font-weight: bold;
   font-size: 1.5rem;
 }
@@ -11,7 +11,7 @@
   font-size: 1.25rem;
 }
 
-.resoform {
+.form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -27,19 +27,20 @@
   border-radius: 5px;
 }
 
-.resofile-input {
+.file-input {
   width: 100%;
   margin-bottom: 1rem;
+  
 }
 
-.resodescription {
+.description {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.resopublish-btn {
+.publish-btn {
   display: block; /* Ensure button is displayed as a block-level element */
   background: rgb(145, 80, 145);
   color: white;
@@ -54,7 +55,7 @@
   margin-top: 10px;
 }
 
-.resopublish-btn:hover {
+.publish-btn:hover {
   background: rgb(77, 37, 77);
 }
 
@@ -113,7 +114,7 @@
 
 /* Writepost.css */
 
-.resocontainer {
+.container {
   max-width: 1500px;
   margin: 0 auto;
   padding: 20px;
@@ -122,19 +123,19 @@
   margin-right: 30px;
 }
 
-.resotitle {
+.title {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.resoform {
+.form {
   display: flex;
   flex-direction: column;
 }
 
 .resopostinput,
-.resofile-input,
-.resodescription,
+.file-input,
+.description,
 select {
   margin-bottom: 20px;
   padding: 10px;
@@ -146,7 +147,7 @@ select {
   font-size: 18px;
 }
 
-.resodescription {
+.description {
   font-size: 16px;
 }
 

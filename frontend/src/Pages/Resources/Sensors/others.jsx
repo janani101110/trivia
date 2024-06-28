@@ -51,14 +51,14 @@ export const Others = () => {
     <div className="sensorsCollect">
       
       <div className="sidebar">
-      <table className="resotable">
-        <thead>
+      <table>
+        {/* <thead>
           <tr>
             <Link to="/others" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/others?category=Codes/Programming" className={getLinkClassName("Codes/Programming")}>

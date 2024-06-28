@@ -7,7 +7,7 @@ import { useUsers } from "../../Context/UserContext";
 import Alert from "../../Component/Alert/Alert";
 
 const ViewQuestion = () => {
-  const [question, setQuestion] = useState(null);
+  const [question, setQuestion] = useState(null); 
   const { id } = useParams();
   const [answers, setAnswers] = useState([]);
   const [answer, setAnswer] = useState("");

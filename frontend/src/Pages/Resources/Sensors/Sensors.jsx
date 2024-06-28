@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from "react";
 import {Link, useLocation } from "react-router-dom";
 import "./Sensors.css";
+import "./Sidebar.css";
 import Resourcepost from "../Resourcepost";
 import { URL } from "../../../url"; // Assuming URL is correctly imported from 'url.js'
 import axios from "axios";
@@ -27,7 +27,6 @@ export const Sensors = () => {
       setNoResults(res.data.length === 0);
     } catch (err) {
       console.log(err);
-      setNoResults(true);
     }
   };
 
@@ -52,13 +51,13 @@ export const Sensors = () => {
     <div className="sensorsCollect">
       <div className="sidebar">
       <table>
-        <thead>
+        {/* <thead>
           <tr>
             <Link to="/Sensors" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/Sensors?category=Motion Sensors" className={getLinkClassName("Motion Sensors")}>
@@ -108,16 +107,17 @@ export const Sensors = () => {
         </tbody>
       </table>
     </div>
-      <div className="reso-content-container">
-
+    
+    <div className="reso-content-container">
         <div className="res-posts-container">
-          {noResults ? (
-            <h3>No Posts Available</h3>
-          ) : (
+          {filteredPosts.length > 0 ? (
             currentPosts.map((resoPost) => (
               <Resourcepost key={resoPost.id} resoPost={resoPost} />
             ))
+          ) : (
+            <h3>No Posts Available</h3>
           )}
+          {noResults && <p>No results found for your search.</p>}
         </div>
         <Pagination
           postsPerPage={postsPerPage}

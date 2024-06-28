@@ -50,15 +50,15 @@ export const Communi = () => {
   return (
     <div className="sensorsCollect">
       
-      <div className="sidebar"> 
-      <table className="resotable">
-        <thead>
+      <div className="sidebar">
+      <table>
+        {/* <thead>
           <tr>
             <Link to="/communi" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/communi?category=Wi-Fi Modules" className={getLinkClassName("Wi-Fi Modules")}>

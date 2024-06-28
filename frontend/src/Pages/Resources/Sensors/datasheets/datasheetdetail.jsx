@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../../url";
-import { useParams} from "react-router-dom";
-import { useUsers } from "../../Context/UserContext";
+import { useParams } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import "./ResoPostdetails.css";
@@ -14,9 +13,15 @@ import ReactQuill from "react-quill"; // Import ReactQuill for rendering
 export const ResoPostdetails = () => {
   const [resorating, setResoRating] = useState(null);
   const [resohover, setResoHover] = useState(null);
-  const [setAverageRating] = useState(0);
   const [author, setAuthor] = useState(null);
-  const { user } = useUsers();
+
+  const handleStarClick = (rating) => {
+    if (resorating === rating) {
+      setResoRating(null);
+    } else {
+      setResoRating(rating);
+    }
+  };
 
   const { id: resoPostId } = useParams();
   const navigate = useNavigate();
@@ -41,7 +46,6 @@ export const ResoPostdetails = () => {
     }
   };
 
-  
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
@@ -55,7 +59,6 @@ export const ResoPostdetails = () => {
 
     fetchAuthor();
   }, [resoPost.postedBy]);
-
 
   const fetchResoPost = async () => {
     try {
@@ -75,46 +78,17 @@ export const ResoPostdetails = () => {
     }
   };
 
-  const fetchAverageRating = async () => {
-    try {
-      const res = await axios.get(`${URL}/api/ratings/${resoPostId}`);
-      setAverageRating(res.data.averageRating);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     fetchResoPost();
     fetchPostComments();
-    fetchAverageRating();
   }, [resoPostId]);
 
-  const handleStarClick = async (rating) => {
-    if (resorating === rating) {
-      setResoRating(null);
-    } else {
-      setResoRating(rating);
-    }
-
-    try {
-      await axios.post(`${URL}/api/ratings`, {
-        postId: resoPostId,
-        userId: "USER_ID", // Replace with actual user ID
-        rating: rating,
-      });
-      fetchAverageRating();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const postComment = async () => {
-    if (user){
+  const postComment = async (e) => {
+    e.preventDefault();
     try {
       await axios.post(
         `${URL}/api/resocomments/create`,
-        { comment, postId: resoPostId, postedBy: user._id },
+        { comment, postId: resoPostId },
         { withCredentials: true }
       );
       fetchPostComments();
@@ -122,14 +96,6 @@ export const ResoPostdetails = () => {
     } catch (err) {
       console.log(err);
     }
-  } else {
-    setTimeout(() => {
-      window.alert('Please login to post a comment.'); // Show error message in alert box
-    }, 100);
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
-  }
   };
 
   const handleDeletePost = async () => {
@@ -163,10 +129,10 @@ export const ResoPostdetails = () => {
           <div className="authorInfo">
             <img
               src={author.profilePicture}
-              alt={author.username}
+              alt={author.name}
               className="authorProfilePicture"
             />
-            <p>{author.username}</p> {/* Display author name */}
+            <p>{author.name}</p> {/* Display author name */}
           </div>
         )}
         <p>{new Date(resoPost.createdAt).toString().slice(0, 15)}</p>
@@ -175,7 +141,13 @@ export const ResoPostdetails = () => {
       <div className="reso-post-content">
         <ReactQuill value={resoPost.desc} readOnly={true} theme="bubble" />
       </div>
-      
+      {resoPost.pdf && (
+        <div className="reso-post-pdf">
+          <a href={resoPost.pdf} target="_blank" rel="noopener noreferrer">
+            Download PDF
+          </a>
+        </div>
+      )}
       <div className="reso-post-categories">
         <p>Categories:</p>
         <div>
@@ -184,7 +156,6 @@ export const ResoPostdetails = () => {
           ))}
         </div>
       </div>
-
       <div className="resoStarRating">
         {[0, ...Array(4)].map((_, index) => {
           const currentResoRating = index + 1;
@@ -212,9 +183,7 @@ export const ResoPostdetails = () => {
           );
         })}
         <p>{resorating === null ? "0" : resorating} Star Rating</p>
-        {resorating && <p>Your Rating: {resorating}</p>}
       </div>
-      
       <div className="reso-comments-section">
         <h3>Comments:</h3>
         <div className="reso-write-comment">

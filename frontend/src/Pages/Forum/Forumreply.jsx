@@ -9,7 +9,7 @@ import { useUsers } from "../../Context/UserContext";
 import Alert from "../../Component/Alert/Alert";
 import { URL } from "../../url";
 import "./Forum.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 export const Forumreply = ({ answer, fetchPostComments }) => {
   const [reply, setReply] = useState("");

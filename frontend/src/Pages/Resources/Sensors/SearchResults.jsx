@@ -1,78 +1,88 @@
-// Import necessary hooks and libraries
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Resourcepost from "../Resourcepost";
+import Blogpost from "../../Blogs/Blogspost"; // Import the Blogpost component
 import "./Sensors.css";
 import { URL } from "../../../url";
 import { Search } from "../../../Component/Search/Search";
 
 export const SearchResults = () => {
-  const { search } = useLocation(); // Get search query from URL
-  const [noResults, setNoResults] = useState(false); // State to track if there are no search results
-  const [resoPosts, setResoPosts] = useState([]); // State to store resource posts
-  const [currentPage, setCurrentPage] = useState(1); // State to manage current page number
-  const [postsPerPage] = useState(6); // Number of posts to display per page
-  const [searchInitiated, setSearchInitiated] = useState(false); // State to track if search has been initiated
+  const { search } = useLocation();
+  const [noResults, setNoResults] = useState(false);
+  const [resoPosts, setResoPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]); // State to store blog posts
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
-  // Function to fetch resource posts from the server
-  const fetchResoPosts = async () => {
+  const queryParams = new URLSearchParams(search);
+  const query = queryParams.get("query");
+
+  console.log("Search query:", query);
+
+  const fetchPosts = async () => {
     try {
-      const res = await axios.get(URL + "/api/resoposts/" + search); // Fetch posts based on search query
-      setResoPosts(res.data); // Set fetched posts in state
-      // Check if there are no search results
-      if (res.data.length === 0) {
-        setNoResults(true); // Update state to indicate no search results
+      const [resoRes, blogRes] = await Promise.all([
+        axios.get(`${URL}/api/resoposts?search=${query}`),
+        axios.get(`${URL}/api/blogposts?search=${query}`), // Fetch blog posts
+      ]);
+      console.log("Fetched reso posts:", resoRes.data);
+      console.log("Fetched blog posts:", blogRes.data);
+
+      setResoPosts(resoRes.data);
+      setBlogPosts(blogRes.data);
+
+      if (resoRes.data.length === 0 && blogRes.data.length === 0) {
+        setNoResults(true);
       } else {
-        setNoResults(false); // Reset state if there are search results
+        setNoResults(false);
       }
     } catch (err) {
-      console.log(err); // Log error if fetching fails
+      console.log("Error fetching posts:", err);
     }
   };
 
-  // useEffect hook to fetch resource posts when search query changes
   useEffect(() => {
-    if (search) {
-      setSearchInitiated(true); // Mark that a search has been initiated
-      fetchResoPosts(); // Fetch posts on component mount and when search query changes
+    if (query) {
+      setSearchInitiated(true);
+      fetchPosts();
     }
-  }, [search]);
+  }, [query]);
 
-  // Calculate index of last and first post to display on current page
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  // Slice the array of posts to display only those for the current page
-  const currentPosts = resoPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentResoPosts = resoPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentBlogPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Function to handle pagination
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="sensorsCollect">
       <div className="reso-content-container">
-        <Search /> {/* Search component */}
+        <Search defaultValue={query} />
 
         {searchInitiated && (
           <div className="res-posts-container">
-            {/* Check if there are search results */}
             {!noResults ? (
-              // If there are search results, map over currentPosts and render Resourcepost component for each post
-              currentPosts.map((resoPost) => (
-                <Resourcepost key={resoPost.id} resoPost={resoPost} />
-              ))
+              <>
+                {currentResoPosts.map((resoPost) => (
+                  <Resourcepost key={resoPost.id} resoPost={resoPost} />
+                ))}
+                {currentBlogPosts.map((blogPost) => (
+                  <Blogpost key={blogPost.id} blogPost={blogPost} />
+                ))}
+              </>
             ) : (
-              // If there are no search results, display a message
               <h3>No Posts Available</h3>
             )}
           </div>
         )}
 
-        {/* Pagination component */}
-        {searchInitiated && !noResults && resoPosts.length > 0 && (
+        {searchInitiated && !noResults && (resoPosts.length > 0 || blogPosts.length > 0) && (
           <Pagination
             postsPerPage={postsPerPage}
-            totalPosts={resoPosts.length}
+            totalPosts={resoPosts.length + blogPosts.length}
             paginate={paginate}
           />
         )}
@@ -81,22 +91,18 @@ export const SearchResults = () => {
   );
 };
 
-// Pagination component
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
-  const pageNumbers = []; // Array to store page numbers
+  const pageNumbers = [];
 
-  // Calculate total number of pages
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i); // Push each page number to the array
+    pageNumbers.push(i);
   }
 
   return (
     <nav>
       <ul className="pagination">
-        {/* Map over pageNumbers array and render pagination buttons */}
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
-            {/* Button to paginate */}
             <button onClick={() => paginate(number)} className="page-link">
               {number}
             </button>

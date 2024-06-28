@@ -8,6 +8,7 @@ import { useUsers } from "../../Context/UserContext";
 import ShareBox from './ShareBox';
 import { formatDistanceToNow, format } from 'date-fns';
 import Notification from './BlogNotification';
+import Alert from "../../Component/Alert/Alert";
 
 const Blogspost = ({ blogPost }) => {
   const [author, setAuthor] = useState(null);
@@ -21,6 +22,7 @@ const Blogspost = ({ blogPost }) => {
   const [showShareBox, setShowShareBox] = useState(false);
 const [shareUrl, setShareUrl] = useState('');
   const navigate = useNavigate();
+  const [showLoginAlert, setShowLoginAlert] = useState(false); // State for login alert
 
   const fetchUserData = async (userId) => {
     try {
@@ -90,12 +92,8 @@ const [shareUrl, setShareUrl] = useState('');
         console.log(error);
       }
     } else {
-      setTimeout(() => {
-        window.alert("Please login to add Bookmarks.");
-      }, 100);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setShowLoginAlert(true);
+      return;
     }
   };
 
@@ -115,12 +113,8 @@ const [shareUrl, setShareUrl] = useState('');
         console.error("Error liking post:", error);
       }
     } else {
-      setTimeout(() => {
-        window.alert("Please login to like the post.");
-      }, 100);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setShowLoginAlert(true);
+      return;
     }
   };
 
@@ -139,16 +133,15 @@ const [shareUrl, setShareUrl] = useState('');
         console.error("Error unliking post:", error);
       }
     } else {
-      setTimeout(() => {
-        window.alert("Please login to unlike the post.");
-      }, 100);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setShowLoginAlert(true);
+      return;
     }
   };
 
-
+  const handleAlertCloselogin = () =>{
+    setShowLoginAlert(false);
+    navigate('/login');
+  }
 
   const fetchBlogComments = async () => {
     try {
@@ -274,13 +267,19 @@ const [shareUrl, setShareUrl] = useState('');
             </button>
           </div>
         </div>
-      </div>
+      </div>{showLoginAlert && (
+        <Alert
+          message="Please log in "
+          onClose={handleAlertCloselogin}
+        />
+      )}
       {showNotification && (
         <Notification
           message={notificationMessage}
           onClose={() => setShowNotification(false)}
         />
       )}
+      
     </div>
   );
 };

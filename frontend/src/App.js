@@ -18,19 +18,20 @@ import ForgotPassword from "./Pages/LogIn/ForgotPassword";
 
 import Loader from "./Component/Loader/Loader";
 
-import { Resources } from "./Pages/Resources/Resources";
-import { Sensors } from "./Pages/Resources/Sensors/Sensors";
-import { Pcb } from "./Pages/Resources/Sensors/pcb";
-import { Communi } from "./Pages/Resources/Sensors/communi";
-import { DataSheet } from "./Pages/Resources/Sensors/dataSheet";
-import { IotPlat } from "./Pages/Resources/Sensors/IotPlat";
-import { IotProto } from "./Pages/Resources/Sensors/IotProto";
-import { Micro } from "./Pages/Resources/Sensors/micro";
-import { Others } from "./Pages/Resources/Sensors/others";
-import { Writepost } from "./Pages/Resources/Writepost";
-import { ResoPostdetails } from "./Pages/Resources/ResoPostdetails";
-import { ResoEditpost } from "./Pages/Resources/ResoEditpost";
-import { SearchResults } from "./Pages/Resources/Sensors/SearchResults";
+import {Resources} from './Pages/Resources/Resources';
+import {Sensors} from './Pages/Resources/Sensors/Sensors';
+import {Pcb} from './Pages/Resources/Sensors/pcb';
+import {Communi} from './Pages/Resources/Sensors/communi';
+import {DataSheet} from './Pages/Resources/Sensors/datasheets/dataSheet';
+import {DataSheetWrite} from './Pages/Resources/Sensors/datasheets/DataSheetWrite';
+import {IotPlat} from './Pages/Resources/Sensors/IotPlat';
+import {IotProto} from './Pages/Resources/Sensors/IotProto';
+import {Micro} from './Pages/Resources/Sensors/micro';
+import {Others} from './Pages/Resources/Sensors/others';
+import {Writepost} from './Pages/Resources/Writepost';
+import {ResoPostdetails} from './Pages/Resources/ResoPostdetails';
+import {ResoEditpost} from './Pages/Resources/ResoEditpost';
+import {SearchResults} from './Pages/Resources/Sensors/SearchResults';
 
 import Project from "./Pages/Project/Project";
 import { ProjectForm } from "./Pages/Project/ProjectForm";
@@ -91,23 +92,20 @@ const AppWithLoader = () => {
             <Route element={<MainLayout />}>
               <Route path="/home" element={<Home />} />
 
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/sensors" element={<Sensors />} />
-              <Route path="/pcb" element={<Pcb />} />
-              <Route path="/communi" element={<Communi />} />
-              <Route path="/dataSheet" element={<DataSheet />} />
-              <Route path="/IotPlat" element={<IotPlat />} />
-              <Route path="/IotProto" element={<IotProto />} />
-              <Route path="/micro" element={<Micro />} />
-              <Route path="/others" element={<Others />} />
-              <Route path="/writepost" element={<Writepost />} />
-              <Route
-                path="/resopostdetails/:id"
-                element={<ResoPostdetails />}
-              />
-              <Route path="/resoeditpost/:id" element={<ResoEditpost />} />
-              <Route path="/search-results" element={<SearchResults />} />
-
+              <Route path='/resources'element={<Resources/>}/>
+            <Route path='/sensors' element={<Sensors/>}/>
+            <Route path='/pcb' element={<Pcb/>}/>
+            <Route path='/communi' element={<Communi/>}/>
+            <Route path='/dataSheet' element={<DataSheet/>}/>
+            <Route path='/DataSheetWrite' element={<DataSheetWrite/>}/>
+            <Route path='/IotPlat' element={<IotPlat/>}/>
+            <Route path='/IotProto' element={<IotProto/>}/>
+            <Route path='/micro' element={<Micro/>}/>
+            <Route path='/others' element={<Others/>}/>
+              <Route path='/writepost' element={<Writepost/>}/>
+              <Route path='/resopostdetails/:id' element={<ResoPostdetails/>}/>
+              <Route path='/resoeditpost/:id' element={<ResoEditpost/>}/>
+              <Route path="/search" element={<SearchResults />} />
 
               <Route path="/projectseemore" element={<ProjectSeeMore />} />
               <Route path="/projectcard" element={<ProjectCard />} />

@@ -51,14 +51,14 @@ export const IotProto = () => {
     <div className="sensorsCollect">
       
       <div className="sidebar">
-      <table className="resotable">
-        <thead>
+      <table>
+        {/* <thead>
           <tr>
             <Link to="/IotProto" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/IotProto?category=Arduino Kits" className={getLinkClassName("Arduino Kits")}>

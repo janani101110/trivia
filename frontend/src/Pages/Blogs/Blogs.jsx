@@ -9,6 +9,8 @@ import * as icon from "@coreui/icons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Alert from "../../Component/Alert/Alert";
+import { SearchResults} from "../Resources/Sensors/SearchResults"
 
 // Pagination component for rendering pagination controls
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
@@ -47,6 +49,7 @@ export const Blogs = () => {
   const [topPosts, setTopPosts] = useState([]);
   const { user } = useUsers(); // Access user data from context
   const navigate = useNavigate(); // Use useNavigate hook
+  const [showAlert, setShowAlert] = useState(false);
 
  
 
@@ -116,16 +119,14 @@ export const Blogs = () => {
   // Function to handle create button click
   const handleCreateClick = () => {
     if (!user) {
-      setTimeout(() => {
-        window.alert("Please login to create a blog post."); // Show error message in alert box
-      }, 100);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setShowAlert(true);
     } else {
-      // If user is logged in, navigate to create blog page
-      navigate("/WriteBlog");
+      navigate('/writeBlog');
     }
+  };
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    navigate('/login');
   };
 
   const settings = {
@@ -157,10 +158,16 @@ export const Blogs = () => {
               {" "}
               Create{" "}
             </button>
+            {showAlert && (
+            <Alert
+              message="Please login to create an advertisement."
+              onClose={handleAlertClose}
+            />
+          )}
           </div>
         </div>
         <div className="BlogSearchDiv">
-          <input
+          {/* <input
             type="text"
             name="search"
             placeholder="Search For..."
@@ -171,7 +178,8 @@ export const Blogs = () => {
             icon={icon.cilSearch}
             style={{ "--ci-primary-color": "black" }}
             className="BlogSearchIcon"
-          />
+          /> */}
+          <SearchResults/>
         </div>
       </div>
 

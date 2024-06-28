@@ -12,6 +12,8 @@ import shopping1 from "../Home/Assets/s1.png";
 import aboutus from "../Home/Assets/AboutUs.jpg";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
+import {Search} from '../../Component/Search/Search'
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,7 +86,7 @@ export const Home = () => {
         </div>
         <div className="homeDiv2">
           <div className="HomeText">
-            <input
+            {/* <input
               type="text"
               name="search"
               placeholder="Search For..."
@@ -95,7 +97,8 @@ export const Home = () => {
               icon={icon.cilSearch}
               style={{ "--ci-primary-color": "black" }}
               className="HomeSearchIcon"
-            />
+            /> */}
+             <Search/>
           </div>
           <img src={octopus} alt="octo" />
         </div>

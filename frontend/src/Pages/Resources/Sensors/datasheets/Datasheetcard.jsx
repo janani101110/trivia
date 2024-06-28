@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./ResoPostdetails.css";
-import ReactQuill from "react-quill"; // Import ReactQuill for rendering
 
-const Resourcepost = ({ resoPost }) => {
+export const Datasheetcard = ({ resoPost }) => {
   const [author, setAuthor] = useState(null);
 
   const fetchUserData = async (userId) => {
@@ -38,10 +35,7 @@ const Resourcepost = ({ resoPost }) => {
 
   return (
     <div className="res-post">
-      <Link to={`/resopostdetails/${resoPost._id}`}>
-        <div className="respostimg">
-          <img src={resoPost.photo} alt={resoPost.title} className="res-post-img" />
-        </div>
+
         <div className="resuserdetails">
           {author && (
             <div className="authorInfo">
@@ -57,15 +51,16 @@ const Resourcepost = ({ resoPost }) => {
         </div>
         <div className="respostcontent">
           <h3>{resoPost.title}</h3>
-          {resoPost.desc ? (
-            <ReactQuill value={resoPost.desc.slice(0, 200) + "...Read more"} readOnly={true} theme="bubble" />
-          ) : (
-            <p>Description not available</p>
-          )}
+          {resoPost.pdf && (
+        <div className="reso-post-pdf">
+          <a href={resoPost.pdf} target="_blank" rel="noopener noreferrer">
+            Download PDF
+          </a>
         </div>
-      </Link>
+      )}
+        </div>
     </div>
   );
 };
 
-export default Resourcepost
+export default Datasheetcard;

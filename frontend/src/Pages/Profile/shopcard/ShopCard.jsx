@@ -55,7 +55,7 @@ const ShopCard = ({ shoppost, onDelete }) => {
             style={{ textDecoration: "none" }}
             to={`/productdescription/${shoppost._id}`}
           >
-      <img src={shoppost.imageUrl} alt="" />
+      <img src={shoppost.imageUrl} alt="" /></Link>
       <div className="shopcardtext">
         <div className="shopcardtitle">{shoppost.name}</div>
         <div className="shopcardprice">{shoppost.price}</div>
@@ -77,7 +77,7 @@ const ShopCard = ({ shoppost, onDelete }) => {
         </div>
         
       </div>
-      </Link>
+      
    
         
       

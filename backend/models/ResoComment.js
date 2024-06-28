@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb');
 
 const ResoCommentSchema = new mongoose.Schema(
   {
@@ -6,9 +7,10 @@ const ResoCommentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    author: {
-      type: String,
-      required: false,
+    postedBy: {
+      type: ObjectId,
+        ref: "User",
+        required: true , // Adjust as per your application logic
     },
     postId: {
       type: String,

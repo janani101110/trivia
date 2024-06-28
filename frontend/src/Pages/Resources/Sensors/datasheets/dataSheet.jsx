@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {Link, useLocation } from "react-router-dom";
-import "./Sensors.css";
-import "./Sidebar.css";
-import Resourcepost from "../Resourcepost";
-import { URL } from "../../../url"; // Assuming URL is correctly imported from 'url.js'
+import "../Sensors.css";
+import "../Sidebar.css";
+import Datasheetcard from "../../Sensors/datasheets/Datasheetcard";
+import { URL } from "../../../../url"; // Assuming URL is correctly imported from 'url.js'
 import axios from "axios";
 
 export const DataSheet = () => {
@@ -49,16 +49,16 @@ export const DataSheet = () => {
 
   return (
     <div className="sensorsCollect">
-      
+
       <div className="sidebar">
-      <table className="resotable">
-        <thead>
+      <table>
+        {/* <thead>
           <tr>
             <Link to="/dataSheet" className={getLinkClassName(null)}>
               <th>All Categories</th>
             </Link>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <Link to="/dataSheet?category=Sensor Data Sheets" className={getLinkClassName("Sensor Data Sheets")}>
@@ -89,11 +89,17 @@ export const DataSheet = () => {
       </table>
     </div>
 
+  <div>
+    <Link to ="/datasheetwrite">
+    <button >Upload Data Sheets</button>
+    </Link>
+  </div>
+
       <div className="reso-content-container">
         <div className="res-posts-container">
           {filteredPosts.length > 0 ? (
             currentPosts.map((resoPost) => (
-              <Resourcepost key={resoPost.id} resoPost={resoPost} />
+              <Datasheetcard key={resoPost.id} resoPost={resoPost} />
             ))
           ) : (
             <h3>No Posts Available</h3>

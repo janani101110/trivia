@@ -25,7 +25,7 @@ const resocommentRoutes = require("./routes/resocomments");
 const projectpostRoute = require("./routes/projectposts");
 const answerRoutes = require("./routes/answer");
 const bookMarkRoutes = require('./routes/BookMarks');
-const translate = require('google-translate-api');
+// const translate = require('google-translate-api');
 
 
 
@@ -130,27 +130,46 @@ Shoppost.init().then(() => {
 app.get("/api/search", async (req, res) => {
   try {
     const query = req.query.q; // Get search query from request
-    const results = await ResoPost.aggregate([
-      // Search ResoPost part in MongoDB
+
+    // Search in ResoPost collection
+    const resoResults = await ResoPost.aggregate([
       {
         $search: {
-          index: "SearchReso", // name of the search index
+          index: "SearchReso", 
           text: {
             query: query,
             path: {
-              wildcard: "*", // Search all fields
+              wildcard: "*", 
             },
           },
         },
       },
     ]);
-    res.json(results); // Send search results as JSON response
+
+    // Search in OtherCollection
+    const blogResults = await Post.aggregate([
+      {
+        $search: {
+          index: "searchblog", 
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", 
+            },
+          },
+        },
+      },
+    ]);
+
+    // Combine results from both collections
+    const combinedResults = [...resoResults, ...blogResults];
+
+    res.json(combinedResults); // Send combined search results as JSON response
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" }); 
   }
 });
-
 // app.post('/api/translate', async (req, res) => {
 //   const { text, targetLanguage } = req.body;
 

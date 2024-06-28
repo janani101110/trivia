@@ -24,7 +24,7 @@ export const Resources = () => {
   const handleCreateClick = () => {
     if (!user) {
       setTimeout(() => {
-        window.alert('Please login to create a blog post.'); // Show error message in alert box
+        window.alert('Please login to create a resource post.'); // Show error message in alert box
       }, 100);
       setTimeout(() => {
         navigate("/login");
@@ -79,10 +79,7 @@ export const Resources = () => {
       <div className="resobanner">
 
         <div className="resobanner-content" id="resobanner-content">
-          <div className="resosearchbar">
-            <SearchResults/>
-          </div>
-        
+        <SearchResults/>
           <h1>Welcome to Our Resource Hub</h1>
           <p>
             Explore a vast collection of resources to enhance your electronic
@@ -124,7 +121,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-          <Link to="/sensors">
+          <Link to="/Sensors?category=Motion Sensors" >
             {" "}
             <button>See more</button>
           </Link>
@@ -145,7 +142,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/pcb">
+        <Link to="/pcb?category=Design Software">
             {" "}
             <button>See more</button>
           </Link>
@@ -167,7 +164,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/dataSheet">
+        <Link to="/dataSheet?category=Sensor Data Sheets">
             {" "}
             <button>See more</button>
           </Link>
@@ -189,7 +186,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/communi">
+        <Link to="/communi?category=Wi-Fi Modules">
             {" "}
             <button>See more</button>
           </Link>
@@ -211,7 +208,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/micro">
+        <Link to="/micro?category=Popular Microcontroller Families">
             {" "}
             <button>See more</button>
           </Link>
@@ -232,7 +229,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/IotPlat">
+        <Link to="/IotPlat?category=IoT Platforms">
             {" "}
             <button>See more</button>
           </Link>
@@ -254,7 +251,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/IotProto">
+        <Link to="/IotProto?category=Arduino Kits">
             {" "}
             <button>See more</button>
           </Link>
@@ -277,7 +274,7 @@ export const Resources = () => {
           </p>
         </div>
         <div className="seemore">
-        <Link to="/others">
+        <Link to="/others?category=Codes/Programming">
             {" "}
             <button>See more</button>
           </Link>
