@@ -107,3 +107,55 @@
   font-size: 20px;
   transition: color 0.3s ease;
 }
+
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .blog-post-card {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .post-row {
+    flex-direction: column;
+  }
+
+  .post-image {
+    max-height: 250px;
+  }
+
+  .post-title {
+    font-size: 16px;
+  }
+
+  .post-description {
+    font-size: 12px;
+  }
+
+  .authorProfilePicture {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+  }
+
+  .authorUsername {
+    font-size: 12px;
+  }
+
+  .insideBlogLike {
+    font-size: 18px;
+  }
+
+  .likesCount,
+  .CommentCount {
+    font-size: 10px;
+  }
+
+  .blogPostDate {
+    font-size: 10px;
+  }
+
+  .BlogFooteMarkIcon {
+    font-size: 16px;
+  }
+}

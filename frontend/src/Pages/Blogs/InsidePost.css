@@ -148,3 +148,35 @@
   background-color: #f8f8f8;
   border-radius: 8px;
 }
+
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .Blog {
+    font-size: 16px; /* Adjust font size for smaller screens */
+  }
+
+  .blogTitle {
+    font-size: 24px; /* Adjust title font size */
+  }
+
+  .blogDate {
+    font-size: 12px; /* Adjust date font size */
+  }
+
+  .postImage {
+    max-height: 250px; /* Adjust image height */
+  }
+
+  .blogbody {
+    font-size: 14px; /* Adjust content font size */
+  }
+
+  .insideBlogHeader {
+    gap: 5px; /* Further reduce gap */
+  }
+
+  .autherDetails {
+    gap: 5px; /* Further reduce gap */
+  }
+}

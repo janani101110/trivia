@@ -88,4 +88,17 @@ router.get("/user/:userId", async (req, res) => {
   }
 })
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const questions = await Questions.findOneAndDelete({ _id: req.params.id });
+    if (questions) {
+      res.status(200).json("Post and associated bookmarks have been deleted");
+    } else {
+      res.status(404).json("Post not found");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

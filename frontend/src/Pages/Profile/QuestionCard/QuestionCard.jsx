@@ -1,7 +1,9 @@
 import React, { useState,useRef,useEffect } from 'react';
 import axios from 'axios';
+import CIcon from "@coreui/icons-react";
+import * as icon from "@coreui/icons";
 
-const QuestionCard = ({ question }) => {
+const QuestionCard = ({ question, onDelete }) => {
   const hasIncrementedView = useRef(false);
   const [author, setAuthor] = useState(null);
 
@@ -77,6 +79,12 @@ const QuestionCard = ({ question }) => {
       hasIncrementedView.current = true;
     }
   };
+  const handleDelete = () => {
+    const confirmation = window.confirm("Are you sure you want to delete the post?");
+    if (confirmation) {
+      onDelete(question._id);
+    }
+  };
 
   return (
     <div onClick={handleCardClick} className='cardBox' style={{ border: '1px solid', marginBottom: '15px', padding: '20px', borderRadius: '25px', boxShadow: '2px 2px 2px' }}>
@@ -103,6 +111,13 @@ const QuestionCard = ({ question }) => {
       <div style={{ display: 'flex', flex: 1, gap: '10px' }}>
         <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597' }}>Views {Math.floor(question.viewCount)}</div>
         {/* <div style={{ fontSize: 14, fontWeight: '400', color: '#7E8597' }}>Replies</div> */}
+        <button onClick={handleDelete} className="editButton">
+              <CIcon
+                icon={icon.cilTrash}
+                size="20px"
+                style={{ "--ci-primary-color": "red" }}
+              />
+      </button>
       </div>
     </div>
   );

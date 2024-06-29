@@ -3,13 +3,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
-import { v4 as uuidv4 } from "uuid"; // Renamed to avoid conflict
+import { v4 as uuidv4 } from "uuid"; 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 export const UpdateBlog = () => {
-  const { id } = useParams(); // Extracting the id parameter from the URL
+  const { id } = useParams(); 
   const [blogPost, setBlogPost] = useState({
     id: id,
     title: "",

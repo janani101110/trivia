@@ -19,4 +19,18 @@
     font-size: 1.2em;
     cursor: pointer;
   }
+
+  @media (max-width: 600px) {
+    .notification {
+      max-width: 100%; /* Take full width on smaller screens */
+      left: 10px; /* Adjust position for better visibility */
+      right: 10px;
+      bottom: 10px;
+      padding: 8px 16px; /* Reduce padding for smaller screens */
+    }
+  
+    .close-btn {
+      font-size: 1em; /* Adjust font size of close button */
+    }
+  }
   

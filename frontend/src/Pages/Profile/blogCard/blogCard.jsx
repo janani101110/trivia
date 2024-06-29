@@ -89,7 +89,6 @@ const BlogCard = ({ blogPost, onDelete }) => {
                 icon={icon.cilPen}
                 size=""
                 style={{ "--ci-primary-color": "black" }}
-                 
               />
               
       </Link>

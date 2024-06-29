@@ -32,6 +32,15 @@ const MyQuestions = () => {
     return <div className="user-not-found">User data not found!</div>;
   }
 
+  const handleQuestionDelete = async (questionId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/questions/${questionId}`);
+      setMyQuestions((prevquestion) => prevquestion.filter((question) => question._id !== questionId));
+    } catch (err) {
+      console.error("Error deleting shop post:", err);
+    }
+  };
+
   const handleToggleQuestionGrid = () => {
     setShowQuestionGrid(!showQuestionGrid);
   };
@@ -95,6 +104,7 @@ const MyQuestions = () => {
                     style={{ textDecoration: "none" }}
                     key={question._id}
                     question={question}
+                    onDelete={handleQuestionDelete}
                   />
                 ))
               : myQuestions.slice(0, 3).map((question) => (
@@ -102,6 +112,7 @@ const MyQuestions = () => {
                     style={{ textDecoration: "none" }}
                     key={question._id}
                     question={question}
+                    onDelete={handleQuestionDelete}
                   />
                 ))}
           </ul>

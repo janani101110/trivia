@@ -1,4 +1,5 @@
 /* BlogComment.css */
+
 .blog-comment {
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -9,6 +10,7 @@
 
 .comment-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
@@ -68,6 +70,7 @@
 
 .write-reply {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-top: 10px;
   gap: 10px;
@@ -106,4 +109,20 @@
   margin-top: 10px;
   padding-left: 20px;
   border-left: 2px solid #eee;
+}
+
+@media (max-width: 768px) {
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comment-user {
+    margin-bottom: 5px;
+  }
+
+  .comment-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

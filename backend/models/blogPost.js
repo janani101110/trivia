@@ -4,6 +4,9 @@ const Bookmark = require('./Bookmark.js');
 
 // Function to validate YouTube URLs
 const isValidYoutubeUrl = (url) => {
+  if (!url) {
+    return true; // Allow null or empty string values
+  }
   const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
   return regex.test(url);
 };

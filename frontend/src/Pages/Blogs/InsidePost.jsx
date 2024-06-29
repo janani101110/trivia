@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./InsidePost.css";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link ,useNavigate} from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import { BlogComment } from "./BlogComment";
+import Alert from "../../Component/Alert/Alert";
 
 const URL = "http://localhost:5000"; // Define your base URL here
 
@@ -28,6 +29,8 @@ export const InsidePost = () => {
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
 
   const fetchPost = async () => {
     try {
@@ -49,24 +52,43 @@ export const InsidePost = () => {
   };
 
   const handleLike = async () => {
-    try {
-      await axios.post(`${URL}/api/blogPosts/${blogPost._id}/like`, { userId: user._id });
-      setLikes(likes + 1);
-      setLiked(true);
-    } catch (error) {
-      console.error("Error liking post:", error);
+    if (user) {
+      try {
+        await axios.post(
+          `http://localhost:5000/api/blogPosts/${blogPost._id}/like`,
+          { userId: user._id }
+        );
+        setLikes(likes + 1);
+        setLiked(true);
+        
+      } catch (error) {
+        console.error("Error liking post:", error);
+      }
+    } else {
+      setShowAlert(true);
+      return;
     }
   };
 
+
   const handleUnlike = async () => {
-    try {
-      await axios.delete(`${URL}/api/blogPosts/${blogPost._id}/like/${user._id}`);
-      setLikes(likes - 1);
-      setLiked(false);
-    } catch (error) {
-      console.error("Error unliking post:", error);
+    if (user) {
+      try {
+        await axios.delete(
+          `http://localhost:5000/api/blogPosts/${blogPost._id}/like/${user._id}`
+        );
+        setLikes(likes - 1);
+        setLiked(false);
+        
+      } catch (error) {
+        console.error("Error unliking post:", error);
+      }
+    } else {
+      setShowAlert(true);
+      return;
     }
   };
+
 
   const fetchBlogComments = async () => {
     try {
@@ -97,10 +119,13 @@ export const InsidePost = () => {
         console.error("Error posting comment:", err);
       }
     } else {
-      window.alert("Please login to post a comment.");
+      setShowAlert(true);
     }
   };
-  
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    navigate('/login');
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -198,6 +223,12 @@ export const InsidePost = () => {
               required
             />
           </div>
+          {showAlert && (
+            <Alert
+              message="Please login to comment"
+              onClose={handleAlertClose}
+            />
+          )}
         </div>
         <div className="blog-comments-section">
           {comments.map((c) => (
