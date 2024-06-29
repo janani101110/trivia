@@ -43,3 +43,46 @@
   height: auto;
   margin-bottom: 10px;
 }
+
+
+@media (max-width: 768px) {
+  .createBlog {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .createBlogTitle {
+    font-size: 20px;
+  }
+
+  .createBlogTextbox,
+  .createBlogTextArea {
+    font-size: 14px;
+  }
+
+  .createBlogSubmit {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .createBlog {
+    margin: 5px;
+    padding: 5px;
+  }
+
+  .createBlogTitle {
+    font-size: 18px;
+  }
+
+  .createBlogTextbox,
+  .createBlogTextArea {
+    font-size: 12px;
+  }
+
+  .createBlogSubmit {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}

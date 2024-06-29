@@ -246,7 +246,7 @@
 @media (max-width: 768px) {
   .blogBanner {
     padding-left: 10px; /* Further adjust padding for smaller screens */
-    height: 180px; /* Further adjust height for smaller screens */
+    height: 300px; /* Further adjust height for smaller screens */
   }
 
   .Bannercreate {
