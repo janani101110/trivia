@@ -8,7 +8,7 @@
   padding-top: 20px;
   padding-left: 40px;
   width: 100%;
-  height: 450px;
+  height: 250px;
   font-size: 20px;
   font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -213,21 +213,54 @@
     color: #000;
 
  }
-  
+ .bpost{
+  margin-left: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
+  height:fit-content;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 380px 380px 380px;
+  column-gap: 25px;
+}
+
+  /* Media queries for responsiveness */
+@media (max-width: 1024px) {
+  .blogBanner {
+    padding-left: 20px; /* Adjust padding for smaller screens */
+    height: 200px; /* Adjust height for smaller screens */
+  }
+
+  .Bannercreate {
+    margin-left: 60px; /* Adjust margin for smaller screens */
+  }
+
+  .bpost {
+    margin-left: 20px; /* Adjust margin for smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust column widths */
+  }
+}
+
+@media (max-width: 768px) {
+  .blogBanner {
+    padding-left: 10px; /* Further adjust padding for smaller screens */
+    height: 180px; /* Further adjust height for smaller screens */
+  }
+
+  .Bannercreate {
+    margin-left: 40px; /* Further adjust margin for smaller screens */
+  }
+
+  .bpost {
+    margin-left: 10px; /* Further adjust margin for smaller screens */
+    grid-template-columns: 1fr; /* Single column layout for small screens */
+  }
+}
   
   /*---------------Post ---------------------------*/
-  .bpost{
-    margin-left: 100px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-family: 'https://fonts.googleapis.com/css?family=PT Sans';
-    height:fit-content;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 380px 380px 380px;
-    column-gap: 25px;
-  }
+
 
   
 

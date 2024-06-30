@@ -3,12 +3,11 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const Shoppost = require("../models/Shoppost");
-const Comment = require("../models/Comment");
 const verifyToken = require("../verifyToken");
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
-
+ 
 
 const scheduleEmail = (shoppost) => {
   const emailTime = new Date(shoppost.createdAt);
@@ -137,5 +136,65 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
+
+// Endpoint to get ad statistics
+router.get('/ad-stats', async (req, res) => {
+  try {
+    const shopPosts = await Shoppost.find();
+
+    // Initialize a map to hold counts by date
+    const dateMap = {};
+
+    shopPosts.forEach(post => {
+      const date = post.createdAt.toISOString().split('T')[0]; // Get the date part of the createdAt field
+      if (!dateMap[date]) {
+        dateMap[date] = { remainingCount: 0, deletedCount: 0 };
+      }
+      if (post.deleted) { // Assuming you have a 'deleted' field in your Shoppost model
+        dateMap[date].deletedCount += 1;
+      } else {
+        dateMap[date].remainingCount += 1;
+      }
+    });
+
+    // Convert the dateMap to an array
+    const adStats = Object.keys(dateMap).map(date => ({
+      date,
+      remainingCount: dateMap[date].remainingCount,
+      //deletedCount: dateMap[date].deletedCount
+    }));
+
+    res.json(adStats); // Response handling
+  } catch (error) { // Error handling
+    console.error("Error fetching ad stats:", error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Route to get shop posts with filters
+router.get("/", async (req, res) => {
+  try {
+    const { action, range, month } = req.query;
+    let query = {};
+
+    if (action) {
+     // if (action === "approved") query.approved = true;
+     // if (action === "rejected") query.rejected = true;
+     // if (action === "created") query.created = true;
+      if (action === "added") query.added = true;
+    }
+
+    if (range === "monthly" && month) {
+      const startDate = new Date(new Date().getFullYear(), month - 1, 1);
+      const endDate = new Date(new Date().getFullYear(), month, 0);
+      query.createdAt = { $gte: startDate, $lte: endDate };
+    }
+
+    const shopPosts = await Shoppost.find(query);
+    res.status(200).json(Shoppost);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;

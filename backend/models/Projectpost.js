@@ -30,11 +30,11 @@ const projectpostSchema = new mongoose.Schema(
     },
     project_photo: {
       type: String,
-      required: true,
+      required: false,
     },
     project_video:{
       type: String,
-      required: true,
+      required: false,
       //unique: true
   },
     explanation: {
@@ -43,11 +43,11 @@ const projectpostSchema = new mongoose.Schema(
     },
     circuit_diagram: {
       type: String,
-      required: true,
+      required: false,
     },
     pcb_design: {
       type: String,
-      required: true,
+      required: false,
     },
     git_link: {
       type: String,
@@ -65,7 +65,7 @@ const projectpostSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
+    likes: { type: Number, default: 0 }, // Total likes for the project
   },
   { timestamps: true } // additional 2 fields fore createdAt and updatedAt
 ); 

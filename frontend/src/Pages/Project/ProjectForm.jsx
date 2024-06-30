@@ -22,8 +22,7 @@ export const ProjectForm = () => {
   const [circuit_diagram, setCircuitDiagram] = useState(null);
   const [pcb_design, setPcbDesign] = useState(null);
   const [git_link, setGitLink] = useState("");
-const [formData, setFormData] = useState(null);
-  const [inputs, setInputs] = useState({});
+
 
   const [file, setFile] = useState("");
   const [downloadURL, setDownloadURL] = useState("");

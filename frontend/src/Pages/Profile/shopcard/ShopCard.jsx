@@ -4,8 +4,11 @@ import "./shopcard.css";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import { Link } from "react-router-dom";
+import Alert from "../../../Component/Alert/Alert"; // Import Alert component
+
 const ShopCard = ({ shoppost, onDelete }) => {
   const [author, setAuthor] = useState(null);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const fetchUserData = async (userId) => {
     try {
@@ -40,11 +43,18 @@ const ShopCard = ({ shoppost, onDelete }) => {
     return null;
   }
 
+
   const handleDelete = () => {
-    const confirmation = window.confirm("Are you sure you want to delete the post?");
-    if (confirmation) {
-      onDelete(shoppost._id);
-    }
+    setShowDeleteAlert(true);
+  };
+
+  const handleAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
+
+  const confirmDelete = () => {
+    onDelete(shoppost._id);
+    setShowDeleteAlert(false);
   };
 
   return (
@@ -77,7 +87,13 @@ const ShopCard = ({ shoppost, onDelete }) => {
         </div>
         
       </div>
-      
+      {showDeleteAlert && (
+        <Alert
+          message="Are you sure you want to delete this post?"
+          onClose={handleAlertClose}
+          onConfirm={confirmDelete}
+        />
+      )}
    
         
       

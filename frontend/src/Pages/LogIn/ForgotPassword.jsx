@@ -32,7 +32,7 @@ function ForgotPassword() {
 
   return (
     <div className="ForgotPasswordMainDiv">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="ForgotPasswordSecondaryDiv">
         <div className="forgot-password-topic-div">
           <div className="logo-text-container">

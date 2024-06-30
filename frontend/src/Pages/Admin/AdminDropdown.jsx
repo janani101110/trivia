@@ -8,7 +8,7 @@ const DropdownMenu = () => {
 
   if (!user) {
     // Handle case where user data is not available
-    return <div> User data not found! </div>;
+    return <div> User data not found! </div>; 
   }
 
   console.log(user);

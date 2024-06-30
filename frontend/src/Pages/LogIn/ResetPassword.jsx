@@ -3,11 +3,11 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import logo from "../../Component/Assets/logo.png";
 import "./ResetPassword.css"; 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword = () => {
-  const { token } = useParams();
+  const { token } = useParams(); 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -37,7 +37,7 @@ const ResetPassword = () => {
       }, 3000);
     } catch (error) {
       console.error('Error response:', error.response); // Log the error response
-      toast.error(error.response.data.error);
+      // toast.error(error.response.data.error);
     }
   };
 

@@ -62,19 +62,42 @@ router.put("/views/:postId", async (req, res) => {
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 });
+// router.get("/user/:userId", async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
+//     const questions = await Question.find({ postedBy: userId });
+//     if (!Question || questions.length === 0) {
+//       console.error(`No shop posts found for user ID: ${userId}`);
+//       return res.status(404).json({ error: 'No shop posts found' });
+//     }
+//     res.status(200).json(Question);
+//   } catch (err) {
+//     console.error('Error fetching shop posts:', err); // Log the error
+//     res.status(500).json({ error: 'Error fetching shop posts' });
+//   }
+// });
+
+//Get All Posts of a user
 router.get("/user/:userId", async (req, res) => {
-  try { 
-    const { userId } = req.params;
-    console.log(`Fetching shop posts for user ID: ${userId}`); // Log user ID
-    const questions = await Question.find({ postedBy: userId });
-    if (!Question || questions.length === 0) {
-      console.error(`No shop posts found for user ID: ${userId}`);
-      return res.status(404).json({ error: 'No shop posts found' });
+  try{
+      const questions = await Questions.find({ postedBy: req.params.userId });
+      res.status(200).json(questions);
+  } catch(err) {
+      res.status(500).json(err);
+  }
+})
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const questions = await Questions.findOneAndDelete({ _id: req.params.id });
+    if (questions) {
+      res.status(200).json("Post and associated bookmarks have been deleted");
+    } else {
+      res.status(404).json("Post not found");
     }
-    res.status(200).json(Question);
   } catch (err) {
-    console.error('Error fetching shop posts:', err); // Log the error
-    res.status(500).json({ error: 'Error fetching shop posts' });
+    res.status(500).json(err);
   }
 });
 

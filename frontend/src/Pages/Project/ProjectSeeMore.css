@@ -1,3 +1,12 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.paused {
+  animation-play-state: paused !important;
+}
+
+
 .project_seemore_container {
   margin: 2% 10% 5% 10%;
 }
@@ -118,4 +127,3 @@
   max-width: 350px; /* Fixed width for each project card */
   margin-right: 20px; /* Space between items */
 }
-

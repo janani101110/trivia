@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Alert from "../../Component/Alert/Alert";
-import { SearchResults} from "../Resources/Sensors/SearchResults"
+// import { SearchResults} from "../Resources/Sensors/SearchResults"
 
 // Pagination component for rendering pagination controls
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
@@ -81,7 +81,8 @@ export const Blogs = () => {
       const res = await axios.get(
         `http://localhost:5000/api/blogPosts?sort=${sortOrder}`
       );
-      setPost(res.data);
+      const sortedBlogs = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPost(sortedBlogs);
     } catch (err) {
       console.error("Error fetching blog posts:", err);
     }
@@ -160,7 +161,7 @@ export const Blogs = () => {
             </button>
             {showAlert && (
             <Alert
-              message="Please login to create an advertisement."
+              message="Please Login to create a Blog Post."
               onClose={handleAlertClose}
             />
           )}
@@ -179,7 +180,7 @@ export const Blogs = () => {
             style={{ "--ci-primary-color": "black" }}
             className="BlogSearchIcon"
           /> */}
-          <SearchResults/>
+          {/* <SearchResults/> */}
         </div>
       </div>
 

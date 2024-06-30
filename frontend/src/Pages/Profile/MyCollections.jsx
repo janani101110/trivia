@@ -191,7 +191,7 @@ const MyCollections = () => {
           <p>No saved Advertisements found.</p>
         ) : (
           <ul>
-            {showBlogGrid
+            {showShopGrid
               ? shoppost.map((shoppost) => (
                   <ShopCard
                     style={{ textDecoration: "none" }}

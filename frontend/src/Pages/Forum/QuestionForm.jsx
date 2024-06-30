@@ -89,15 +89,15 @@ const QuestionForm = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/api/newShoppost/create",
+        "http://localhost:5000/api/newQuestion/create",
         requestOptions
       );
       if (!res.ok) {
-        throw new Error("Failed to create advertisment");
+        throw new Error("Failed to create question");
       }
       const data = await res.json();
       console.log(data);
-      navigate("/shopping");
+      navigate("/forum");
     } catch (err) {
       console.error(err);
     }

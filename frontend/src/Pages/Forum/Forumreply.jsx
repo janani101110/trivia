@@ -57,6 +57,10 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
   
   const postReply = async (e) => {
     e.preventDefault();
+    if (!user) {
+      setShowLoginAlert(true); // Show login alert if user is not logged in
+      return;
+    }
     try {
       await axios.post(
         `${URL}/api/answer/create`,
@@ -193,7 +197,7 @@ export const Forumreply = ({ answer, fetchPostComments }) => {
       )}
       {showLoginAlert && (
         <Alert
-          message="Please log in to like or dislike this comment."
+          message="Please log in "
           onClose={handleAlertCloselogin}
         />
       )}

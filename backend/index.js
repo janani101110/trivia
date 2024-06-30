@@ -9,7 +9,7 @@ const session = require('express-session')
 const jwt = require("jsonwebtoken");
 const bodyParser=require('body-parser');
 const path = require("path");
-const passport = require('passport')
+const passport = require('passport');
 const passportSetup = require('./passport');
 const authRoute=require('./routes/auth');
 const userRoute=require('./routes/users');
@@ -184,7 +184,25 @@ app.get("/api/search", async (req, res) => {
 
 
 
+const AdStatSchema = new mongoose.Schema({
+  date: { type: String, required: true },
+  remainingCount: { type: Number, required: true },
+  //deletedCount: { type: Number, required: true }
+}); 
 
+const AdStat = mongoose.model('AdStat', AdStatSchema);
+
+app.get('/ad-stats', async (req, res) => {
+  try {
+    const adStats = await AdStat.find().sort({ date: -1 }).limit(30); // Fetch latest 30 records, adjust as needed
+    res.json(adStats);
+  } catch (error) {
+    console.error("Error fetching ad stats:", error);
+    res.status(500).send('Server Error');
+  }
+});
+
+ 
 
 
 

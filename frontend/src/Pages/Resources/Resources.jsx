@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState} from "react";
 import "./Resources.css";
 import read from "../Resources/Assets/read1.png"; // Import icon image
 import pen from "../Resources/Assets/pen1.png"; // Import icon image
@@ -14,27 +14,27 @@ import cloud from "../Resources/Assets/cloud.jpg";
 import kit from "../Resources/Assets/kit.jpg";
 import iot from "../Resources/Assets/iot.jpg";
 import micro from "../Resources/Assets/micro.png";
+import Alert from "../../Component/Alert/Alert";
 
 export const Resources = () => {
-
+  const [showAlert, setShowAlert] = useState(false);
+  
   const { user } = useUsers(); // Access user data from context
   const navigate = useNavigate(); // Use useNavigate hook
 
   // Function to handle create button click
   const handleCreateClick = () => {
     if (!user) {
-      setTimeout(() => {
-        window.alert('Please login to create a resource post.'); // Show error message in alert box
-      }, 100);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setShowAlert(true);
     } else {
-      // If user is logged in, navigate to create post page
-      navigate("/writepost");
+      navigate('/shoppingpost');
     }
   };
 
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    navigate('/login');
+  };
   useEffect(() => {
     const options = {
       root: null,
@@ -98,6 +98,12 @@ export const Resources = () => {
                   <img src={pen} alt="pen" className="button-icon" />
                 )} Write
               </button>
+              {showAlert && (
+            <Alert
+              message="Please login to create an advertisement."
+              onClose={handleAlertClose}
+            />
+          )}
             </div>
    
         </div>

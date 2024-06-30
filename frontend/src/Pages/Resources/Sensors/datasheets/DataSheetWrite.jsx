@@ -92,7 +92,7 @@ export const DataSheetWrite = () => {
     console.log('Posting Data:', resoPost); // Add this line to check the data being posted
 
     try {
-      const res = await axios.post( "http://localhost:5000/api/resoposts/create", resoPost, {
+      const res = await axios.post(URL + "/api/resoposts/create", resoPost, {
         withCredentials: true,
       });
       console.log('Response:', res.data); // Add this line to check the response

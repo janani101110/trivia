@@ -100,7 +100,7 @@ export const Home = () => {
             /> */}
              <Search/>
           </div>
-          <img src={octopus} alt="octo" />
+          <img src={octopus} alt="octo" className="mainocto"/>
         </div>
       </div>
 
@@ -148,7 +148,7 @@ export const Home = () => {
       <section id="section4" className="HomeResourseDiv">
         <div className="HomeResourceSub1">
           <img src={project1} alt="projectsimage" className="resourseImage" />
-        </div>
+        </div> 
         <div className="HomeResourceSub2">
           <p className="ResourcesTopic"> Projects </p>
           <p className="HomeResourceSubText">

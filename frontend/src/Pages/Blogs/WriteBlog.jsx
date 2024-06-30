@@ -53,7 +53,7 @@ export const WriteBlog = () => {
         desc,
         photo: url,
         postedBy: postedBy,
-        videoURL: videoURL,
+        videoURL: videoURL || null, // Use videoURL if provided, otherwise null
         email: user.email // Include email in the blog post data
       };
 
@@ -139,7 +139,7 @@ export const WriteBlog = () => {
           <input
             onChange={(e) => setVideoURL(e.target.value)}
             type="url"
-            placeholder="Enter YouTube video URL"
+            placeholder="Enter YouTube video URL (optional)"
             className="createBlogTextbox"
             value={videoURL}
           />

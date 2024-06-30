@@ -143,3 +143,31 @@
   font-size: 14px;
 }
 
+/* Example media query for tablets and smaller */
+@media screen and (max-width: 768px) {
+.BlogpostCard {
+  flex-direction: column;
+  height: auto; /* Adjust height for responsiveness */
+}
+
+.blogPostImage {
+  height: 200px; /* Adjust image height */
+}
+
+.blogPostTitle {
+  font-size: 18px; /* Decrease font size */
+}
+
+.blogPostDescription {
+  font-size: 14px; /* Decrease font size */
+}
+
+.BlogCardAuthorInfo {
+  font-size: 16px; /* Decrease font size */
+}
+
+.BlogFooterkButton {
+  margin: 0 5px; /* Adjust button margins */
+}
+}
+

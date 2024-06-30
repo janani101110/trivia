@@ -28,13 +28,10 @@
  gap: 1px;
 }
 
-.admin_content .div {
-  text-align: left;
-  padding: 10px 0;
+.admin_content  {
+  padding: 20px;
   font-size :20px;
   color: rgb(0, 0, 0);
-
-
 }
 
 .admin_box{

@@ -44,7 +44,7 @@ export const ViewProjectAdmin = () => {
       await axios.put(url);
         await sendNotification(approvedStatus); // Send notification after approval
        // alert(`${approvedStatus ? "Approved" : "Rejected"} this project`);
-        navigate("/admin");
+        navigate("/Admin");
     } catch (err) {
         console.log(err);
     }
@@ -105,6 +105,34 @@ export const ViewProjectAdmin = () => {
 
 */
 
+const renderButtons = () => {
+  if (!projectPost.approved && !projectPost.rejected) {
+    return (
+      <>
+        <button type="submit" className="approved" onClick={() => handleApproval(true)}>
+          Approve
+        </button>
+        <button type="submit" className="reject" onClick={() => handleApproval(false)}>
+          Reject
+        </button>
+      </>
+    );
+  } else if (projectPost.approved) {
+    return (
+      <button type="submit" className="reject" onClick={() => handleApproval(false)}>
+        Reject
+      </button>
+    );
+  } 
+    else if (projectPost.rejected) {
+      return (
+        <button type="submit" className="approved" onClick={() => handleApproval(true)}>
+          Approve
+        </button>
+      );
+  }
+};
+
   return (
     <div>
     <AdminNavi />
@@ -144,21 +172,21 @@ export const ViewProjectAdmin = () => {
 
       <br></br>
 
-      <div className="project_image">
+   { /*  <div className="project_image">
 
         {/*<video width="100%" controls autoPlay loop>
        //   <source
        //     src={projectpost.project_video}
        //     type="video/mp4"
        //   />
-// </video> */}
+// </video> 
 
 <Link to={projectPost.project_video} >
   click mee
 </Link>
 
         <p className="project_figure">Video explanation of the project</p>
-      </div>
+      </div> */}
 
       <br></br>
       <div>
@@ -166,7 +194,7 @@ export const ViewProjectAdmin = () => {
         <p className="project_describe">{projectPost.explanation}</p>
       </div>
       <br></br>
-      <div className="project_image">
+     {/* <div className="project_image">
         <img
           src={projectPost.circuit_diagram}
           alt="ProjectImage"
@@ -178,7 +206,7 @@ export const ViewProjectAdmin = () => {
       <div className="project_image">
         <img src={projectPost.pcb_design} alt="ProjectImage" width={600}></img>
         <p className="project_figure">PCB Design</p>
-      </div>
+      </div> */}  
 
       <div>
         <p className="project_head">Refer the code through this GitHub link:</p>
@@ -193,16 +221,7 @@ export const ViewProjectAdmin = () => {
         </a>
       </div>
       <br></br>
-<div className="button_flex">
-      <button type="submit" className="approved"
-       onClick={() => handleApproval(true)}>
-                Approve
-              </button>
-              <button type="submit" className="reject"
-              onClick={() => handleApproval(false)}>
-                Reject
-              </button>
-              </div>
+      <div className="button_flex">{renderButtons()}</div>
       <br></br>
     </div>
     </div>

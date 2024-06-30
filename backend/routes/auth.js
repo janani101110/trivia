@@ -91,22 +91,32 @@ catch(err){
 router.post('/signup', async (req, res) => {
   try {
     const { username, email, password, userType } = req.body;
-    
+
+    // Check if the email already exists
+    const existingUserEmail = await User.findOne({ email });
+    const existingUserName = await User.findOne({ username });
+    if (existingUserEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    } else if (existingUserName) {
+      return res.status(400).json({ message: "username already exists" });
+    }
+
     // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
     // Create new user instance with userType
     const newUser = new User({ username, email, password: hashedPassword, userType });
-    
+
     // Save the new user to the database
     const savedUser = await newUser.save();
-    
+
     res.status(200).json(savedUser);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 
 
 // Logout route

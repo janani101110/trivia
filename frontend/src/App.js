@@ -59,19 +59,29 @@ import MyCollections from "./Pages/Profile/MyCollections";
 import MyQuestions from "./Pages/Profile/MyQuestions";
 import EditProfile from "./Pages/Profile/EditProfile";
 
-import Admin from "./Pages/Admin/Admin";
+import  Admin  from "./Pages/Admin/Admin";
 import BlogsAdmin from "./Pages/Admin/BlogsAdmin";
 import ProjectsAdmin from "./Pages/Admin/ProjectsAdmin";
+import ProAdmin from './Pages/Admin/ProAdmin';
 import ResourcesAdmin from "./Pages/Admin/ResourcesAdmin";
 import ShoppingAdmin from "./Pages/Admin/ShoppingAdmin";
 import UsersAdmin from "./Pages/Admin/UsersAdmin";
 import PerformanceAdmin from "./Pages/Admin/PerformanceAdmin";
 import ViewProjectAdmin from "./Pages/Admin/ViewProjectAdmin";
 import PostCounts from "./Pages/Admin/PostCounts";
-import AdminGraph from "./Pages/Admin/AdminGraph";
+import AdStatsChart from './Pages/Admin/AdStatsChart';
+
 
 import MainLayout from "./Layouts/MainLayout";
 import AdminLayout from "./Layouts/AdminLayout";
+
+
+import "animate.css/animate.min.css";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+
 
 const AppWithLoader = () => {
   const [loading, setLoading] = useState(false);
@@ -79,11 +89,21 @@ const AppWithLoader = () => {
 
   useEffect(() => {
     setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 3000); // Adjust the timeout as needed
+    const timer = setTimeout(() => setLoading(false), 1000); // Adjust the timeout as needed
     return () => clearTimeout(timer);
   }, [location]);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1200, // Animation duration
+      once: false, // Whether animation should happen only once
+      mirror: true, // Whether elements should animate out while scrolling past them
+    });
+  }, []);
+
+
   return (
+
     <div>
       {loading && <Loader />}
       {!loading && (
@@ -138,19 +158,19 @@ const AppWithLoader = () => {
 
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
-
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
               <Route path="/MySaves" element={<MySaves />} />
               <Route path="/MyCollections" element={<MyCollections />} />
               <Route path="/MyQuestions" element={<MyQuestions />} />
               <Route path="/EditProfile" element={<EditProfile />} />
-              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+             
 
               <Route path="/" element={<Navigate to="/home" />} />
             </Route>
 
             <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/Admin" element={<Admin />} />
               <Route
                 path="/projectsadmin/:status"
                 element={<ProjectsAdmin />}
@@ -165,7 +185,8 @@ const AppWithLoader = () => {
                 element={<ViewProjectAdmin />}
               />
               <Route path="/postcounts" element={<PostCounts />} />
-              <Route path="/admingraph" element={<AdminGraph />} />
+              <Route path="/proadmin" element={<ProAdmin />} />
+              <Route path='/adstatschart' element={<AdStatsChart />} />
             </Route>
           </Routes>
         </>

@@ -10,6 +10,7 @@ import { ResoComment } from "./ResoComment";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ReactQuill from "react-quill"; // Import ReactQuill for rendering
+import Alert from "../../Component/Alert/Alert";
 
 export const ResoPostdetails = () => {
   const [resorating, setResoRating] = useState(null);
@@ -17,6 +18,7 @@ export const ResoPostdetails = () => {
   const [setAverageRating] = useState(0);
   const [author, setAuthor] = useState(null);
   const { user } = useUsers();
+  const [showAlert, setShowAlert] = useState(false);
 
   const { id: resoPostId } = useParams();
   const navigate = useNavigate();
@@ -123,13 +125,12 @@ export const ResoPostdetails = () => {
       console.log(err);
     }
   } else {
-    setTimeout(() => {
-      window.alert('Please login to post a comment.'); // Show error message in alert box
-    }, 100);
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+    setShowAlert(true);
   }
+  };
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    navigate('/login');
   };
 
   const handleDeletePost = async () => {
@@ -226,6 +227,12 @@ export const ResoPostdetails = () => {
             className="resocomsection"
           />
           <button onClick={postComment}>Add Comment</button>
+          {showAlert && (
+            <Alert
+              message="Please login to reply"
+              onClose={handleAlertClose}
+            />
+          )}
         </div>
         {comments.map((c) => (
           <ResoComment

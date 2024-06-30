@@ -6,10 +6,17 @@ import AdminNavi from "./AdminNavi";
 import "./ProjectsAdmin.css";
 import axios from "axios";
 import { URL } from "../../url";
+//scroll
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ProjectsAdmin = () => {
   const [projectPosts, setProjectPosts] = useState([]);
   const { status } = useParams(); // Get the status from the URL
+
+  useEffect(() => {
+    AOS.refresh(); // Refresh AOS on component mount/update
+  }, []);
 
   useEffect(() => {
     const fetchProjectPosts = async () => {
@@ -34,7 +41,7 @@ const ProjectsAdmin = () => {
 
 
   return (
-    <div>
+    <div data-aos="fade-up">
       <AdminNavi />
       <div className="admin_content">
         <table>

@@ -14,45 +14,44 @@
    /*padding: 1px;*/
     display: grid;
    gap: 1px;
+   background-color: rgb(169, 138, 173);
+   /*background-color: rgb(141, 131, 150);*/
 }
 
-.admin_griditem1, .admin_griditem3 {
-    font-weight: bold;
+.Performance_tr {
+ 
+  background-color: rgb(231, 189, 237);
 }
 
-.admin_griditem2, .admin_griditem4, .admin_griditem6{
-    height: 100%;
-   /*padding: 1px;*/
-    display: grid;
-    grid-template-columns: 33.3% 33.3% 33.3%;
-   gap: 1px;
-}
-
-.admin_content  > div {
-    text-align: left;
-    padding: 10px 0;
-    font-size :20px;
-    color: black;
-
-
-}
-
-.admin_box{
-    background-color:  rgb(207, 186, 226);
- border-radius: 10px;
-  padding: 50px;
-  margin: 20px;
-  color: black;
+.Performance_th,
+.Performance_td {
+  padding: 10px;
+  border: 1px solid #dee2e6;
   text-align: center;
 }
 
-.admin_box:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    background-color: rgb(207, 186, 226);
+.Performance_th {
+  background-color: #e9ecef;
+}
+
+.Performance_td {
+  text-align: center;
+}
+
+.Performance_tr:hover {
+    background-color: #f2f2f2;
   }
 
-  .admin_box:active{
-    transform: translateY(4px);
-    background-color: whitesmoke;
+
+.performance_downloadbutton{
+ padding: 5px;
+ border-radius: 20px;
+ background-color: rgb(95, 95, 228);
+ color:white;
+
+}
+
+  .admin_label_performance{
+    display: inline-flex;
+    margin: 5px;
   }

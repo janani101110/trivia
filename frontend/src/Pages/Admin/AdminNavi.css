@@ -31,18 +31,18 @@
 margin-left: auto;
 font-size: xx-large;
 }
-
-.admin_nav_grid a{
+ 
+.admin_nav_grid li{
     margin-right: 20px;
    color:white;
 
 }
 
-.admin_nav_grid a:hover{
+.admin_nav_grid li:hover{
     color: rgb(165, 124, 200);
 }
 
-.admin_nav-option li a{
+.admin_nav-option li {
     display: block;
     height: 100%;
     width: 100%;
@@ -57,7 +57,7 @@ font-size: xx-large;
    
 }
 
-.admin_nav-option li:hover a{
+.admin_nav-option li:hover {
     padding-left: 50px;
     color:rgb(165, 124, 200);
 }
@@ -80,7 +80,7 @@ font-size: xx-large;
     margin-right: 20px;
   }
   
-  .admin_notification-icon a {
+  .admin_notification-icon li {
     text-decoration: none;
     color: inherit;
     position: relative;
@@ -98,4 +98,12 @@ font-size: xx-large;
     line-height: 1;
   }
   
-  
+  .admin_nav_grid li .dropdown{
+    list-style: none;
+  position: absolute;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #010101;
+  width:300px;
+  margin-left: -100px;
+  z-index: 1000;
+  }

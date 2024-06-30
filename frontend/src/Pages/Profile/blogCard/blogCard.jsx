@@ -3,16 +3,15 @@ import "./blogCard.css";
 import { Link } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
+import Alert from "../../../Component/Alert/Alert"; // Import Alert component
 
 const BlogCard = ({ blogPost, onDelete }) => {
-  // Check if blogPost is available, if not return null
   const [author, setAuthor] = useState(null);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const fetchUserData = async (userId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/auth/details/${userId}`
-      );
+      const response = await fetch(`http://localhost:5000/api/auth/details/${userId}`);
       return response;
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -43,36 +42,42 @@ const BlogCard = ({ blogPost, onDelete }) => {
   const createdDate = createdAtDate.toDateString();
 
   const handleDelete = () => {
-    const confirmation = window.confirm("Are you sure you want to delete the post?");
-    if (confirmation) {
-      onDelete(blogPost._id);
-    }
+    setShowDeleteAlert(true);
+  };
+
+  const handleAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
+
+  const confirmDelete = () => {
+    onDelete(blogPost._id);
+    setShowDeleteAlert(false);
   };
 
   // Rendering the component
   return (
     <div className="mainpostcard">
-    <div className="postCard">
-      {/* Link to view full blog post */}
-      <Link
-        style={{ textDecoration: "none" }}
-        to={`/InsidePost/${blogPost._id}`}
-        key={blogPost.id}
-      >
-        <img src={blogPost.photo} alt="" className="blogPostImage" />
-        <div className="blogPostText">
-          <div className="blogPostTitle">{blogPost.title}</div>
-          <br />
-          <div className="blogPostostDetails">
-            <div className="blogPostDescription">
-              {blogPost.desc.split(" ").slice(0, 60).join(" ") + "... See more"}
-            </div>
+      <div className="postCard">
+        {/* Link to view full blog post */}
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/InsidePost/${blogPost._id}`}
+          key={blogPost.id}
+        >
+          <img src={blogPost.photo} alt="" className="blogPostImage" />
+          <div className="blogPostText">
+            <div className="blogPostTitle">{blogPost.title}</div>
             <br />
+            <div className="blogPostostDetails">
+              <div className="blogPostDescription">
+                {blogPost.desc.split(" ").slice(0, 60).join(" ") + "... See more"}
+              </div>
+              <br />
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
       </div>
-      <div className='blogCardFooter'>
+      <div className="blogCardFooter">
         {author && (
           <div className="authorInfo">
             <img
@@ -83,26 +88,30 @@ const BlogCard = ({ blogPost, onDelete }) => {
           </div>
         )}
         <div className="blogPostdate">{createdDate}</div>
-     
-      <Link style={{ marginTop: '12px' }} className="editButton"  to={`/UpdateBlog/${blogPost._id}`}  key={blogPost.id}>
-              <CIcon 
-                icon={icon.cilPen}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-                 
-              />
-               
-      </Link>
 
-      <button onClick={handleDelete} className="editButton">
-              <CIcon
-                icon={icon.cilTrash}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-              />
-      </button>
+        <Link style={{ marginTop: '12px' }} className="editButton" to={`/UpdateBlog/${blogPost._id}`} key={blogPost.id}>
+          <CIcon 
+            icon={icon.cilPen}
+            size=""
+            style={{ "--ci-primary-color": "black" }}
+          />
+        </Link>
 
+        <button onClick={handleDelete} className="editButton">
+          <CIcon
+            icon={icon.cilTrash}
+            size=""
+            style={{ "--ci-primary-color": "black" }}
+          />
+        </button>
       </div>
+      {showDeleteAlert && (
+        <Alert
+          message="Are you sure you want to delete this post?"
+          onClose={handleAlertClose}
+          onConfirm={confirmDelete}
+        />
+      )}
     </div>
   );
 };

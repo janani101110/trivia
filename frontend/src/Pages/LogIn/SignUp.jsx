@@ -3,11 +3,14 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../LogIn/images/loginImage.jpg";
 import GoogleIcon from "../LogIn/images/googleIcon.png";
+import Alert from "../../Component/Alert/Alert";  // Import the Alert component
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   const navigate = useNavigate();
 
@@ -37,7 +40,12 @@ const Signup = () => {
       console.log(res.data);
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An error occurred during signup. Please try again.");
+      }
+      setShowAlert(true);
     }
   };
 
@@ -48,6 +56,7 @@ const Signup = () => {
       </div>
       <div className="logindiv"> 
         <div className="loginTextdiv">
+          {showAlert && <Alert message={error} onClose={() => setShowAlert(false)} />} {/* Conditionally render the Alert component */}
           <form onSubmit={handleSignup}>
             <div>
               <input onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Username" required autoComplete="new-username" className="loginInput" />
@@ -70,7 +79,7 @@ const Signup = () => {
         <br/>
         <div className="loginTextdiv">
           <button onClick={google} className="loginGoogleButton"> 
-          <img src={GoogleIcon} className="LoginGoogleIcon" alt=""/> 
+          <img src={GoogleIcon} className="LoginGoogleIcon" alt=''/> 
           Signup with Google </button>
         </div>
         <div className="loginhr">

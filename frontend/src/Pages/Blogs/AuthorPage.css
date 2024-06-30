@@ -49,3 +49,34 @@
     margin-bottom: 20px;
     margin-left: 70px;
   }
+
+
+  
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .AuthorInfo {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .AuthorDetailsDiv {
+        flex-direction: column; /* Stack elements vertically */
+    }
+
+    .AuthorProfilePicture {
+        margin: 20px auto; /* Center align profile picture */
+    }
+
+    .bpost {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .AuthorInfo {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+}
