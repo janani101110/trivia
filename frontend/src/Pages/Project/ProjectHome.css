@@ -24,7 +24,8 @@ html {
 
 .project_bannertext{
   position: absolute;
-  color: rgb(43, 17, 68);
+ /* color: rgb(43, 17, 68);*/
+ color: rgb(9, 9, 94);
   top: 50%;
   left: 52%;
   font-weight: bolder;
@@ -32,7 +33,7 @@ html {
   font-size: 50px;
   background-color: rgba(255, 255, 255, 0.5);
   padding: 50px;
-  border-radius: 5px;
+  border-radius: 40px;
   text-align: center;
   z-index: 1; /* Ensure text is on top */
 }
@@ -159,13 +160,15 @@ position: relative;  background-size: cover;
   padding-left: 15px;
   font-size: larger;
 padding-bottom: 10px;
+display: inline-flex;
+gap: 15px;
 }
 
 #pro_orderBy{
   font-size: medium;
   background-color: rgb(217, 173, 217);
   padding: 5px;
-  height: 35px;
+ 
   box-shadow: 0 0 5px rgb(156, 19, 158);
   border: none;
   border-radius: 5px;

@@ -27,8 +27,16 @@
   */
 
   .admin_content {
-    border-collapse: collapse;
-    width: 100%;
+  /*  border-collapse: collapse;
+    width: 100%;*/
+    margin-left: 19%;
+    margin-right: 2%;
+    height: 100%;
+    display: grid;
+    gap: 1px;
+   /* background-color: rgb(192, 159, 196);*/
+  padding: 10px;
+  font-size: medium;
   }
   
   .admin_tr {

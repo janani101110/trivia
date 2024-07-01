@@ -4,7 +4,8 @@
     height: 100%;
     display: grid;
     gap: 1px;
-    background-color: rgb(192, 159, 196);
+    top:70px;
+   /* background-color: rgb(192, 159, 196);*/
   padding: 10px;
   }
   

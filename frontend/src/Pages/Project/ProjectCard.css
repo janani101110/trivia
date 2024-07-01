@@ -7,6 +7,8 @@
   transition: 0.3s;
   border-radius: 14px;
   background-color: rgb(235, 200, 235);
+  width:350px;
+  height: 700px;
 }
 
 .project_card:hover {
@@ -22,8 +24,8 @@
   position: inherit;
 }
 
-.project_card_image:hover {
-  transform: scale(1.2);
+.project_card:hover {
+  transform: scale(1.08);
 }
 
 .project_container {
@@ -32,6 +34,7 @@
 
 .project_container_text{
   margin-left: -30px;
+  height: 250px;
 }
 .project_card_title {
   font-weight: bold;
@@ -45,6 +48,7 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   margin-top: 5px;
   margin-bottom: 5px;
+ 
 }
 
 .project_card__btn {

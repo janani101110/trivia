@@ -11,48 +11,33 @@
     margin-left: 19%;
     margin-right: 2%;
     height: 100%; 
-   /*padding: 1px;*/
     display: grid;
    gap: 1px;
+   padding: 20px;
 }
 
-.admin_griditem1, .admin_griditem3 {
-    font-weight: bold;
-}
-
-.admin_griditem2, .admin_griditem4, .admin_griditem6{
-    height: 100%;
-   /*padding: 1px;*/
-    display: grid;
-    grid-template-columns: 33.3% 33.3% 33.3%;
-   gap: 1px;
-}
-
-.admin_content  > div {
-    text-align: left;
-    padding: 10px 0;
-    font-size :20px;
-    color: black;
-
-
-}
-
-.admin_box{
-    background-color:  rgb(207, 186, 226);
- border-radius: 10px;
-  padding: 50px;
-  margin: 20px;
-  color: black;
+.blogTable th,
+.blogTable td {
+  border: 1px solid #ddd;
+  padding: 5px;
   text-align: center;
 }
-
-.admin_box:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    background-color: rgb(207, 186, 226);
+  
+.blogTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  .blogTable {
+    background-color:rgb(231, 189, 237);
+  }
+  
+  .blogTable tr:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .blogTable th,
+  .blogTable td {
+    padding: 12px 15px;
+    text-align: center;
   }
 
-  .admin_box:active{
-    transform: translateY(4px);
-    background-color: whitesmoke;
-  }

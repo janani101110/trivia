@@ -6,6 +6,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: 'triviatechnology2024@gmail.com', 
     pass: 'unpg lgmc akgd xmms'// Consider using environment variables for sensitive information
+  },
+  tls: {
+    rejectUnauthorized: false // Allow self-signed certificates
   }
 });
 

@@ -92,7 +92,7 @@ const AppWithLoader = () => {
     setFormData(data);
   };
 
-
+  const [blogCount, setBlogCount] = useState(0);
   return (
     <div>
       {loading && <Loader />}
@@ -183,7 +183,7 @@ const AppWithLoader = () => {
               <Route path='/adstatschart' element={<AdStatsChart />} />
             </Route>
           </Routes>
-          <Footer />
+    
         </>
       )}
     </div>

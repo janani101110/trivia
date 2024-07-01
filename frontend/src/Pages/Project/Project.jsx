@@ -172,6 +172,7 @@ const [showAlert, setShowAlert] = useState(false);
                   <img src={read} alt="read" className="button-icon" />
                 )} Learn
               </button>*/}
+              <br></br>
       <div className="project_orderBy" id="project_orderBy">
         <label htmlFor="orderBy">Order By:</label>
         <select id="pro_orderBy" value={orderBy} onChange={handleOrderByChange}>
@@ -202,7 +203,7 @@ const [showAlert, setShowAlert] = useState(false);
         </button>
         {showAlert && (
             <Alert
-              message="Please login to create an advertisement."
+              message="Please login to create a project post."
               onClose={handleAlertClose}
             />
           )}

@@ -137,40 +137,40 @@ const renderButtons = () => {
     <div>
     <AdminNavi />
     <div className="admin_content">
-    <div className="project_seemore_container">
-        
-      <h1 className="project_title">{projectPost.project_name}</h1>
-      <hr className="project_line"></hr>
+    <div className="project_seemore_container" data-aos="fade-up">
+      <h1 className="project_title">{projectPost.project_name}</h1> <br></br>
+      <hr className="project_line"></hr> <br></br>
       <div className="project_inline_user">
-        <div className="project_userprofile"></div>
+      {/*  <div className="project_userprofile"></div>*/}
         <div className="project_user">
-          <p>Published by {projectPost.name}</p>
-          <p className="project_mail">{projectPost.email}</p>
-          <p>{new Date(projectPost.updatedAt).toString().slice(0, 15)}</p>
-          <p>{new Date(projectPost.updatedAt).toString().slice(16, 24)}</p>
+          <p>Published by <b><i>{projectPost.name}</i></b></p>
+          <p className="project_mail">From {projectPost.email}</p>
+          <p>On {new Date(projectPost.updatedAt).toString().slice(0, 15)}</p>
+          <p>At {new Date(projectPost.updatedAt).toString().slice(16, 24)}</p>
         </div>
       </div>
+<br></br>
 
-      <div className="project_image">
+<div className="project_image" data-aos="fade-up">
         <img src={projectPost.project_photo} alt="Avatar" width={600}></img>
         <p className="project_figure">Image of the project</p>
       </div>
+<br></br>
 
-      <div>
+<div data-aos="fade-up">
         <div className="project_head">
           Components required for this project are:
-        </div>
-        <div className="project_describe">
-          {projectPost.components}
-        </div>
+        </div><br></br>
+        <div className="project_describe">{projectPost.components}</div>
       </div>
       <br></br>
-      <div>
-        <p className="project_head">Objectives of this project:</p>
+      <br></br>
+      <div data-aos="fade-up">
+        <p className="project_head">Objectives of this project:</p> <br></br>
         <p className="project_describe">{projectPost.objectives}</p>
       </div>
+      <br></br><br></br>
 
-      <br></br>
 
    { /*  <div className="project_image">
 
@@ -188,12 +188,12 @@ const renderButtons = () => {
         <p className="project_figure">Video explanation of the project</p>
       </div> */}
 
-      <br></br>
-      <div>
-        <p className="project_head">Explanation of the project:</p>
+      <div data-aos="fade-up">
+        <p className="project_head">Explanation of the project:</p><br></br>
         <p className="project_describe">{projectPost.explanation}</p>
       </div>
-      <br></br>
+      <br></br><br></br>
+
      {/* <div className="project_image">
         <img
           src={projectPost.circuit_diagram}
@@ -208,19 +208,20 @@ const renderButtons = () => {
         <p className="project_figure">PCB Design</p>
       </div> */}  
 
-      <div>
-        <p className="project_head">Refer the code through this GitHub link:</p>
+     <div data-aos="fade-up">
+        <p className="project_head">Refer the code through this GitHub link:</p><br></br>
         <a
           className="project_github"
           href={projectPost.git_link}
-         // href="https://github.com/flesler/jquery.scrollTo.git"
+          // href="https://github.com/flesler/jquery.scrollTo.git"
           target="_blank"
           rel="noopener noreferrer"
         >
           {projectPost.git_link}
         </a>
       </div>
-      <br></br>
+
+      <br></br><br></br>
       <div className="button_flex">{renderButtons()}</div>
       <br></br>
     </div>

@@ -52,7 +52,8 @@ const ProAdmin = () => {
   return (
     <div data-aos="fade-up">
       <AdminNavi />
-      <div className="proAdmin_content">
+      <div className="proAdmin_content" >
+        <h1  style={{marginTop:"80px"}}>Projects Page</h1> <br></br>
         <div className="proAdmin_filter-dropdown">
           <label htmlFor="statusFilter">Select Status: </label>
           <select
@@ -100,7 +101,7 @@ const ProAdmin = () => {
                 </td>
                 <td className="proAdmin_td">
                   <Link to={`/viewprojectadmin/${projectpost._id}?status=${selectedStatus}`}>
-                    See More
+                  <button style={{borderRadius:"10px", color:"white", background:"rgb(95, 95, 228)", padding:"5px", cursor:"pointer"}}> See More </button>
                   </Link>
                 </td>
               </tr>

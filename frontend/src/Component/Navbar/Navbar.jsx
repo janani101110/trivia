@@ -5,7 +5,7 @@ import logo from '../Assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import DropdownMenu from "./DropdownMenu";
 import { useUsers } from "../../Context/UserContext";
-import GoogleTranslate from "../GoogleTranslate";
+// import {TranslationContext} from "../TranslationContext";
 
 
 
@@ -95,18 +95,9 @@ export const Navbar = () => {
           {menu === "forum" ? <hr /> : <></>}
         </li>
 
-    <li
-          onClick={() => {
-            setMenu("admin");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/admin">
-            Admin
-          </Link>
-          {menu === "admin" ? <hr /> : <></>}
-        </li> 
+    
 
-        <li><GoogleTranslate/></li>
+        {/* <li><TranslationContext/></li> */}
           
       </ul>
 

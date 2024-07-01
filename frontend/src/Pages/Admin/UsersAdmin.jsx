@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import AdminNavi from "./AdminNavi";
 import "./UsersAdmin.css";
 
@@ -13,4 +13,4 @@ const UsersAdmin = () => {
   );
 };
 
-export default UsersAdmin;
+export default UsersAdmin; */

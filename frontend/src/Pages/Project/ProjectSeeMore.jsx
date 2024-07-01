@@ -91,53 +91,53 @@ export const ProjectSeeMore = () => {
 
   return (
     <div className="project_seemore_container" data-aos="fade-up">
-      <h1 className="project_title">{projectpost.project_name}</h1>
-      <hr className="project_line"></hr>
+      <h1 className="project_title">{projectpost.project_name}</h1> <br></br>
+      <hr className="project_line"></hr> <br></br>
       <div className="project_inline_user">
-        <div className="project_userprofile"></div>
+      {/*  <div className="project_userprofile"></div>*/}
         <div className="project_user">
-          <p>Published by {projectpost.name}</p>
-          <p className="project_mail">{projectpost.email}</p>
-          <p>{new Date(projectpost.updatedAt).toString().slice(0, 15)}</p>
-          <p>{new Date(projectpost.updatedAt).toString().slice(16, 24)}</p>
+          <p>Published by <b><i>{projectpost.name}</i></b></p>
+          <p className="project_mail">From {projectpost.email}</p>
+          <p>On {new Date(projectpost.updatedAt).toString().slice(0, 15)}</p>
+          <p>At {new Date(projectpost.updatedAt).toString().slice(16, 24)}</p>
         </div>
       </div>
-
-      <div className="project_image">
+<br></br>
+      <div className="project_image" data-aos="fade-up">
         <img src={projectpost.project_photo} alt="Avatar" width={600}></img>
         <p className="project_figure">Image of the project</p>
       </div>
-
-      <div>
+<br></br>
+      <div data-aos="fade-up">
         <div className="project_head">
           Components required for this project are:
-        </div>
+        </div><br></br>
         <div className="project_describe">{projectpost.components}</div>
       </div>
       <br></br>
-
+      <br></br>
       <div data-aos="fade-up">
-        <p className="project_head">Objectives of this project:</p>
+        <p className="project_head">Objectives of this project:</p> <br></br>
         <p className="project_describe">{projectpost.objectives}</p>
       </div>
+      <br></br><br></br>
 
-      <br></br>
 
-      <div className="project_image">
+   {/*   <div className="project_image">
         
 
-       {/* <Link to={projectpost.project_video}>click mee</Link> */}
+       {/* <Link to={projectpost.project_video}>click mee</Link> 
 
         <p className="project_figure">Video explanation of the project</p>
-      </div>
+      </div> */}
 
-      <br></br>
+
       <div data-aos="fade-up">
-        <p className="project_head">Explanation of the project:</p>
+        <p className="project_head">Explanation of the project:</p><br></br>
         <p className="project_describe">{projectpost.explanation}</p>
       </div>
+      <br></br><br></br>
 
-      <br></br>
     {/*  <div className="project_image">
         <img
           src={projectpost.circuit_diagram}
@@ -152,8 +152,8 @@ export const ProjectSeeMore = () => {
         <p className="project_figure">PCB Design</p>
       </div> */}
 
-      <div>
-        <p className="project_head">Refer the code through this GitHub link:</p>
+      <div data-aos="fade-up">
+        <p className="project_head">Refer the code through this GitHub link:</p><br></br>
         <a
           className="project_github"
           href={projectpost.git_link}
@@ -165,8 +165,8 @@ export const ProjectSeeMore = () => {
         </a>
       </div>
 
-      <br></br>
-      <hr className="project_line"></hr>
+      <br></br><br></br>
+      <hr className="project_line" data-aos="fade-up"></hr>
       {relatedProjects.length > 0 ? (
         <div
           className="related_projects_section"
@@ -174,7 +174,7 @@ export const ProjectSeeMore = () => {
           onScroll={handleScroll}
         >
           <br></br>
-          <p className="project_head">Related Projects by {projectpost.name}</p>
+          <p className="project_head" data-aos="fade-up">Related Projects by {projectpost.name}</p><br></br>
           <div
             className="related_projects_wrapper"
             ref={wrapperRef}

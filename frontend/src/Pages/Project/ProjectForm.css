@@ -57,7 +57,7 @@
 
 .project_form_submit {
   left: 50%;
-  transform: translateX(50%);
+ /* transform: translateX(50%);*/
   position: relative;
   padding: 5px;
   background-color: blueviolet;

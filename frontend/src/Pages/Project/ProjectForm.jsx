@@ -1,16 +1,14 @@
 import React from "react";
 import "../../firebase.js";
 import "./ProjectForm.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { URL } from "../../url";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-//scroll
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useUsers } from "../../Context/UserContext";
 
 export const ProjectForm = () => {
   const [name, setName] = useState("");
@@ -25,22 +23,33 @@ export const ProjectForm = () => {
   const [circuit_diagram, setCircuitDiagram] = useState(null);
   const [pcb_design, setPcbDesign] = useState(null);
   const [git_link, setGitLink] = useState("");
-
-  useEffect(() => {
-    AOS.refresh(); // Refresh AOS on component mount/update
-  }, []);
-
+const [formData, setFormData] = useState(null);
   const [inputs, setInputs] = useState({});
 
-  const [file, setFile] = useState("");
- const [downloadURL, setDownloadURL] = useState("");
+  const WORD_LIMIT = 50;
 
-  /*const [userVideoLink, setUserVideoLink] = useState("");*/
+  const [file, setFile] = useState("");
+  const [downloadURL, setDownloadURL] = useState("");
+
+  const [userVideoLink, setUserVideoLink] = useState("");
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  
+  const { user } = useUsers();
 
   const navigate = useNavigate();
+
+  const handleIntroChange = (e) => {
+    const text = e.target.value;
+    const words = text.split(/\s+/);
+    if (words.length <= WORD_LIMIT) {
+      setIntro(text);
+      setFormErrors((prevErrors) => ({ ...prevErrors, intro: "" }));
+    } else {
+      setFormErrors((prevErrors) => ({ ...prevErrors, intro: `Word limit exceeded. Maximum ${WORD_LIMIT} words allowed.` }));
+    }
+  };
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -56,7 +65,7 @@ export const ProjectForm = () => {
       case "project_photo":
         setProjectPhoto(url);
         break;
-  /*    case "project_video":
+      case "project_video":
         setProjectVideo(url);
         break;
       case "circuit_diagram":
@@ -64,15 +73,15 @@ export const ProjectForm = () => {
         break;
       case "pcb_design":
         setPcbDesign(url);
-        break;*/
+        break;
       default:
         break;
     }
   };
 
-  /*const handleVideoLinkChange = (e) => {
+  const handleVideoLinkChange = (e) => {
     setUserVideoLink(e.target.value);
-  };*/
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //automatically refresh
@@ -94,16 +103,16 @@ export const ProjectForm = () => {
       objectives,
       intro,
       project_photo: downloadURL,
-    /*  project_video: downloadURL,*/
+      project_video: downloadURL,
       explanation,
-    /*  circuit_diagram: downloadURL,
-      pcb_design: downloadURL,*/
+      circuit_diagram: downloadURL,
+      pcb_design: downloadURL,
       git_link,
     };
 
     try {
       const res = await axios.post(
-        URL + "/api/projectposts/create",
+        `${URL}/api/projectposts/create`,
         projectpost,
         { withCredentials: true }
       );
@@ -149,21 +158,21 @@ export const ProjectForm = () => {
       errors.project_photo = "Project photo is required";
     }
 
- /*   if (!project_video && !userVideoLink?.trim()) {
+    if (!project_video && !userVideoLink?.trim()) {
       errors.project_video = "Video file is  required";
-    }*/
+    }
 
     if (!explanation?.trim()) {
       errors.explanation = "Expalanation is required";
     }
 
-  /*  if (!circuit_diagram) {
+    if (!circuit_diagram) {
       errors.circuit_diagram = "Circuit diagram is required";
     }
 
     if (!pcb_design) {
       errors.pcb_design = "PCB Design is required";
-    } */
+    }
 
     if (!git_link?.trim()) {
       errors.git_link = "GIT Link is required";
@@ -176,9 +185,13 @@ export const ProjectForm = () => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
+  // const handleSubmit = (data) => {
+  //   setFormData(data);
+  // };
+
 
   return (
-    <div className="project_container" data-aos="fade-up">
+    <div className="project_container"> 
       <form onSubmit={handleSubmit}>
         <div className="project_form">
           <h2 className="project_topic">Fill below fields</h2>
@@ -213,7 +226,7 @@ export const ProjectForm = () => {
               )}
 
               <div className="project_field">
-                <labe className="project_label"l>Project name</labe>
+                <label className="project_label">Project name</label>
                 <input
                 className="project_input"
                   onChange={(e) => setProjectName(e.target.value)}
@@ -261,8 +274,10 @@ export const ProjectForm = () => {
                 <label className="project_label">Give an brief introduction about the project</label>
                 <textarea
                 className="project_input"
-                  onChange={(e) => setIntro(e.target.value)}
+                /*  onChange={(e) => setIntro(e.target.value)}*/
                   type="text"
+                  onChange={handleIntroChange}
+                  value={intro}
                   name="intro"
                   placeholder="Give a brief description about your project"
                   cols={100}
@@ -289,7 +304,7 @@ export const ProjectForm = () => {
                 <p className="project_error">{formErrors.project_photo}</p>
               )}
 
-         { /*    <div className="project_upload">
+              <div className="project_upload">
                 <label htmlFor="prooject_video" className="project_label">
                   Upload the video about the project
                 </label>
@@ -303,7 +318,7 @@ export const ProjectForm = () => {
               </div>
               {formErrors.project_video && (
                 <p className="project_error">{formErrors.project_video}</p>
-              )} */}
+              )}
 
               <div className="project_field">
                 <label className="project_label">Explain your project descriptively</label>
@@ -321,7 +336,7 @@ export const ProjectForm = () => {
                 <p className="project_error">{formErrors.explanation}</p>
               )}
 
-          {/*    <div className="project_upload">
+              <div className="project_upload">
                 <label htmlFor="project_photo" className="project_label">
                   Upload the circuit/schematic diagram
                 </label>
@@ -349,7 +364,7 @@ export const ProjectForm = () => {
               </div>
               {formErrors.pcb_design && (
                 <p className="project_error">{formErrors.pcb_design}</p>
-              )} */}
+              )}
 
               <div className="project_field">
                 <label className="project_label">Github repository link with the source code</label>
@@ -382,4 +397,4 @@ export const ProjectForm = () => {
   );
 };
 
-export default ProjectForm;
+export default ProjectForm;  

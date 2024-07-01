@@ -39,11 +39,24 @@ const ProjectsAdmin = () => {
     fetchProjectPosts();
   }, [status]);
 
+  const getStatusHeader = () => {
+    switch (status) {
+      case "pending":
+        return "Pending approval projects";
+      case "approved":
+        return "Approved projects";
+      case "rejected":
+        return "Rejected projects";
+      default:
+        return "All Projects";
+    }
+  };
 
   return (
     <div data-aos="fade-up">
       <AdminNavi />
       <div className="admin_content">
+      <h1>{getStatusHeader()}</h1> <br></br>
         <table>
           <thead>
             <tr className="admin_tr">
@@ -65,7 +78,7 @@ const ProjectsAdmin = () => {
                 <td className="admin_td">{new Date(projectpost.createdAt).toLocaleString()}</td>
                 <td className="admin_td">
                   {projectpost.approved
-                    ? "Approved"
+                    ? "Approved" 
                     : projectpost.rejected
                     ? "Rejected"
                     : "Pending Approval"}
@@ -74,7 +87,7 @@ const ProjectsAdmin = () => {
                   <Link
                     to={`/viewprojectadmin/${projectpost._id}?status=${status}`}
                   >
-                    See More
+                   <button style={{borderRadius:"10px", color:"white", background:"rgb(95, 95, 228)", padding:"5px", cursor:"pointer"}}> See More </button>
                   </Link>
                 </td>
             

@@ -7,7 +7,7 @@ const ResourcesAdmin = () => {
     <div>
       <AdminNavi></AdminNavi>
       <div className="admin_content">
-        <h1>Resources Page</h1>
+        <h1>Resources Page</h1> <br></br>
       </div>
     </div>
   );

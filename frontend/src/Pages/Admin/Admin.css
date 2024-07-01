@@ -28,6 +28,42 @@
  gap: 1px;
 }
 
+.admin_griditem6_new {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  grid-template-areas: 
+    "graph blogs"
+    "graph forum";
+  height: 100%;
+}
+
+/* Assign the grid areas */
+.graph {
+  grid-area: graph;
+  text-align: center;
+  display: flex;               /* Use Flexbox */
+  align-items: center;         /* Center vertically */
+  justify-content: center;     /* Center horizontally */
+}
+
+.blogs {
+  grid-area: blogs;
+  text-align: center;
+  display: flex;               /* Use Flexbox */
+  align-items: center;         /* Center vertically */
+  justify-content: center;     /* Center horizontally */
+}
+
+.forum {
+  grid-area: forum;
+  text-align: center;
+  display: flex;               /* Use Flexbox */
+  align-items: center;         /* Center vertically */
+  justify-content: center;     /* Center horizontally */
+}
+
 .admin_content  {
   padding: 20px;
   font-size :20px;
@@ -41,6 +77,7 @@ padding: 50px;
 margin: 20px;
 color: #000000;
 text-align: center;
+overflow: auto;
 }
 
 .admin_box:hover {

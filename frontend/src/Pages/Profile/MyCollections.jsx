@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard/blogCard";
+import ShopCard from "./shopcard/ShopCard";
+import ProjectCard from "./projectCard/projectCard";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
 import "./MySaves.css";
@@ -9,8 +11,12 @@ import * as icon from "@coreui/icons";
 const MyCollections = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [shoppost, setShopposts] = useState([]);
+  const [projectpost, setProjectposts] = useState([]);
+
   const [showBlogGrid, setShowBlogGrid] = useState(false);
   const [showShopGrid, setShowShopGrid] = useState(false);
+  const [showProjectGrid, setShowProjectGrid] = useState(false);
+
   const { user } = useUsers();
 
   useEffect(() => {
@@ -51,6 +57,30 @@ const MyCollections = () => {
       fetchShopPosts();
     }
   }, [user]);
+
+  useEffect(() => {
+    const fetchProjectPosts = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/Projectpost/user/${user._id}`, {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data, 'projectpost');
+        setProjectposts(data); // Update shopPosts state with fetched data
+      } catch (err) {
+        console.error('Error fetching project posts:', err);
+      }
+    };
+
+    if (user && user._id) {
+      fetchProjectPosts();
+    }
+  }, [user]);
+
+
   const handleBlogDelete = async (postId) => {
     try {
       await axios.delete(`http://localhost:5000/api/blogPosts/${postId}`);
@@ -69,6 +99,15 @@ const MyCollections = () => {
     }
   };
 
+  const handleprojectDelete = async (projectpostId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/Projectpost/${projectpostId}`);
+      setProjectposts((prevprojectposts) => prevprojectposts.filter((projectpost) => projectpost._id !== projectpostId));
+    } catch (err) {
+      console.error("Error deleting shop post:", err);
+    }
+  };
+
   if (!user) {
     return <div>User data not found!</div>;
   }
@@ -79,6 +118,10 @@ const MyCollections = () => {
 
   const handleToggleShopGrid = () => {
     setShowShopGrid(!showShopGrid);
+  };
+
+  const handleToggleProjectGrid = () => {
+    setShowProjectGrid(!showProjectGrid);
   };
 
   return (
@@ -155,11 +198,12 @@ const MyCollections = () => {
                 ))}
           </ul>
         )}
+        
       </div>
       <hr />
-      <div className="mySaveBookMarksDiv">
-        <div className="mySaveBookMarksSubDiv">
-          <div className="mySaveTags">
+      <div className="mySaveBookMarksshopDiv">
+        <div className="mySaveBookMarksshopSubDiv">
+          <div className="mySaveTagsshop">
             Advertisements
             {"   "}
             <button onClick={handleToggleShopGrid} className="toggleButton">
@@ -180,8 +224,89 @@ const MyCollections = () => {
               )}
             </button>
           </div>
-        
+          <p className="UseradCount">
+            {" "}
+            No of Ads: {"   "} {shoppost.length}{" "}
+          </p>
         </div>
+        {shoppost.length === 0 ? (
+          <p>No saved Advertisements found.</p>
+        ) : (
+          <ul>
+            {showBlogGrid
+              ? shoppost.map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))
+              : shoppost.slice(0, 4).map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))}
+          </ul>
+        )}
+
+       
+      </div>
+      <hr />
+      <div className="mySaveBookMarksshopDiv">
+        <div className="mySaveBookMarksshopSubDiv">
+          <div className="mySaveTagsproject">
+            Projects
+            {"   "}
+            <button onClick={handleToggleProjectGrid} className="toggleButton">
+              {showProjectGrid ? (
+                <CIcon
+                  icon={icon.cilCaretTop}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              ) : (
+                <CIcon
+                  icon={icon.cilCaretBottom}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              )}
+            </button>
+          </div>
+          <p className="UseradCount">
+            {" "}
+            No of Projects: {"   "} {projectpost.length}{" "}
+          </p>
+        </div>
+        {projectpost.length === 0 ? (
+          <p>No saved Projects found.</p>
+        ) : (
+          <ul>
+            {showShopGrid
+              ? projectpost.map((projectpost) => (
+                  <ProjectCard
+                    style={{ textDecoration: "none" }}
+                    key={projectpost._id}
+                    shoppost={projectpost}
+                    onDelete={handleprojectDelete}
+                  />
+                ))
+              : projectpost.slice(0, 4).map((projectpost) => (
+                  <ProjectCard
+                    style={{ textDecoration: "none" }}
+                    key={projectpost._id}
+                    shoppost={projectpost}
+                    onDelete={handleprojectDelete}
+                  />
+                ))}
+          </ul>
+        )}
 
        
       </div>

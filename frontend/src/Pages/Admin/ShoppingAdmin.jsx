@@ -16,7 +16,7 @@ const ShoppingAdmin = () => {
     <div data-aos="fade-up">
       <AdminNavi></AdminNavi>
       <div className="admin_content">
-        <h1>Shopping Page</h1>
+        <h1>Shopping Page</h1> <br></br>
         <AdStatsChart />
       </div>
     </div>

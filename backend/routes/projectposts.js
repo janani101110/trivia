@@ -4,20 +4,35 @@ const router = express.Router();
 const Projectpost = require("../models/Projectpost"); //import Mongoose model 'Projectpost'
 //const { Parser } = require('json2csv');
 const PDFDocument = require('pdfkit');
+const { sendEmail } = require('./nodemailer.js');
 
 //create a new project post
 router.post("/create", async (req, res) => {
   try {
-    const newProjectpost = new Projectpost({ 
-      ...req.body,
-      approved: false,   //set the default approval status to false
+    const { email, ...rest } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const newProjectpost = new Projectpost({
+      ...rest,
+      email, // Include the email in the new project post
+      approved: false, // set the default approval status to false
     });
     const savedProjectpost = await newProjectpost.save();
+
+    // Send email to the user
+    const emailSubject = 'Your project article has been created!';
+    const emailText = `Your project article "${savedProjectpost.project_name}" has been successfully created.`;
+
+    await sendEmail(email, emailSubject, emailText);
+
     res.status(200).json(savedProjectpost);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error creating project post or sending email:', err);
+    res.status(500).json(err);
   }
 });
+
 
 //retrieving a specific project post by its ID(uses HTTP get method and expects the ID as a parameter in the URL 'req.params.id')
 router.get("/:id", async (req, res) => {
@@ -58,11 +73,22 @@ router.put("/approve/:id", async (req, res) => {
     if (!projectpost) {
       return res.status(404).json({ message: "Project post not found" });
     }
+    // Send email to the user
+    const userEmail = projectpost.email; // Get the email from the project post document
+    const postUrl = `http://localhost:3000/projectseemore/${projectpost._id}`; // Adjust the URL to your frontend blog post URL
+
+    const emailSubject = 'Your project article has been approved!';
+    const emailText = `Your project article "${projectpost.project_name}" has been successfully approved. You can view it at: ${postUrl}`;
+
+    await sendEmail(userEmail, emailSubject, emailText);
+
     res.status(200).json(projectpost);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error approving project post or sending email:', err);
+    res.status(500).json(err);
   }
 });
+
 
 // Reject a project post
 router.put("/reject/:id", async (req, res) => {
@@ -70,15 +96,24 @@ router.put("/reject/:id", async (req, res) => {
     const { id } = req.params;
     const projectpost = await Projectpost.findByIdAndUpdate(
       id,
-      { rejected: true, approved: false}, // Set rejected to true
+      { rejected: true, approved: false }, // Set rejected to true
       { new: true }
     );
     if (!projectpost) {
       return res.status(404).json({ message: "Project post not found" });
     }
+    // Send email to the user
+    const userEmail = projectpost.email; // Get the email from the project post document
+
+    const emailSubject = 'Your project article has been rejected!';
+    const emailText = `Your project article "${projectpost.project_name}" has been rejected.`;
+
+    await sendEmail(userEmail, emailSubject, emailText);
+
     res.status(200).json(projectpost);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error rejecting project post or sending email:', err);
+    res.status(500).json(err);
   }
 });
 
@@ -198,5 +233,14 @@ router.post("/download-enrollments", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.get("/user/:userId", async (req, res) => {
+  try{
+      const posts = await Post.find({ postedBy: req.params.userId });
+      res.status(200).json(posts);
+  } catch(err) {
+      res.status(500).json(err);
+  }
+})
 
 module.exports = router;
