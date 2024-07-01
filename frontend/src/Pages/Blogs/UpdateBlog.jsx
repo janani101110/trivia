@@ -19,14 +19,14 @@ export const UpdateBlog = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState("");
   const [downloadURL, setDownloadURL] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/blogPosts/${id}`);
-        // Update state with new values
         setBlogPost({
-          ...blogPost,
+          id: id,
           title: res.data.title,
           description: res.data.desc,
           image: res.data.image,
@@ -43,12 +43,18 @@ export const UpdateBlog = () => {
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     setFile(file);
-    const imgsBlog = ref(imageDb, `blogImages/${uuidv4()}`);
-    await uploadBytes(imgsBlog, file);
-    const url = await getDownloadURL(imgsBlog);
-    setDownloadURL(url);
-    // Update blogPost state with the image URL
-    setBlogPost((prevState) => ({ ...prevState, image: url }));
+    setLoading(true); // Set loading to true
+    const storageRef = ref(imageDb, `blogImages/${uuidv4()}`);
+    try {
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      setDownloadURL(url);
+      setBlogPost((prevState) => ({ ...prevState, photo: url }));
+    } catch (error) {
+      console.error("Error uploading file: ", error);
+    } finally {
+      setLoading(false); // Set loading to false
+    }
   };
 
   const handleSubmit = (e) => {
@@ -74,6 +80,12 @@ export const UpdateBlog = () => {
         <div className="CreateBlogInnerdiv">
           <h1 className="createBlogTitle"> Update Blog Post </h1>
 
+          {loading && (
+            <div className="loadingOverlay">
+              <div className="spinner"></div>
+            </div>
+          )}
+
           <form className="createBlogFormBody" onSubmit={handleSubmit}>
             <label className="createBlogTextLabel"> Title: </label>
             <br />
@@ -93,7 +105,7 @@ export const UpdateBlog = () => {
             <br />
             {blogPost.image && (
               <img
-                src={blogPost.image}
+                src={blogPost.photo}
                 alt="Blog Image"
                 className="blogImage"
               />
@@ -102,8 +114,7 @@ export const UpdateBlog = () => {
             <input
               type="file"
               className="createBlogEnterImage"
-              accept="image/*"
-              onChange={(e) => handleUpload(e)}
+              onChange={handleUpload}
             />
 
             <br />
