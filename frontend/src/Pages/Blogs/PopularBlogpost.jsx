@@ -14,6 +14,8 @@ const BlogPostCard = ({ blogPost }) => {
   const { user } = useUsers();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [unLiked, setUnLiked] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [comments, setComments] = useState([]);

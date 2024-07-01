@@ -15,6 +15,7 @@ const Blogspost = ({ blogPost }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likes, setLikes] = useState(blogPost.likes.length);
   const [liked, setLiked] = useState(false);
+  const [unLiked, setUnLiked] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [comments, setComments] = useState([]);
@@ -108,6 +109,7 @@ const [shareUrl, setShareUrl] = useState('');
         );
         setLikes(likes + 1);
         setLiked(true);
+        setUnLiked(false);
         setNotificationMessage('Liked successfully!');
         setShowNotification(true);
         setTimeout(() => setShowNotification(false), 3000);
@@ -132,6 +134,7 @@ const [shareUrl, setShareUrl] = useState('');
         );
         setLikes(likes - 1);
         setLiked(false);
+        setUnLiked(true);
         setNotificationMessage('Unliked successfully!');
         setShowNotification(true);
         setTimeout(() => setShowNotification(false), 3000);
@@ -214,7 +217,7 @@ const [shareUrl, setShareUrl] = useState('');
             <CIcon
               icon={icon.cilThumbUp}
               size=""
-              style={{ "--ci-primary-color": "black" }}
+              style={{ color: liked ? "purple" : "black" }}
               onClick={handleLike}
               className="insideBlogLike"
             />
@@ -224,7 +227,7 @@ const [shareUrl, setShareUrl] = useState('');
             <CIcon
               icon={icon.cilThumbDown}
               size=""
-              style={{ "--ci-primary-color": "black" }}
+              style={{ color: unLiked ? "purple" : "black" }}
               onClick={handleUnlike}
               className="insideBlogLike"
             />
@@ -232,7 +235,7 @@ const [shareUrl, setShareUrl] = useState('');
               <CIcon
                 icon={icon.cilCommentBubble}
                 size=""
-                style={{ "--ci-primary-color": "black" }}
+                style={{ color:"black" }}
                 className="insideBlogLike"
               />
              {comments.length}
