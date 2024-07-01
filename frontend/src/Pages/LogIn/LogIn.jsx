@@ -113,7 +113,7 @@ function Login() {
           <hr className="hrclass" />
         </div>
         <div className="loginTextdiv" style={{ display: "flex" }}>
-          <div className="loginText"> Dont't Have an Account? </div>
+          <div className="loginText"> Don&apos;t Have an Account? </div>
           <Link
             to="/signup"
             style={{ textDecoration: "none" }}

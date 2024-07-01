@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const answerSchema = new mongoose.Schema(
+const AnswerSchema = new mongoose.Schema(
   {
-    comment: {
+    answer: {
       type: String,
       required: true,
     },
@@ -12,24 +12,36 @@ const answerSchema = new mongoose.Schema(
     },
     postId: {
       type: String,
+      required: false,
+    },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Adjust as per your application logic
       required: true,
     },
-    
     createdAt: {
       type: Date,
       default: Date.now,
     },
     parentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'answer',
+      ref: 'Answer',
       default: null
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    dislikes: {
+      type: Number,
+      default: 0,
     },
     replies: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'answer'
+      ref: 'Answer'
     }]
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("answer", answerSchema);
+module.exports = mongoose.model("Answer", AnswerSchema);

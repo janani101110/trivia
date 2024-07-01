@@ -8,7 +8,10 @@ const Rating = require("../models/Rating");
 router.post("/create", async (req, res) => {
   try {
     // Creating a new post instance using the ResoPost model
-    const newPost = new ResoPost(req.body);
+    const newPost = new ResoPost({ 
+      ...req.body,
+      approved: false,   //set the default approval status to false
+    });;
     // Saving the new post to the database
     const savedPost = await newPost.save();
     // Sending a success response with the saved post data
@@ -68,7 +71,7 @@ router.get("/:id", async (req, res) => {
 router.get("/user/:userId", async (req, res) => {
   try {
     // Finding and retrieving all posts of the specified user by their user ID
-    const posts = await ResoPost.find({ userId: req.params.userId });
+    const posts = await ResoPost.find({ postedBy: req.params.userId });
     // Sending a success response with the retrieved posts
     res.status(200).json(posts);
   } catch (err) {
@@ -99,42 +102,106 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Route for posting a new rating
-router.post("/ratings", async (req, res) => {
+
+// Approve a resources post
+router.put("/approve/:id", async (req, res) => {
   try {
-    const { postId, userId, rating } = req.body;
-
-    // Check if the user has already rated the post
-    const existingRating = await Rating.findOne({ postId, userId });
-
-    if (existingRating) {
-      // Update the existing rating
-      existingRating.rating = rating;
-      await existingRating.save();
-      res.status(200).json(existingRating);
-    } else {
-      // Create a new rating
-      const newRating = new Rating({ postId, userId, rating });
-      await newRating.save();
-      res.status(200).json(newRating);
+    const { id } = req.params;
+    const posts = await ResoPost.findByIdAndUpdate(
+      id,
+      { approved: true, rejected: false },
+      { new: true }
+    );
+    if (!posts) {
+      return res.status(404).json({ message: "Resources post not found" });
     }
+    res.status(200).json(posts);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Route for fetching the average rating of a post
-router.get("/ratings/:postId", async (req, res) => {
+// Reject a resources post
+router.put("/reject/:id", async (req, res) => {
   try {
-    const { postId } = req.params;
-
-    // Calculate the average rating
-    const ratings = await Rating.find({ postId });
-    const averageRating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length || 0;
-
-    res.status(200).json({ averageRating });
+    const { id } = req.params;
+    const posts = await ResoPost.findByIdAndUpdate(
+      id,
+      { rejected: true, approved: false}, // Set rejected to true
+      { new: true }
+    );
+    if (!posts) {
+      return res.status(404).json({ message: "Resources post not found" });
+    }
+    res.status(200).json(posts);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all rejected resources posts
+router.get("/rejected", async (req, res) => {
+  try {
+    const rejectedPosts = await ResoPost.find({ rejected: true });
+    res.status(200).json(rejectedPosts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get resources posts by user name and status
+router.get('/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const posts = await ResoPost.find({ name, approved: true });
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Retrieve all resources posts or filter by date range and status
+router.get("/", async (req, res) => {
+  try {
+    const { action, topic, range, month} = req.query;
+    let filter = {};
+    
+    // Add filtering by status
+    if (action) {
+      if (action === "approved") filter.approved = true;
+      if (action === "rejected") filter.rejected = true;
+      if (topic === "shop_posts") filter.topic = "shop_posts";
+    }
+
+    // Add filtering by topic
+    if (topic) {
+      if (topic === "projects") filter.topic = "projects";
+      if (topic === "resources") filter.topic = "resources";
+      if (topic === "blogs") filter.topic = "blogs";
+      if (topic === "shop_posts") filter.topic = "shop_posts";
+    }
+
+    // Add filtering by date range
+    if (range) {
+      const now = new Date();
+      if (range === "daily") {
+        filter.createdAt = {
+          $gte: new Date(now.setHours(0, 0, 0, 0)),
+          $lt: new Date(now.setHours(23, 59, 59, 999))
+        };
+     /* } else if (range === "weekly") {
+        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+        filter.createdAt = { $gte: startOfWeek };*/
+      } else if (range === "monthly") {
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        filter.createdAt = { $gte: startOfMonth };
+      }
+    }
+
+    const posts = await ResoPost.find(filter);
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

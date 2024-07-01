@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState  } from "react";
 import "./Resources.css";
 import read from "../Resources/Assets/read1.png"; // Import icon image
 import pen from "../Resources/Assets/pen1.png"; // Import icon image
 import { Link , useNavigate } from "react-router-dom";
 import { useUsers } from "../../Context/UserContext"; // Import user context
-import { SearchResults} from "../Resources/Sensors/SearchResults"
 
 import sensors from "../Resources/Assets/sensors.png";
 import pcb from "../Resources/Assets/pcb.png";
@@ -15,10 +14,28 @@ import kit from "../Resources/Assets/kit.jpg";
 import iot from "../Resources/Assets/iot.jpg";
 import micro from "../Resources/Assets/micro.png";
 
-export const Resources = () => {
+import '../../Component/Search/Search.css'; // Importing the CSS file for styling
+import searchIcon from '../../Component/Assets/search.jpeg'; // Importing the search icon image
+
+export const Resources = ({ defaultValue = "" }) => {
 
   const { user } = useUsers(); // Access user data from context
   const navigate = useNavigate(); // Use useNavigate hook
+
+  const [prompt, setPrompt] = useState(defaultValue); // State variable to hold the search query
+
+  useEffect(() => {  
+    setPrompt(defaultValue); // Set the default value when it changes
+  }, [defaultValue]);
+
+  const handleSearch = () => {
+    if (prompt) {
+      navigate(`/resosearch?query=${prompt}`);
+    } else {
+      navigate("/resources");
+    }
+  };
+
 
   // Function to handle create button click
   const handleCreateClick = () => {
@@ -79,7 +96,21 @@ export const Resources = () => {
       <div className="resobanner">
 
         <div className="resobanner-content" id="resobanner-content">
-        <SearchResults/>
+        <div className="ResoSearchDiv">
+          <input
+            type="text"
+            className="searchBar" // CSS class for the search bar input
+            placeholder="Search for more.." // Placeholder text for the search bar
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)} // Function to update the search query state on input change
+          />
+          <img
+            src={searchIcon} // Source of the search icon image
+            className="searchIcon" // CSS class for the search icon
+            onClick={handleSearch} // Function to navigate based on the search query
+            alt="Search Icon" // Alt text for the search icon image
+          />
+        </div>
           <h1>Welcome to Our Resource Hub</h1>
           <p>
             Explore a vast collection of resources to enhance your electronic

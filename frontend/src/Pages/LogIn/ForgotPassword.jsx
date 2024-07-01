@@ -1,12 +1,12 @@
-// Importing necessary dependencies and styles
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import logo from "../../Component/Assets/logo.png";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./ForgotPassword.css";
 
-// Login component definition
+// ForgotPassword component definition
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -14,22 +14,33 @@ function ForgotPassword() {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/forgotPassword", { email });
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/forgotPassword",
+        { email }
+      );
       setMessage(response.data.message);
+      toast.success("Check your email to reset your password");
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000); // Wait 4 seconds before refreshing
     } catch (error) {
       setMessage(error.response.data.error);
+      toast.error("Failed to send reset email. Please try again.");
     }
   };
 
   return (
     <div className="ForgotPasswordMainDiv">
+      <ToastContainer />
       <div className="ForgotPasswordSecondaryDiv">
-        <div className="ForgotPasswordTopicDiv">
-          <img src={logo} alt="" className="logo" />
-          Gavesha
+        <div className="forgot-password-topic-div">
+          <div className="logo-text-container">
+            <img src={logo} alt="Logo" className="logo" />
+            <span className="trivia-text">Trivia</span>
+          </div>
         </div>
         <div className="ForgotPasswordDescription">
-          Enter the Email associated with your account and we'll send you a link
+          Enter the Email associated with your account and we&apos;ll send you a link
           to reset your password
         </div>
         <div className="ForgotPasswordInputField">
@@ -50,14 +61,13 @@ function ForgotPassword() {
 
         <br />
         <div className="ForgotPasswordreconfirm">
-          <div className="loginText"> Dont't Have an Account? </div>
+          <div className="loginText"> Don&apos;t Have an Account? </div>
           <Link
             to="/signup"
             style={{ textDecoration: "none" }}
             className="loginLink"
           >
-            {" "}
-            Signup{" "}
+            Signup
           </Link>
         </div>
         {message && <p>{message}</p>}
@@ -66,5 +76,5 @@ function ForgotPassword() {
   );
 }
 
-// Exporting the Login component
+// Exporting the ForgotPassword component
 export default ForgotPassword;

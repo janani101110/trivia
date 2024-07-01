@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard/blogCard";
+import ShopCard from "./shopCard/ShopCard";
+import ResoCard from "./ResoCard/ResoCard";
 import axios from "axios";
 import { useUsers } from "../../Context/UserContext";
 import "./MySaves.css";
@@ -7,8 +9,12 @@ import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 
 const MyCollections = () => {
-  const [blogPost, setPost] = useState([]);
-  const [showGrid, setShowGrid] = useState(false);
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [shoppost, setShopposts] = useState([]);
+  const [resoPosts, setResoPosts] = useState([]);
+  const [showBlogGrid, setShowBlogGrid] = useState(false);
+  const [showShopGrid, setShowShopGrid] = useState(false);
+  const [showResoGrid, setShowResoGrid] = useState(false);
   const { user } = useUsers();
 
   useEffect(() => {
@@ -17,75 +23,282 @@ const MyCollections = () => {
         const res = await axios.get(
           `http://localhost:5000/api/blogPosts/user/${user._id}`
         );
-        setPost(res.data);
+        setBlogPosts(res.data);
       } catch (err) {
         console.error("Error fetching blog posts:", err);
       }
     };
-    fetchBlogPosts();
+    if (user) {
+      fetchBlogPosts();
+    }
   }, [user]);
 
-  const handleDelete = async (postId) => {
+  
+  useEffect(() => {
+    const fetchShopPosts = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/Shoppost/user/${user._id}`, {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data, 'shopPosts');
+        setShopposts(data); // Update shopPosts state with fetched data
+      } catch (err) {
+        console.error('Error fetching shop posts:', err);
+      }
+    };
+
+    if (user && user._id) {
+      fetchShopPosts();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchResoPosts = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/resoposts/user/${user._id}`
+        );
+        setResoPosts(res.data);
+      } catch (err) {
+        console.error("Error fetching blog posts:", err);
+      }
+    };
+    if (user) {
+      fetchResoPosts();
+    }
+  }, [user]);
+
+  const handleBlogDelete = async (postId) => {
     try {
       await axios.delete(`http://localhost:5000/api/blogPosts/${postId}`);
-      setPost(prevPosts => prevPosts.filter(post => post._id !== postId));
+      setBlogPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    } catch (err) {
+      console.error("Error deleting blog post:", err);
+    }
+  };
+
+  const handleShopDelete = async (shoppostId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/Shoppost/${shoppostId}`);
+      setShopposts((prevShopposts) => prevShopposts.filter((shoppost) => shoppost._id !== shoppostId));
+    } catch (err) {
+      console.error("Error deleting shop post:", err);
+    }
+  };
+
+  const handleResoDelete = async (postId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/resoposts/${postId}`);
+      setResoPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (err) {
       console.error("Error deleting blog post:", err);
     }
   };
 
   if (!user) {
-    // Handle case where user data is not available
-    return <div> User data not found! </div>;
+    return <div>User data not found!</div>
   }
 
-  const handleToggleGrid = () => {
-    setShowGrid(!showGrid); // Toggle the state when dropdown button is clicked
+  const handleToggleBlogGrid = () => {
+    setShowBlogGrid(!showBlogGrid);
+  };
+
+  const handleToggleShopGrid = () => {
+    setShowShopGrid(!showShopGrid);
+  };
+
+  const handleToggleResoGrid = () => {
+    setShowResoGrid(!showResoGrid);
   };
 
   return (
-    <div className={`mySavesBody`}>
-      <div className="mySaveMainBody">
-        <div className="mySaveUserDiv">
-          <div className="userDetails">
-            <img src={user.profilePicture} alt="" className="mySavesImg" />
-            {user.username}
-          </div>
+    <div className="mySavesBody">
+      <div className="UserDetailsDiv">
+        <div className="UserInfo">
+          {user && (
+            <>
+              <p className="UserName">{user.username}</p>
+              <p className="UserEmail">Email: {user.email}</p>
+            </>
+          )}
         </div>
-        <div className="mySaveBookMarksDiv">
-          <div className="mySaveTags">
-            Blogs : {blogPost.length} <hr />
-            <button onClick={handleToggleGrid} className="toggleButton">
-              {showGrid ? <CIcon
-                icon={icon.cilCaretTop}
-                size=""
-                style={{ "--ci-primary-color": "black" }}
-                 className="dropdownIcon"
-              /> : <CIcon
-              icon={icon.cilCaretBottom}
-              size=""
-              style={{ "--ci-primary-color": "black" }}
-               className="dropdownIcon"
-            /> }
-            </button>
-          </div>
-          {blogPost.length === 0 ? (
-            <p>No saved blog posts found.</p>
-          ) : (
-            <ul>
-              {/* Render all blog posts */}
-              {blogPost.map((blogPost) => (
-                <BlogCard
-                  style={{ textDecoration: "none" }}
-                  key={blogPost._id}
-                  blogPost={blogPost}
-                  onDelete={handleDelete}
-                />
-              ))}
-            </ul>
+        <div className="UserProfilePicture">
+          {user && (
+            <img
+              src={user.profilePicture}
+              alt={`${user.username}`}
+              className="UserImage"
+            />
           )}
         </div>
       </div>
+      <hr />
+      <div className="mySaveBookMarksDiv">
+        <div className="mySaveBookMarksSubDiv">
+          <div className="mySaveTags">
+            Blogs
+            {"   "}
+            <button onClick={handleToggleBlogGrid} className="toggleButton">
+              {showBlogGrid ? (
+                <CIcon
+                  icon={icon.cilCaretTop}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              ) : (
+                <CIcon
+                  icon={icon.cilCaretBottom}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              )}
+            </button>
+          </div>
+          <p className="UserBlogsCount">
+            {" "}
+            No of Blogs: {"   "} {blogPosts.length}{" "}
+          </p>
+        </div>
+
+        {blogPosts.length === 0 ? (
+          <p>No saved blog posts found.</p>
+        ) : (
+          <ul>
+            {showBlogGrid
+              ? blogPosts.map((blogPost) => (
+                  <BlogCard
+                    style={{ textDecoration: "none" }}
+                    key={blogPost._id}
+                    blogPost={blogPost}
+                    onDelete={handleBlogDelete}
+                  />
+                ))
+              : blogPosts.slice(0, 3).map((blogPost) => (
+                  <BlogCard
+                    style={{ textDecoration: "none" }}
+                    key={blogPost._id}
+                    blogPost={blogPost}
+                    onDelete={handleBlogDelete}
+                  />
+                ))}
+          </ul>
+        )}
+
+        
+        <div className="mySaveBookMarksSubDiv">
+          <div className="mySaveTags">
+            Advertisements
+            {"   "}
+            <button onClick={handleToggleShopGrid} className="toggleButton">
+              {showShopGrid ? (
+                <CIcon
+                  icon={icon.cilCaretTop}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              ) : (
+                <CIcon
+                  icon={icon.cilCaretBottom}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              )}
+            </button>
+          </div>
+          <p className="UserBlogsCount">
+            {" "}
+            No of Ads: {"   "} {shoppost.length}{" "}
+          </p>
+        </div>
+        {shoppost.length === 0 ? (
+          <p>No saved blog posts found.</p>
+        ) : (
+          <ul>
+            {showBlogGrid
+              ? shoppost.map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))
+              : shoppost.slice(0, 3).map((shoppost) => (
+                  <ShopCard
+                    style={{ textDecoration: "none" }}
+                    key={shoppost._id}
+                    shoppost={shoppost}
+                    onDelete={handleShopDelete}
+                  />
+                ))}
+          </ul>
+        )}
+
+
+        <div className="mySaveBookMarksSubDiv">
+          <div className="mySaveTags">
+            Resources
+            {"   "}
+            <button onClick={handleToggleResoGrid} className="toggleButton">
+              {showBlogGrid ? (
+                <CIcon
+                  icon={icon.cilCaretTop}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              ) : (
+                <CIcon
+                  icon={icon.cilCaretBottom}
+                  size=""
+                  style={{ "--ci-primary-color": "black" }}
+                  className="dropdownIcon"
+                />
+              )}
+            </button>
+          </div>
+          <p className="UserResoCount">
+            {" "}
+            No of Resources: {"   "} {resoPosts.length}{" "}
+          </p>
+        </div>
+
+        {resoPosts.length === 0 ? (
+          <p>No saved resource posts found.</p>
+        ) : (
+          <ul>
+            {showResoGrid
+              ? resoPosts.map((resoPost) => (
+                  <ResoCard
+                    style={{ textDecoration: "none" }}
+                    key={resoPost._id}
+                    resoPost={resoPost}
+                    onDelete={handleResoDelete}
+                  />
+                ))
+              : resoPosts.slice(0, 3).map((resoPost) => (
+                  <ResoCard
+                    style={{ textDecoration: "none" }}
+                    key={resoPost._id}
+                    resoPost={resoPost}
+                    onDelete={handleResoDelete}
+                  />
+                ))}
+          </ul>
+        )}
+
+
+      </div>
+      <hr />
+
     </div>
   );
 };

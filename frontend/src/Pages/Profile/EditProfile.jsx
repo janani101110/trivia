@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUsers } from "../../Context/UserContext";
 import axios from "axios";
 import "./EditProfile.css";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import CIcon from "@coreui/icons-react";
-import * as icon from "@coreui/icons";
-import editProfileImage from './Assets/editProfileImage.png'
+import editProfileImage from './Assets/editProfileImage.jpg'
 
 const EditProfile = () => {
   const { user } = useUsers();
   const id = user._id;
   const [author, setAuthor] = useState(user);
-  const [file, setFile] = useState("");
-  const [downloadURL, setDownloadURL] = useState("");
+  const [setFile] = useState("");
+  const [setDownloadURL] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -88,7 +85,6 @@ const handleUpload = async (e) => {
         </div>
         <div className="form-group">
           <label className="createBlogTextLabel"> Image: </label>
-          <br />
           <br />
           {author.profilePicture && (
             <img src={author.profilePicture} alt="Blog Image" className="blogImage" />

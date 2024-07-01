@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { imageDb } from "../../firebase";
-import { v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid"; // Renamed to avoid conflict
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -17,22 +17,19 @@ export const UpdateBlog = () => {
     image: "",
   });
   const navigate = useNavigate();
-  const [file, setFile] = useState("");
-  const [downloadURL, setDownloadURL] = useState("");
-
+  const [setFile] = useState("");
+  const [setDownloadURL] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/blogPosts/${id}`
-        );
+        const res = await axios.get(`http://localhost:5000/api/blogPosts/${id}`);
         // Update state with new values
         setBlogPost({
           ...blogPost,
           title: res.data.title,
           description: res.data.desc,
-          image: res.data.photo,
+          image: res.data.image,
         });
       } catch (err) {
         console.error(err);
@@ -42,33 +39,34 @@ export const UpdateBlog = () => {
     fetchPost();
   }, [id]);
 
-// Function to handle image upload
-const handleUpload = async (e) => {
-  const file = e.target.files[0];
-  setFile(file);
-  const imgsBlog = ref(imageDb, `blogImages/${v4()}`);
-  await uploadBytes(imgsBlog, file);
-  const url = await getDownloadURL(imgsBlog);
-  setDownloadURL(url);
-  // Update blogPost state with the image URL
-  setBlogPost(prevState => ({ ...prevState, image: url }));
-};
-
+  // Function to handle image upload
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const imgsBlog = ref(imageDb, `blogImages/${uuidv4()}`);
+    await uploadBytes(imgsBlog, file);
+    const url = await getDownloadURL(imgsBlog);
+    setDownloadURL(url);
+    // Update blogPost state with the image URL
+    setBlogPost((prevState) => ({ ...prevState, image: url }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const confirmation = window.confirm("Are you sure you want to update the post?");
-    if(confirmation){
-      axios.put(`http://localhost:5000/api/blogPosts/${id}`, blogPost)
-      .then((res) => {
-        navigate(`/InsidePost/${id}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    }    
+    const confirmation = window.confirm(
+      "Are you sure you want to update the post?"
+    );
+    if (confirmation) {
+      axios
+        .put(`http://localhost:5000/api/blogPosts/${id}`, blogPost)
+        .then(() => {
+          navigate(`/InsidePost/${id}`);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
- 
 
   return (
     <div>
@@ -81,7 +79,7 @@ const handleUpload = async (e) => {
             <br />
             <input
               type="text"
-              placeholder={blogPost.title}
+              placeholder="Enter Title"
               className="createBlogTextbox"
               value={blogPost.title}
               onChange={(e) =>

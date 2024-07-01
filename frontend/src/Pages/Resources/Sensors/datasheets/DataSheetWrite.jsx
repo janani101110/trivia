@@ -66,9 +66,9 @@ export const DataSheetWrite = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     let pdfUrl = null;
-
+  
     if (pdfFile) {
       const pdfRef = ref(imageDb, `resourcespdfs/${v4()}`);
       try {
@@ -78,29 +78,27 @@ export const DataSheetWrite = () => {
         console.log(err);
       }
     }
-
+  
     const resoPost = {
       title,
-      desc: "this is data sheet", // Include an empty string for desc
       maincategories: maincats,
       categories: cats,
-      photo: "empty data sheet photo", // Include an empty string for photo
-      pdf: pdfUrl, // Save the PDF URL
+      desc: "Data Sheets",
+      pdf: pdfUrl,
       postedBy: postedBy,
     };
-
-    console.log('Posting Data:', resoPost); // Add this line to check the data being posted
-
+  
     try {
-      const res = await axios.post(URL + "/api/resoposts/create", resoPost, {
+      const res = await axios.post(`${URL}/api/resoposts/create`, resoPost, {
         withCredentials: true,
       });
-      console.log('Response:', res.data); // Add this line to check the response
-      navigate("/Sensors");
+      console.log('Response:', res.data);
+      navigate("/resources");
     } catch (err) {
-      console.log('Error:', err); // Add this line to check the error
+      console.log('Error:', err.response ? err.response.data : err.message);
     }
   };
+  
 
   return (
     <div className="container">

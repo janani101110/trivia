@@ -3,8 +3,6 @@ import axios from "axios";
 import { URL } from "../../url";
 import { useParams} from "react-router-dom";
 import { useUsers } from "../../Context/UserContext";
-import { BiEdit } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
 import "./ResoPostdetails.css";
 import { ResoComment } from "./ResoComment";
 import { useNavigate } from "react-router-dom";
@@ -132,31 +130,12 @@ export const ResoPostdetails = () => {
   }
   };
 
-  const handleDeletePost = async () => {
-    try {
-      await axios.delete(`${URL}/api/resoposts/${resoPostId}`, {
-        withCredentials: true,
-      });
-      navigate("/resources");
-    } catch (error) {
-      console.error("Error deleting post:", error);
-    }
-  };
 
   return (
     <div className="reso-post-details-container">
       <div className="reso-post-title-wrapper">
         <h1 className="reso-post-title">{resoPost.title}</h1>
-        <div className="reso-edit-delete-wrapper">
-          <BiEdit
-            className="reso-edit-icon"
-            onClick={() => navigate("/resoeditpost/" + resoPostId)}
-          />
-          <MdDelete
-            className="reso-delete-icon"
-            onClick={handleDeletePost}
-          />
-        </div>
+
       </div>
       <div className="reso-post-info">
         {author && (

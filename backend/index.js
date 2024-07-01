@@ -18,8 +18,11 @@ const verifyToken = require('./middleware/verifyToken');
 const cookieSession = require("cookie-session")
 const resopostRoutes = require("./routes/resoposts");
 const resocommentRoutes = require("./routes/resocomments");
+const Shoppost = require('./models/Shoppost');
+const shoppostRoute= require("./routes/shoppost");
 const answerRoutes = require("./routes/answer");
 const bookMarkRoutes = require ('./routes/BookMarks')
+const projectpostRoute = require("./routes/projectposts");
 
 require('dotenv').config();
 require('./passport'); 
@@ -38,6 +41,9 @@ const connectDB=async()=>{
         console.log(err.message);
     }
 }
+
+app.use("/",require("./routes/shoppost"));
+
 // session
 app.use(session({
   secret: process.env.accessToken_secret,
@@ -95,6 +101,14 @@ app.use("/api/resocomments", resocommentRoutes); // Route for resource post comm
 app.use("/api/bookMarks", bookMarkRoutes);
 app.use("/api/questions",questionRoute);
 app.use("/api/answer", answerRoutes);
+app.use("/api/shoppost",shoppostRoute); 
+app.use("/api/projectposts", projectpostRoute);
+
+Shoppost.init().then(() => {
+  console.log('Indexes are ensured to be created.');
+}).catch((err) => {
+  console.error('Error ensuring indexes:', err);
+});
 
 app.get("/api/search", async (req, res) => {
   try {
@@ -115,7 +129,7 @@ app.get("/api/search", async (req, res) => {
       },
     ]);
 
-    // Search in OtherCollection
+    // Search in blog
     const blogResults = await Post.aggregate([
       {
         $search: {
@@ -130,8 +144,24 @@ app.get("/api/search", async (req, res) => {
       },
     ]);
 
+    // Search in blog
+    const projectResults = await Post.aggregate([
+      {
+        $search: {
+          index: "SearchProject", 
+          text: {
+            query: query,
+            path: {
+              wildcard: "*", 
+            },
+          },
+        },
+      },
+    ]);
+
+
     // Combine results from both collections
-    const combinedResults = [...resoResults, ...blogResults];
+    const combinedResults = [...resoResults, ...blogResults, ...projectResults];
 
     res.json(combinedResults); // Send combined search results as JSON response
   } catch (error) {
@@ -140,6 +170,24 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+//graph
+const AdStatSchema = new mongoose.Schema({
+  date: { type: String, required: true },
+  remainingCount: { type: Number, required: true },
+  //deletedCount: { type: Number, required: true }
+});
+
+const AdStat = mongoose.model('AdStat', AdStatSchema);
+
+app.get('/ad-stats', async (req, res) => {
+  try {
+    const adStats = await AdStat.find().sort({ date: -1 }).limit(30); // Fetch latest 30 records, adjust as needed
+    res.json(adStats);
+  } catch (error) {
+    console.error("Error fetching ad stats:", error);
+    res.status(500).send('Server Error');
+  }
+});
 
 app.listen(5000, () => {
     connectDB();

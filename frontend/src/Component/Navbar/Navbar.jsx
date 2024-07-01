@@ -39,7 +39,7 @@ export const Navbar = () => {
           {menu === "resources" ? <hr /> : null}
         </li>
         <li onClick={() => setMenu("projects")}>
-          <Link style={{ textDecoration: "none" }} to="/projects">Projects</Link>
+          <Link style={{ textDecoration: "none" }} to="/project">Projects</Link>
           {menu === "projects" ? <hr /> : null}
         </li>
         <li onClick={() => setMenu("blogs")}>
@@ -53,6 +53,16 @@ export const Navbar = () => {
         <li onClick={() => setMenu("forum")}>
           <Link style={{ textDecoration: "none" }} to="/forum">Forum</Link>
           {menu === "forum" ? <hr /> : null}
+        </li>
+        <li
+          onClick={() => {
+            setMenu("admin");
+          }}
+        >
+          <Link style={{ textDecoration: "none" }} to="/admin">
+            Admin
+          </Link>
+          {menu === "admin" ? <hr /> : <></>}
         </li>
       </ul>
       {user ? (

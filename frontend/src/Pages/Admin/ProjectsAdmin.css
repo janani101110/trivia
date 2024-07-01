@@ -1,0 +1,54 @@
+
+
+/*
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+  td {
+    border-bottom: 1px solid #ddd;
+  }
+  tr:hover {
+    background-color: #f2f2f2;
+  }
+  */
+
+  .admin_content {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .admin_tr {
+ 
+    background-color: rgb(231, 189, 237);
+  }
+  .admin_th, .admin_td {
+    padding: 10px;
+  border: 1px solid #dee2e6;
+  
+  }
+  
+
+
+  .admin_th {
+    background-color: #e9ecef;
+  }
+  .admin_td {
+    text-align: center;
+  }
+  .admin_tr:hover {
+    background-color: #f2f2f2;
+  }

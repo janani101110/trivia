@@ -1,50 +1,74 @@
 const express = require("express");
 const router = express.Router();
-const answer = require("../models/answer");
+const Answer = require("../models/answer.js");
 const User = require('../models/User.js');
-const verifyToken = require('../middleware/verifyToken.js');
+const { isValidObjectId } = require('mongoose');
 
 // Route for creating a new comment
 router.post("/create", async (req, res) => {
   try {
-    const newComment = new answer(req.body);
-    const savedComment = await newComment.save();
+    const newAnswer = new Answer(req.body);
+    const savedAnswer = await newAnswer.save();
 
     // If the comment is a reply, update the parent comment's replies
     if (req.body.parentId) {
-      await answer.findByIdAndUpdate(req.body.parentId, {
-        $push: { replies: savedComment._id }
+      await Answer.findByIdAndUpdate(req.body.parentId, {
+        $push: { replies: savedAnswer._id }
       });
     }
 
-    res.status(201).json(savedComment);
+    res.status(201).json(savedAnswer);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Route for deleting a comment by its ID
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    await answer.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Comment has been deleted!" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const { id } = req.params;
+
+    // Check if the ID is valid ObjectId format
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: 'Invalid answer ID' });
+    }
+
+    // Find the answer by ID and delete it
+    const deletedAnswer = await Answer.findByIdAndDelete(id);
+
+    // Check if the answer exists
+    if (!deletedAnswer) {
+      return res.status(404).json({ error: 'Answer not found' });
+    }
+
+    res.status(200).json({ message: 'Answer deleted successfully', deletedAnswer });
+  } catch (error) {
+    console.error('Error deleting answer:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 // Route for retrieving comments by post ID
-router.get("/post/:postId", async (req, res) => {
+router.get("/answer/:postId", async (req, res) => {
   try {
-    const answers = await answer.find({ postId: req.params.postId, parentId: null })
+    const answers = await Answer.find({ postId: req.params.postId, parentId: null })
       .populate({
         path: 'replies',
         populate: { path: 'replies' } // Populate nested replies
       });
     res.status(200).json(answers);
-  } catch (err) {
+  } catch (err) { 
     res.status(500).json({ error: err.message });
-  }
+  } 
+});
+//likes dislikes
+router.route('/update/:id').post((req, res) => {
+  Answer.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { likes: req.body.likes, dislikes: req.body.dislikes } },
+    { new: true }
+  )
+    .then(answer => res.json(answer))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 module.exports = router;

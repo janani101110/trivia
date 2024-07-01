@@ -1,10 +1,26 @@
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { UserContextProvider } from "./Context/UserContext";
 
-import './App.css';
 
-import React from "react";
-import {Navbar} from './Component/Navbar/Navbar';
-import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
-import {Home} from './Pages/Home/Home';
+import { Home } from "./Pages/Home/Home";
+import SignUp from "./Pages/LogIn/SignUp";
+import Login from "./Pages/LogIn/LogIn";
+import ForgotPassword from "./Pages/LogIn/ForgotPassword";
+
+import Loader from "./Component/Loader/Loader";
+
+import {SearchResults} from './Component/Search/SearchResults';
+import {BlogSearch} from './Pages/Blogs/BlogSearch';
+import {ResoSearch} from './Pages/Resources/ResoSearch';
+import {ProjectSearch} from './Pages/Project/ProjectSearch';
 
 import {Resources} from './Pages/Resources/Resources';
 import {Sensors} from './Pages/Resources/Sensors/Sensors';
@@ -19,41 +35,91 @@ import {Others} from './Pages/Resources/Sensors/others';
 import {Writepost} from './Pages/Resources/Writepost';
 import {ResoPostdetails} from './Pages/Resources/ResoPostdetails';
 import {ResoEditpost} from './Pages/Resources/ResoEditpost';
-import {SearchResults} from './Pages/Resources/Sensors/SearchResults';
 
-import {Projects} from './Pages/Projects/Projects';
-import {Blogs} from './Pages/Blogs/Blogs';
-import {Shopping} from './Pages/Shopping/Shopping';
-import {Forum} from './Pages/Forum/Forum';
-import {AboutUs} from './Pages/AboutUs/AboutUs';
-import { Footer } from './Component/Footer/Footer';
-import {Shoppingpost} from './Pages/Shopping/Shoppingpost';
-import SignUp from './Pages/LogIn/SignUp';
-import Login from './Pages/LogIn/LogIn';
-import {WriteBlog} from './Pages/Blogs/WriteBlog';
-import {InsidePost} from './Pages/Blogs/InsidePost';
-import MySaves from './Pages/Profile/MySaves';
+import Project from "./Pages/Project/Project";
+import { ProjectForm } from "./Pages/Project/ProjectForm";
+import { ProjectCard } from "./Pages/Project/ProjectCard";
+import { ProjectSeeMore } from "./Pages/Project/ProjectSeeMore";
+import { ProjectPgNavi } from "./Pages/Project/ProjectPgNavi";
+import ProjectViewAll from "./Pages/Project/ProjectViewAll";
+
+import { Blogs } from "./Pages/Blogs/Blogs";
+import { WriteBlog } from "./Pages/Blogs/WriteBlog";
+import { InsidePost } from "./Pages/Blogs/InsidePost";
+import { UpdateBlog } from "./Pages/Blogs/UpdateBlog";
+import AuthorPage from "./Pages/Blogs/AuthorPage";
+
+import { Shopping } from "./Pages/Shopping/Shopping";
+import { Shoppingpost } from "./Pages/Shopping/Shoppingpost";
+import { Productdescription } from "./Pages/Shopping/Productdescription";
+
+import { Forum } from "./Pages/Forum/Forum";
+import QuestionForm from "./Pages/Forum/QuestionForm";
+import ViewQuestion from "./Pages/Forum/ViewQuestion";
+
+import MySaves from "./Pages/Profile/MySaves";
 import MyCollections from "./Pages/Profile/MyCollections";
-import MyQuestions from './Pages/Profile/MyQuestions'
+import MyQuestions from "./Pages/Profile/MyQuestions";
+import EditProfile from "./Pages/Profile/EditProfile";
 
-import Productdescription from './Pages/Shopping/Productdescription';
-import {UserContextProvider} from './Context/UserContext';
-import QuestionForm from './Pages/Forum/QuestionForm';
-import ViewQuestion from './Pages/Forum/ViewQuestion';
+import Admin  from "./Pages/Admin/Admin";
+import BlogsAdmin from "./Pages/Admin/BlogsAdmin";
+import ProjectsAdmin from "./Pages/Admin/ProjectsAdmin";
+import ProAdmin from './Pages/Admin/ProAdmin';
+import ResourcesAdmin from "./Pages/Admin/ResourcesAdmin";
+import ShoppingAdmin from "./Pages/Admin/ShoppingAdmin";
+import UsersAdmin from "./Pages/Admin/UsersAdmin";
+import PerformanceAdmin from "./Pages/Admin/PerformanceAdmin";
+import ViewProjectAdmin from "./Pages/Admin/ViewProjectAdmin";
+import ResoPostDetail from "./Pages/Admin/ResoPostDetail";
+import PostCounts from "./Pages/Admin/PostCounts";
+import AdminGraph from "./Pages/Admin/AdminGraph";
+import AdStatsChart from './Pages/Admin/AdStatsChart';
+
+import MainLayout from './Layouts/MainLayout';
+import AdminLayout from './Layouts/AdminLayout';
+
+import "animate.css/animate.min.css";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+const AppWithLoader = () => {
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 3000); // Adjust the timeout as needed
+    return () => clearTimeout(timer);
+  }, [location]);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1200, // Animation duration
+      once: false, // Whether animation should happen only once
+      mirror: true, // Whether elements should animate out while scrolling past them
+    });
+  }, []);
 
 
-function App() {
   return (
     <div>
+    {loading && <Loader/>}
+    {!loading && (
+      <>
       
-      <BrowserRouter>
-      <UserContextProvider>
-      <Navbar/>
-      
-      <Routes>
-          <Route path='/home'element={<Home/>}/>
+    <Routes>
 
-          <Route path='/resources'element={<Resources/>}/>
+      <Route element={<MainLayout />}>
+           <Route path="/home" element={<Home />} />
+
+           <Route path="/search" element={<SearchResults />} />
+           <Route path="/blogsearch" element={<BlogSearch/>} />
+           <Route path="/resosearch" element={<ResoSearch/>} />
+           <Route path="/projectsearch" element={<ProjectSearch/>} />
+
+            <Route path='/resources'element={<Resources/>}/>
             <Route path='/sensors' element={<Sensors/>}/>
             <Route path='/pcb' element={<Pcb/>}/>
             <Route path='/communi' element={<Communi/>}/>
@@ -66,39 +132,91 @@ function App() {
               <Route path='/writepost' element={<Writepost/>}/>
               <Route path='/resopostdetails/:id' element={<ResoPostdetails/>}/>
               <Route path='/resoeditpost/:id' element={<ResoEditpost/>}/>
-              <Route path="/search" element={<SearchResults />} />
 
-          <Route path='/projects'element={<Projects/>}/>
-          <Route path='/blogs'element={<Blogs/>}/>
-          <Route path='/shopping'element={<Shopping/>}/>
-          <Route path='/forum'element={<Forum/>}/>
-          <Route path='/aboutus'element={<AboutUs/>}/>
-          <Route path='/signup'element={<SignUp/>}/>
-          <Route path='/login'element={<Login/>}/>
-          <Route path='/shoppingpost' element={<Shoppingpost/>}/>
-          <Route path='/WriteBlog' element={<WriteBlog/>}/>
-          <Route path='/insidePost/:id' element={<InsidePost/>}/>
-          <Route path='/MySaves' element={<MySaves/>}/>
-          <Route path='/MyCollections' element={<MyCollections/>}/>
-          <Route path='/MyQuestions' element={<MyQuestions/>}/>
-          <Route path='/productdescription' element={<Productdescription/>}/>
-          <Route path='/questionform' element={<QuestionForm/>}/>
-          <Route path='/viewquestion/:id' element={<ViewQuestion/>}/>
+              <Route path="/projectseemore" element={<ProjectSeeMore />} />
+              <Route path="/projectcard" element={<ProjectCard />} />
+              <Route path="/projectform" element={<ProjectForm />} />
+              <Route path="/project" element={<Project />} />
+              <Route path="/projectpgnavi" element={<ProjectPgNavi />} />
+              <Route path="/projectseemore/:id" element={<ProjectSeeMore />} />
+              <Route path="/projectviewall" element={<ProjectViewAll />} />
 
 
-          <Route path='/' element={<Navigate to="/home" />}/>
-          
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/WriteBlog" element={<WriteBlog />} />
+              <Route path="/insidePost/:id" element={<InsidePost />} />
+              <Route path="/authorpage/:id" element={<AuthorPage />} />
+              <Route path="/UpdateBlog/:id" element={<UpdateBlog />} />
+
+
+              <Route path="/shopping" element={<Shopping />} />
+              <Route path="/shoppingpost" element={<Shoppingpost />} />
+              <Route
+                path="/productdescription/:id"
+                element={<Productdescription />}
+              />
+
+
+              <Route path="/forum" element={<Forum />} />
+              <Route path="/questionform" element={<QuestionForm />} />
+              <Route path="/viewquestion/:id" element={<ViewQuestion />} />
+
+
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+
+
+              <Route path="/MySaves" element={<MySaves />} />
+              <Route path="/MyCollections" element={<MyCollections />} />
+              <Route path="/MyQuestions" element={<MyQuestions />} />
+              <Route path="/EditProfile" element={<EditProfile />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+
+              <Route path="/" element={<Navigate to="/home" />} />
+            </Route>
+
+        <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<Admin />} />
+              {/* <Route path="/blogadmin" element={<BlogsAdmin />} /> */}
+              {/*<Route path="/projectsadmin" element={<ProjectsAdmin />} />*/}
+              <Route
+                path="/projectsadmin/:status"
+                element={<ProjectsAdmin />}
+              />
+              <Route path="/projectsresources" element={<ResourcesAdmin />} />
+              <Route path="/blogsadmin" element={<BlogsAdmin />} />
+              <Route path="/shoppingsadmin" element={<ShoppingAdmin />} />
+              {/* <Route path="/shoppingsadmin" element={<ShoppingAdmin />} /> */}
+              <Route path="/usersadmin" element={<UsersAdmin />} />
+              <Route path="/performanceadmin" element={<PerformanceAdmin />} />
+              <Route
+                path="/viewprojectadmin/:id"
+                element={<ViewProjectAdmin />}
+              />
+              <Route
+                path="/resopostdetail/:id"
+                element={<ResoPostDetail />}
+              />
+              <Route path="/postcounts" element={<PostCounts />} />
+              <Route path="/admingraph" element={<AdminGraph />} />
+              <Route path="/proadmin" element={<ProAdmin />} />
+              <Route path='/adstatschart' element={<AdStatsChart />} />
+            </Route>
       </Routes>
       
-      <Footer/>
-      </UserContextProvider>
-      </BrowserRouter>
-      
-      
+      </>
+      )}
 
     </div>
   );
-}
+};
 
+const App = () => (
+  <BrowserRouter>
+    <UserContextProvider>
+      <AppWithLoader />
+    </UserContextProvider>
+  </BrowserRouter>
+);
 
 export default App;

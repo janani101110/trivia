@@ -3,7 +3,6 @@ import "./blogCard.css";
 import { Link } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
-import { Button } from "@mui/material";
 
 const BlogCard = ({ blogPost, onDelete }) => {
   // Check if blogPost is available, if not return null

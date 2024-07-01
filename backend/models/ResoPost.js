@@ -32,6 +32,14 @@ const ResoPostSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    approved: {
+      type: Boolean,
+      default: false,
+    },
+    rejected: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

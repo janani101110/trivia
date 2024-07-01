@@ -23,13 +23,15 @@ export const Communi = () => {
   const fetchResoPosts = async () => {
     try {
       const res = await axios.get(`${URL}/api/resoposts`);
-      setResoPosts(res.data);
+      setResoPosts(res.data.filter(
+        (resoPost) => resoPost.approved
+      ));
       setNoResults(res.data.length === 0);
     } catch (err) {
       console.log(err);
     }
   };
-
+  
   useEffect(() => {
     fetchResoPosts();
   }, []);

@@ -9,7 +9,8 @@ import { useUsers } from "../../Context/UserContext"; // Import user context
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { SearchResults} from "../Resources/Sensors/SearchResults"
+import '../../Component/Search/Search.css'; // Importing the CSS file for styling
+import searchIcon from '../../Component/Assets/search.jpeg'; // Importing the search icon image
 
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
@@ -17,6 +18,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  
 
   return (
     <nav>
@@ -33,7 +36,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   );
 };
 
-export const Blogs = () => {
+export const Blogs = ({ defaultValue = "" }) => {
   const [blogPost, setPost] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(6);
@@ -42,6 +45,20 @@ export const Blogs = () => {
   const [topPosts, setTopPosts] = useState([]);
   const { user } = useUsers();
   const navigate = useNavigate();
+
+  const [prompt, setPrompt] = useState(defaultValue); // State variable to hold the search query
+  
+    useEffect(() => {  
+      setPrompt(defaultValue); // Set the default value when it changes
+    }, [defaultValue]);
+  
+    const handleSearch = () => {
+      if (prompt) {
+        navigate(`/blogsearch?query=${prompt}`);
+      } else {
+        navigate("/blogs");
+      }
+    };
 
   const sortPosts = async (order) => {
     try {
@@ -135,7 +152,19 @@ export const Blogs = () => {
           </div>
         </div>
         <div className="BlogSearchDiv">
-        <SearchResults/>
+          <input
+            type="text"
+            className="searchBar" // CSS class for the search bar input
+            placeholder="Search for more.." // Placeholder text for the search bar
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)} // Function to update the search query state on input change
+          />
+          <img
+            src={searchIcon} // Source of the search icon image
+            className="searchIcon" // CSS class for the search icon
+            onClick={handleSearch} // Function to navigate based on the search query
+            alt="Search Icon" // Alt text for the search icon image
+          />
         </div>
       </div>
 
